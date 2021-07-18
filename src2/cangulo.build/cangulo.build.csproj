@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>cangulo.build</RootNamespace>
+    <NoWarn>CS0649;CS0169</NoWarn>
+    <NukeRootDirectory>..</NukeRootDirectory>
+    <NukeScriptDirectory>..</NukeScriptDirectory>
+    <NukeTelemetryVersion>1</NukeTelemetryVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="02-Domain\**" />
+    <Compile Remove="Abstractions\Logger\**" />
+    <Compile Remove="Build.Parameters\**" />
+    <EmbeddedResource Remove="02-Domain\**" />
+    <EmbeddedResource Remove="Abstractions\Logger\**" />
+    <EmbeddedResource Remove="Build.Parameters\**" />
+    <None Remove="02-Domain\**" />
+    <None Remove="Abstractions\Logger\**" />
+    <None Remove="Build.Parameters\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentResults" Version="2.5.0" />
+    <PackageReference Include="FluentValidation" Version="10.2.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Nuke.Common" Version="5.2.1" />
+    <PackageReference Include="Scrutor" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\cangulo.build.abstractions\cangulo.build.abstractions.csproj" />
+    <ProjectReference Include="..\cangulo.build.domain\cangulo.build.domain.csproj" />
+  </ItemGroup>
+
+</Project>
