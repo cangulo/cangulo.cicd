@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cangulo.build", "cangulo.build\cangulo.build.csproj", "{81126AB7-5E01-4625-BB3A-1F0A5422B5A1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cangulo.build.domain", "cangulo.build.domain\cangulo.build.domain.csproj", "{16AFF2BB-52A6-4583-949F-89719EDF571A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cangulo.build.domain.UT", "cangulo.build.domain.UT\cangulo.build.domain.UT.csproj", "{D3FD7289-6F2F-42AF-A44F-E2162F54693D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cangulo.build.abstractions", "cangulo.build.abstractions\cangulo.build.abstractions.csproj", "{FA8A7FF5-026F-4C17-9C03-06FD06CA67A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-root", "00-root", "{6F97453F-788B-4F4F-AFEC-E46BEDC73338}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-application", "01-application", "{7AC8E9A7-3E95-460F-AFDA-8D13F131C9BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-domain", "02-domain", "{FBB97572-E4F6-440F-A721-65D9A0A1C0D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C24C3640-9115-4E8F-9183-F5E1A315037B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81126AB7-5E01-4625-BB3A-1F0A5422B5A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81126AB7-5E01-4625-BB3A-1F0A5422B5A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81126AB7-5E01-4625-BB3A-1F0A5422B5A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81126AB7-5E01-4625-BB3A-1F0A5422B5A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16AFF2BB-52A6-4583-949F-89719EDF571A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16AFF2BB-52A6-4583-949F-89719EDF571A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16AFF2BB-52A6-4583-949F-89719EDF571A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16AFF2BB-52A6-4583-949F-89719EDF571A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3FD7289-6F2F-42AF-A44F-E2162F54693D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3FD7289-6F2F-42AF-A44F-E2162F54693D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3FD7289-6F2F-42AF-A44F-E2162F54693D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3FD7289-6F2F-42AF-A44F-E2162F54693D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA8A7FF5-026F-4C17-9C03-06FD06CA67A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA8A7FF5-026F-4C17-9C03-06FD06CA67A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA8A7FF5-026F-4C17-9C03-06FD06CA67A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA8A7FF5-026F-4C17-9C03-06FD06CA67A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81126AB7-5E01-4625-BB3A-1F0A5422B5A1} = {7AC8E9A7-3E95-460F-AFDA-8D13F131C9BE}
+		{16AFF2BB-52A6-4583-949F-89719EDF571A} = {FBB97572-E4F6-440F-A721-65D9A0A1C0D0}
+		{D3FD7289-6F2F-42AF-A44F-E2162F54693D} = {C24C3640-9115-4E8F-9183-F5E1A315037B}
+		{FA8A7FF5-026F-4C17-9C03-06FD06CA67A7} = {FBB97572-E4F6-440F-A721-65D9A0A1C0D0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F893AA4D-2D3E-499F-9C41-FF7F401B7352}
+	EndGlobalSection
+EndGlobal
