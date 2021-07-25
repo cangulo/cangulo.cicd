@@ -1,9 +1,13 @@
-﻿using Nuke.Common;
+﻿using cangulo.cicd;
+using Nuke.Common;
+using System;
 
 internal partial class Build : NukeBuild
 {
+    private readonly IServiceProvider _serviceProvider;
+
     public Build()
     {
-        // TODO: Implement any DI here
+        _serviceProvider = Startup.RegisterServices();
     }
 }
