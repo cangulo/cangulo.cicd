@@ -60,6 +60,7 @@
               "Compile",
               "ExecuteUnitTests",
               "ParseCICDFile",
+              "ProposeNextVersion",
               "Publish",
               "Restore",
               "SetTargetSolution"
@@ -76,6 +77,7 @@
               "Compile",
               "ExecuteUnitTests",
               "ParseCICDFile",
+              "ProposeNextVersion",
               "Publish",
               "Restore",
               "SetTargetSolution"
