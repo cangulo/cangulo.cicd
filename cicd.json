@@ -1,3 +1,8 @@
 {
-    "solutionPath": "./src/lambaexample.sln"
+    "solutionPath": "./src2/cangulo.build.sln",
+    "DotnetPublish": {
+        "ProjectPath": "./src2/cangulo.build/cangulo.build.csproj",
+        "OutputFolder": "./artifacts",
+        "RunTime": "linux-x64"
+    }
 }
