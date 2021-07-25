@@ -5,9 +5,19 @@ using Nuke.Common.Execution;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
-[GitHubActions("execute_ut_on_push", GitHubActionsImage.UbuntuLatest, OnPushIncludePaths = new string[] { "./src" }, InvokedTargets = new[] { nameof(ExecuteUnitTests) })]
-[GitHubActions("propose_next_version", GitHubActionsImage.UbuntuLatest, OnPullRequestBranches = new string[] { "main" }, InvokedTargets = new[] { nameof(ExecuteUnitTests) })]
+[GitHubActions(
+    "PR_Execute_UT",
+    GitHubActionsImage.UbuntuLatest,
+    OnPullRequestIncludePaths = new string[] { "src/**" },
+    InvokedTargets = new[] { nameof(ExecuteUnitTests) })]
+//[GitHubActions("propose_next_version", GitHubActionsImage.UbuntuLatest, OnPullRequestBranches = new string[] { "main" }, InvokedTargets = new[] { nameof(ProposeNextVersion) })]
 internal partial class Build : NukeBuild
 {
-    public static int Main() => Execute<Build>(x => x.Publish);
+    // TODO: pipelines depending of the branch
+    // 1. When a PR is created, execute the UT
+    // 2. When a PR is created
+    // 2. a.    Check the commits and decide what type of Release should be created
+    // 2. b.    Create a release
+    // 2. c.    Push the files of the new release
+    public static int Main() => Execute<Build>(x => x.ProposeNextVersion);
 }

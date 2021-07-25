@@ -19,7 +19,7 @@ name: execute_ut_on_push
 on:
   push:
     paths:
-      - ./src
+      - 'src/**'
 
 jobs:
   ubuntu-latest:
