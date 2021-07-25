@@ -24,5 +24,11 @@ namespace lambaexample.Tests
             Assert.True(response.MultiValueHeaders.ContainsKey("Content-Type"));
             Assert.Equal("application/json; charset=utf-8", response.MultiValueHeaders["Content-Type"][0]);
         }
+
+        //[Fact]
+        //public async Task FailingTest()
+        //{
+        //    Assert.True(false);
+        //}
     }
 }

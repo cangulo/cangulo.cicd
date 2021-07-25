@@ -56,10 +56,12 @@
           "items": {
             "type": "string",
             "enum": [
+              "Clean",
               "Compile",
-              "ParseRequest",
+              "ExecuteUnitTests",
+              "ParseCICDFile",
               "Restore",
-              "ValidateRequest"
+              "SetTargetSolution"
             ]
           }
         },
@@ -69,10 +71,12 @@
           "items": {
             "type": "string",
             "enum": [
+              "Clean",
               "Compile",
-              "ParseRequest",
+              "ExecuteUnitTests",
+              "ParseCICDFile",
               "Restore",
-              "ValidateRequest"
+              "SetTargetSolution"
             ]
           }
         },

@@ -198,59 +198,68 @@ window.addEventListener("load",function(){e.contentLoaded()},!1)}).call(e,n(9))}
 
     <script>
 $(document).ready(function() {
+  $("#ParseCICDFile").addClass('highlight');
   $("#Restore").addClass('highlight');
   $("#Compile").addClass('highlight');
-  $("#ParseRequest").hover(
+  $("#ParseCICDFile").hover(
     function() {
-        $("#ParseRequest").removeClass('highlight');
-        $("#ValidateRequest").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
-        $("#ParseRequest").addClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
     },
     function() {
-        $("#ParseRequest").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
     });
-  $("#ValidateRequest").hover(
+  $("#Clean").hover(
     function() {
-        $("#ParseRequest").removeClass('highlight');
-        $("#ValidateRequest").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
-        $("#ValidateRequest").addClass('highlight');
+        $("#Clean").addClass('highlight');
     },
     function() {
-        $("#ValidateRequest").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
     });
   $("#Restore").hover(
     function() {
-        $("#ParseRequest").removeClass('highlight');
-        $("#ValidateRequest").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
         $("#Restore").addClass('highlight');
     },
     function() {
+        $("#ParseCICDFile").removeClass('highlight');
         $("#Restore").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
     });
   $("#Compile").hover(
     function() {
-        $("#ParseRequest").removeClass('highlight');
-        $("#ValidateRequest").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
     },
     function() {
+        $("#ParseCICDFile").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
     });
@@ -298,8 +307,9 @@ $(document).ready(function() {
     
     <div class="mermaid">
 graph LR
-ParseRequest
-ValidateRequest
+ParseCICDFile --> Restore
+ParseCICDFile --> Compile
+Clean -.-> Restore
 Restore --> Compile
 Compile
 

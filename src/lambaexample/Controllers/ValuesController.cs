@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace lambaexample.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ValuesController : ControllerBase
     {
         // GET api/values
