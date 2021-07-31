@@ -1,5 +1,5 @@
 ﻿using cangulo.cicd.Abstractions.Constants;
-using cangulo.cicd.Abstractions.Requests;
+using static Nuke.Common.IO.FileSystemTasks;
 using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Helpers;
 using cangulo.cicd.domain.Parsers;
@@ -44,9 +44,10 @@ internal partial class Build : NukeBuild
         .Executes(() =>
         {
             var cicdFilePath = RootDirectory / "cicd.json";
-            using Stream waypointsStreamWriter = new FileStream(cicdFilePath, System.IO.FileMode.Open);
-            var utf8MemoryWriter = new Utf8JsonWriter(waypointsStreamWriter);
-            JsonSerializer.Serialize(utf8MemoryWriter, CICDFile, SerializerContants.SERIALIZER_OPTIONS);
+
+
+            var content = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
+            File.WriteAllText(cicdFilePath, content);
 
             Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"", logOutput: true);
             Git($"config --global user.name \"Carlos Angulo\"", logOutput: true);

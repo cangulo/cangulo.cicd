@@ -24,7 +24,7 @@ internal partial class Build : NukeBuild
         .Before(Restore)
         .Executes(() =>
             {
-                //RootDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+                RootDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
             });
 
     private Target ZipFile => _ => _
