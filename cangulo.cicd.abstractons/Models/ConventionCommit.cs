@@ -1,4 +1,6 @@
-﻿namespace cangulo.cicd.abstractons.Models
+﻿using cangulo.cicd.abstractons.Models.Enums;
+
+namespace cangulo.cicd.abstractons.Models
 {
     // FOLLOWING https://www.conventionalcommits.org/en/v1.0.0/
     public class ConventionCommit
@@ -7,11 +9,4 @@
         public string Body { get; set; }
     }
 
-    public enum CommitType
-    {
-        undefined,
-        fix,
-        feat,
-        major
-    }
 }
