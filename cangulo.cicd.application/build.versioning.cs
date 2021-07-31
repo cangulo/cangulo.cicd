@@ -45,12 +45,16 @@ internal partial class Build : NukeBuild
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
 
 
-            var repoName = GitHubActions.GitHubRepository;
             var repoOwner = GitHubActions.GitHubRepositoryOwner;
+            Logger.Info($"{repoOwner}");
+            var repoName = GitHubActions.GitHubRepository.Replace($"{repoOwner}/", string.Empty);
+            Logger.Info($"{repoName}");
+
 
             var client = new GitHubClient(new ProductHeaderValue($"{repoOwner}"));
             client.Credentials = new Credentials(GitHubToken);
 
+            Logger.Info($"{repoName} - {repoOwner}");
             var repo = await client.Repository.Get(repoOwner, repoName);
 
             Logger.Info($"Repo:{JsonSerializer.Serialize(repo, SerializerContants.SERIALIZER_OPTIONS)}");
