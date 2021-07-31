@@ -1,4 +1,5 @@
 ﻿using cangulo.cicd.Abstractions.Constants;
+using static Nuke.Common.IO.FileSystemTasks;
 using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Helpers;
 using cangulo.cicd.domain.Parsers;
@@ -43,13 +44,17 @@ internal partial class Build : NukeBuild
         .Executes(() =>
         {
             var cicdFilePath = RootDirectory / "cicd.json";
-            using FileStream createStream = File.OpenWrite(cicdFilePath);
-            JsonSerializer.SerializeAsync(createStream, CICDFile, SerializerContants.SERIALIZER_OPTIONS);
+
+
+            var content = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
+            File.WriteAllText(cicdFilePath, content);
 
             Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"", logOutput: true);
             Git($"config --global user.name \"Carlos Angulo\"", logOutput: true);
 
+            Git($"status", logOutput: true);
             Git($"add cicd.json", logOutput: true);
+            Git($"status", logOutput: true);
             Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
             Git($"push", logOutput: true);
         });
