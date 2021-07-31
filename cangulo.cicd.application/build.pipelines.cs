@@ -14,7 +14,7 @@ using Nuke.Common.Execution;
     "PR_MERGED_RELEASE_NEW_VERSION",
     GitHubActionsImage.UbuntuLatest,
     OnPushBranches = new[] { "main" },
-    InvokedTargets = new[] { nameof(CreateNewRelease) },
+    InvokedTargets = new[] { nameof(UpdateVersionInFiles) },
     ImportGitHubTokenAs = nameof(GitHubToken)
     )]
 internal partial class Build : NukeBuild { }

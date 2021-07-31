@@ -24,7 +24,17 @@ internal partial class Build : NukeBuild
         .Before(Restore)
         .Executes(() =>
             {
-                RootDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-                //EnsureCleanDirectory(ArtifactsDirectory);
+                //RootDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
             });
+
+    private Target ZipFile => _ => _
+        .DependsOn(ParseCICDFile)
+        .Executes(() =>
+        {
+            var request = CICDFile.VersioningSettings;
+
+            var releaseAssetDirectory = (RootDirectory / request.ReleaseAssetDirectory);
+            var outputFileName = RootDirectory / request.ReleaseAssetName;
+            CompressionTasks.CompressZip(releaseAssetDirectory, outputFileName);
+        });
 }

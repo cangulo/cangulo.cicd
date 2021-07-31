@@ -20,6 +20,7 @@
     public class VersioningSettings
     {
         public string CurrentVersion { get; set; }
-        public string NextVersion { get; set; }
+        public string ReleaseAssetDirectory { get; set; }
+        public string ReleaseAssetName { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using static Nuke.Common.IO.FileSystemTasks;
 internal partial class Build : NukeBuild
 {
     private Target Restore => _ => _
-        .DependsOn(ParseCICDFile, SetTargetSolution)
+        .DependsOn(ParseCICDFile, SetTargetSolution, Clean)
         .Executes(() =>
          {
              DotNetRestore(s => s
@@ -36,25 +36,23 @@ internal partial class Build : NukeBuild
         .DependsOn(ParseCICDFile, SetTargetSolution, ExecuteUnitTests)
         .Executes(() =>
         {
-            if (CICDFile.DotnetPublish != null)
+            ControlFlow.NotNull(CICDFile.DotnetPublish, "DotnetPublish should be provided in the cicd.json");
+            var inputSettings = CICDFile.DotnetPublish;
+
+            var projectPath = RootDirectory / inputSettings.ProjectPath;
+            if (FileExists(projectPath))
             {
-                var inputSettings = CICDFile.DotnetPublish;
+                var outputDirectory = RootDirectory / inputSettings.OutputFolder;
+                EnsureCleanDirectory(outputDirectory);
 
-                var projectPath = RootDirectory / inputSettings.ProjectPath;
-                if (FileExists(projectPath))
-                {
-                    var outputDirectory = RootDirectory / inputSettings.OutputFolder;
-                    EnsureExistingDirectory(outputDirectory);
+                var cmdSettings = new DotNetPublishSettings()
+                                    .SetProject(projectPath)
+                                    .SetOutput(outputDirectory);
 
-                    var cmdSettings = new DotNetPublishSettings()
-                                        .SetProject(projectPath)
-                                        .SetOutput(outputDirectory);
+                if (!string.IsNullOrEmpty(inputSettings.RunTime))
+                    cmdSettings = cmdSettings.SetRuntime(inputSettings.RunTime);
 
-                    if (!string.IsNullOrEmpty(inputSettings.RunTime))
-                        cmdSettings = cmdSettings.SetRuntime(inputSettings.RunTime);
-
-                    DotNetPublish(cmdSettings);
-                }
+                DotNetPublish(cmdSettings);
             }
         });
 }

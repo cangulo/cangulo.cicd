@@ -61,6 +61,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "CalculateNextReleaseNumber",
               "Clean",
               "Compile",
               "CreateNewRelease",
@@ -68,7 +69,10 @@
               "ParseCICDFile",
               "Publish",
               "Restore",
-              "SetTargetSolution"
+              "SetTargetSolution",
+              "UpdateVersionInFiles",
+              "ZipFile",
+              "ZipReleaseAssetDirectory"
             ]
           }
         },
@@ -78,6 +82,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "CalculateNextReleaseNumber",
               "Clean",
               "Compile",
               "CreateNewRelease",
@@ -85,7 +90,10 @@
               "ParseCICDFile",
               "Publish",
               "Restore",
-              "SetTargetSolution"
+              "SetTargetSolution",
+              "UpdateVersionInFiles",
+              "ZipFile",
+              "ZipReleaseAssetDirectory"
             ]
           }
         },
