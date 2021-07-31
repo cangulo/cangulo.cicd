@@ -21,5 +21,5 @@ internal partial class Build : NukeBuild
     [Parameter("GitHub auth token", Name = "github-token"), Secret]
     private readonly string GitHubToken;
 
-    [CI] readonly GitHubActions GitHubActions;
+    [CI] GitHubActions GitHubActions;
 }
