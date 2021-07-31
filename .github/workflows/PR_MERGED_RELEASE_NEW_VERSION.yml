@@ -34,7 +34,7 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Run './build.cmd ExecuteUnitTests Publish UpdateVersionInFiles'
-        run: ./build.cmd ExecuteUnitTests Publish UpdateVersionInFiles
+      - name: Run './build.cmd UpdateVersionInFiles'
+        run: ./build.cmd UpdateVersionInFiles
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
