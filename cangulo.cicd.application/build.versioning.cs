@@ -41,8 +41,13 @@ internal partial class Build : NukeBuild
             var releaseType = conventionCommit.CommitType.ToReleaseType();
             var nextReleaseNumber = nextReleaseNumberHelper.Calculate(releaseType, currentReleaseNumber);
 
-            var envVars = EnvironmentInfo.Variables;
-            envVars.ToList().ForEach(x => Logger.Info($"{x.Key}:{x.Value}"));
+            Logger.Info($"next release Number:{nextReleaseNumber}");
+
+            Logger.Success($"GitHubRepositoryOwner:{GitHubActions.GitHubRepositoryOwner}");
+
+
+            //var envVars = EnvironmentInfo.Variables;
+            //envVars.ToList().ForEach(x => Logger.Info($"{x.Key}:{x.Value}"));
             // 
             // 
             // 
