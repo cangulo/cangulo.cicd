@@ -46,8 +46,8 @@ internal partial class Build : NukeBuild
             using FileStream createStream = File.OpenWrite(cicdFilePath);
             JsonSerializer.SerializeAsync(createStream, CICDFile, SerializerContants.SERIALIZER_OPTIONS);
 
-            Git($"--global user.email \"carlos.angulo.mascarell@outlook.com\"", logOutput: true);
-            Git($"--global user.name \"Carlos Angulo\"", logOutput: true);
+            Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"", logOutput: true);
+            Git($"config --global user.name \"Carlos Angulo\"", logOutput: true);
 
             Git($"add cicd.json", logOutput: true);
             Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
