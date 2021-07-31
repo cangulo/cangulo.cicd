@@ -348,3 +348,9 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Nuke
+.nuke/temp/execution-plan.html
+
+# cangulo.cicd
+releaseAssets

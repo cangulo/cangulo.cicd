@@ -13,7 +13,7 @@ $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 # CONFIGURATION
 ###########################################################################
 
-$BuildProjectFile = "$PSScriptRoot\\cangulo.cicd.application\cangulo.cicd.application.csproj"
+$BuildProjectFile = "$PSScriptRoot\\src\cangulo.cicd.application\cangulo.cicd.application.csproj"
 $TempDirectory = "$PSScriptRoot\\.nuke\temp"
 
 $DotNetGlobalFile = "$PSScriptRoot\\global.json"
