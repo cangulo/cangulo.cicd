@@ -199,69 +199,366 @@ window.addEventListener("load",function(){e.contentLoaded()},!1)}).call(e,n(9))}
     <script>
 $(document).ready(function() {
   $("#ParseCICDFile").addClass('highlight');
-  $("#Restore").addClass('highlight');
-  $("#Compile").addClass('highlight');
+  $("#ZipFile").addClass('highlight');
   $("#ParseCICDFile").hover(
     function() {
         $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
         $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
         $("#ParseCICDFile").addClass('highlight');
     },
     function() {
         $("#ParseCICDFile").removeClass('highlight');
         $("#ParseCICDFile").addClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
+    });
+  $("#SetTargetSolution").hover(
+    function() {
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#SetTargetSolution").addClass('highlight');
+    },
+    function() {
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
     });
   $("#Clean").hover(
     function() {
         $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
         $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
         $("#Clean").addClass('highlight');
     },
     function() {
         $("#Clean").removeClass('highlight');
         $("#ParseCICDFile").addClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
+    });
+  $("#ZipFile").hover(
+    function() {
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
+    },
+    function() {
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
     });
   $("#Restore").hover(
     function() {
         $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
         $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#Clean").addClass('highlight');
         $("#ParseCICDFile").addClass('highlight');
+        $("#SetTargetSolution").addClass('highlight');
         $("#Restore").addClass('highlight');
     },
     function() {
+        $("#Clean").removeClass('highlight');
         $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#ParseCICDFile").addClass('highlight');
-        $("#Restore").addClass('highlight');
-        $("#Compile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
     });
   $("#Compile").hover(
     function() {
         $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
         $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#Clean").addClass('highlight');
         $("#ParseCICDFile").addClass('highlight');
+        $("#SetTargetSolution").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
     },
     function() {
+        $("#Clean").removeClass('highlight');
         $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
         $("#Restore").removeClass('highlight');
         $("#Compile").removeClass('highlight');
         $("#ParseCICDFile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
+    });
+  $("#ExecuteUnitTests").hover(
+    function() {
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#SetTargetSolution").addClass('highlight');
         $("#Restore").addClass('highlight');
         $("#Compile").addClass('highlight');
+        $("#ExecuteUnitTests").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
+    });
+  $("#Publish").hover(
+    function() {
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#SetTargetSolution").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#ExecuteUnitTests").addClass('highlight');
+        $("#Publish").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
+    });
+  $("#ZipReleaseAssetDirectory").hover(
+    function() {
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#SetTargetSolution").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#ExecuteUnitTests").addClass('highlight');
+        $("#Publish").addClass('highlight');
+        $("#ZipReleaseAssetDirectory").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
+    });
+  $("#CalculateNextReleaseNumber").hover(
+    function() {
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#SetTargetSolution").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#ExecuteUnitTests").addClass('highlight');
+        $("#Publish").addClass('highlight');
+        $("#ZipReleaseAssetDirectory").addClass('highlight');
+        $("#CalculateNextReleaseNumber").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
+    });
+  $("#UpdateVersionInFiles").hover(
+    function() {
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#SetTargetSolution").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#ExecuteUnitTests").addClass('highlight');
+        $("#Publish").addClass('highlight');
+        $("#ZipReleaseAssetDirectory").addClass('highlight');
+        $("#CalculateNextReleaseNumber").addClass('highlight');
+        $("#UpdateVersionInFiles").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
+    });
+  $("#CreateNewRelease").hover(
+    function() {
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Clean").removeClass('highlight');
+        $("#ZipFile").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#Clean").addClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#SetTargetSolution").addClass('highlight');
+        $("#Restore").addClass('highlight');
+        $("#Compile").addClass('highlight');
+        $("#ExecuteUnitTests").addClass('highlight');
+        $("#Publish").addClass('highlight');
+        $("#ZipReleaseAssetDirectory").addClass('highlight');
+        $("#CalculateNextReleaseNumber").addClass('highlight');
+        $("#UpdateVersionInFiles").addClass('highlight');
+        $("#CreateNewRelease").addClass('highlight');
+    },
+    function() {
+        $("#Clean").removeClass('highlight');
+        $("#ParseCICDFile").removeClass('highlight');
+        $("#SetTargetSolution").removeClass('highlight');
+        $("#Restore").removeClass('highlight');
+        $("#Compile").removeClass('highlight');
+        $("#ExecuteUnitTests").removeClass('highlight');
+        $("#Publish").removeClass('highlight');
+        $("#ZipReleaseAssetDirectory").removeClass('highlight');
+        $("#CalculateNextReleaseNumber").removeClass('highlight');
+        $("#UpdateVersionInFiles").removeClass('highlight');
+        $("#CreateNewRelease").removeClass('highlight');
+        $("#ParseCICDFile").addClass('highlight');
+        $("#ZipFile").addClass('highlight');
     });
 
 });
@@ -307,11 +604,30 @@ $(document).ready(function() {
     
     <div class="mermaid">
 graph LR
+ParseCICDFile --> SetTargetSolution
+ParseCICDFile --> ZipFile
 ParseCICDFile --> Restore
 ParseCICDFile --> Compile
-Clean -.-> Restore
+ParseCICDFile --> ExecuteUnitTests
+ParseCICDFile --> Publish
+ParseCICDFile --> ZipReleaseAssetDirectory
+ParseCICDFile --> CalculateNextReleaseNumber
+ParseCICDFile --> UpdateVersionInFiles
+ParseCICDFile --> CreateNewRelease
+SetTargetSolution --> Restore
+SetTargetSolution --> Compile
+SetTargetSolution --> ExecuteUnitTests
+SetTargetSolution --> Publish
+Clean --> Restore
+ZipFile
 Restore --> Compile
-Compile
+Compile --> ExecuteUnitTests
+ExecuteUnitTests --> Publish
+Publish --> ZipReleaseAssetDirectory
+ZipReleaseAssetDirectory --> CalculateNextReleaseNumber
+CalculateNextReleaseNumber --> UpdateVersionInFiles
+UpdateVersionInFiles --> CreateNewRelease
+CreateNewRelease
 
 
 linkStyle default interpolate basis
