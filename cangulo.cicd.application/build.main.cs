@@ -6,7 +6,7 @@ using Nuke.Common.Execution;
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
 [GitHubActions(
-    "PR_Execute_UT",
+    "PR_Execute_DOTNET_UT",
     GitHubActionsImage.UbuntuLatest,
     OnPullRequestIncludePaths = new string[] { "src/**" },
     InvokedTargets = new[] { nameof(ExecuteUnitTests) })]
