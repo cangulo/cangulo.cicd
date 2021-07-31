@@ -9,17 +9,17 @@
 #
 #     - To trigger manual generation invoke:
 #
-#         nuke --generate-configuration GitHubActions_propose_next_version --host GitHubActions
+#         nuke --generate-configuration GitHubActions_PR_Execute_UT --host GitHubActions
 #
 # </auto-generated>
 # ------------------------------------------------------------------------------
 
-name: propose_next_version
+name: PR_Execute_UT
 
 on:
   pull_request:
-    branches:
-      - main
+    paths:
+      - 'src/**'
 
 jobs:
   ubuntu-latest:
@@ -34,5 +34,5 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Run './build.cmd ProposeNextVersion'
-        run: ./build.cmd ProposeNextVersion
+      - name: Run './build.cmd ExecuteUnitTests'
+        run: ./build.cmd ExecuteUnitTests
