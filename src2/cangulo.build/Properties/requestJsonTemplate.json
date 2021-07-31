@@ -1,9 +1,0 @@
-{
-    "requestModel": "CreateRelease",
-    "originator": "originator",
-    "repositoryId":375019629,
-    "tag":"0.0.2-alpha",
-    "title":"Alpha Version!",
-    "releaseNotesFilePath":"./ReleaseNotes.md",
-    "releaseAssetsFolder":"./releaseFiles"
-}

@@ -1,0 +1,32 @@
+name: PR_MERGED_RELEASE_NEW_VERSION
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  ubuntu-latest:
+    name: ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+      - name: Calculate Next Release Number, Update Version In Files, Push Changes
+        env:
+          GitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
+      - name: Publish Dotnet Core and Zip the output
+        run: ./build.cmd Publish CompressDirectory
+      - name: Publish Create the New Release
+        run: ./build.cmd CreateNewRelease
+        env:
+          GitHubToken: ${{ secrets.GITHUB_TOKEN }}

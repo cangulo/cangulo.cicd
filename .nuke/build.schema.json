@@ -10,6 +10,11 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
+        "github-token": {
+          "type": "string",
+          "description": "GitHub auth token",
+          "default": "Secrets must be entered via 'nuke :secret [profile]'"
+        },
         "Help": {
           "type": "boolean",
           "description": "Shows the help text for this build assembly"
@@ -56,14 +61,20 @@
           "items": {
             "type": "string",
             "enum": [
-              "Clean",
+              "CalculateNextReleaseNumber",
+              "CleanBuildFolders",
               "Compile",
+              "CompressDirectory",
+              "CreateNewRelease",
               "ExecuteUnitTests",
+              "GetLastConventionCommit",
+              "GitPush",
               "ParseCICDFile",
-              "ProposeNextVersion",
               "Publish",
               "Restore",
-              "SetTargetSolution"
+              "SetTargetSolution",
+              "SetupGitInPipeline",
+              "UpdateVersionInFiles"
             ]
           }
         },
@@ -73,14 +84,20 @@
           "items": {
             "type": "string",
             "enum": [
-              "Clean",
+              "CalculateNextReleaseNumber",
+              "CleanBuildFolders",
               "Compile",
+              "CompressDirectory",
+              "CreateNewRelease",
               "ExecuteUnitTests",
+              "GetLastConventionCommit",
+              "GitPush",
               "ParseCICDFile",
-              "ProposeNextVersion",
               "Publish",
               "Restore",
-              "SetTargetSolution"
+              "SetTargetSolution",
+              "SetupGitInPipeline",
+              "UpdateVersionInFiles"
             ]
           }
         },

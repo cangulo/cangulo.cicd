@@ -2,11 +2,34 @@
 using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.IO.FileSystemTasks;
+using Nuke.Common.IO;
+using Nuke.Common.Utilities.Collections;
+using System.IO;
+using Nuke.Common.ProjectModel;
+using System;
 
 internal partial class Build : NukeBuild
 {
+    private Target SetTargetSolution => _ => _
+        .DependsOn(ParseCICDFile)
+        .Executes(() =>
+            {
+                var solutionPath = RootDirectory / CICDFile.SolutionPath;
+                if (File.Exists(solutionPath))
+                    TargetSolutionParsed = ProjectModelTasks.ParseSolution(solutionPath);
+                else
+                    throw new Exception("invalid SolutionPath provided");
+                Logger.Info($"solution set to {TargetSolutionParsed.Name}");
+            });
+
+    private Target CleanBuildFolders => _ => _
+        .Before(Restore)
+        .Executes(() =>
+            {
+                RootDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            });
     private Target Restore => _ => _
-        .DependsOn(ParseCICDFile, SetTargetSolution)
+        .DependsOn(ParseCICDFile, SetTargetSolution, CleanBuildFolders)
         .Executes(() =>
          {
              DotNetRestore(s => s
@@ -33,28 +56,27 @@ internal partial class Build : NukeBuild
         });
 
     private Target Publish => _ => _
-        .DependsOn(ParseCICDFile, SetTargetSolution, ExecuteUnitTests)
+        .DependsOn(ParseCICDFile, SetTargetSolution)
+        .Before(CompressDirectory)
         .Executes(() =>
         {
-            if (CICDFile.DotnetPublish != null)
+            ControlFlow.NotNull(CICDFile.DotnetPublish, "DotnetPublish should be provided in the cicd.json");
+            var inputSettings = CICDFile.DotnetPublish;
+
+            var projectPath = RootDirectory / inputSettings.ProjectPath;
+            if (FileExists(projectPath))
             {
-                var inputSettings = CICDFile.DotnetPublish;
+                var outputDirectory = RootDirectory / inputSettings.OutputFolder;
+                EnsureCleanDirectory(outputDirectory);
 
-                var projectPath = RootDirectory / inputSettings.ProjectPath;
-                if (FileExists(projectPath))
-                {
-                    var outputDirectory = RootDirectory / inputSettings.OutputFolder;
-                    EnsureExistingDirectory(outputDirectory);
+                var cmdSettings = new DotNetPublishSettings()
+                                    .SetProject(projectPath)
+                                    .SetOutput(outputDirectory);
 
-                    var cmdSettings = new DotNetPublishSettings()
-                                        .SetProject(projectPath)
-                                        .SetOutput(outputDirectory);
+                if (!string.IsNullOrEmpty(inputSettings.RunTime))
+                    cmdSettings = cmdSettings.SetRuntime(inputSettings.RunTime);
 
-                    if (!string.IsNullOrEmpty(inputSettings.RunTime))
-                        cmdSettings = cmdSettings.SetRuntime(inputSettings.RunTime);
-
-                    DotNetPublish(cmdSettings);
-                }
+                DotNetPublish(cmdSettings);
             }
         });
 }
