@@ -4,6 +4,7 @@ using cangulo.cicd.domain.Helpers;
 using cangulo.cicd.domain.Parsers;
 using Microsoft.Extensions.DependencyInjection;
 using Nuke.Common;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Tooling;
 using Octokit;
 using System.Linq;
@@ -13,7 +14,7 @@ internal partial class Build : NukeBuild
 {
     private Target CreateNewRelease => _ => _
         .DependsOn(ParseCICDFile)
-        .Executes(() =>
+        .Executes(async () =>
         {
             ControlFlow.NotNull(CICDFile.VersioningSettings, "versioningSettings should be provided in the cicd.json");
 
@@ -22,8 +23,6 @@ internal partial class Build : NukeBuild
             var releaseNumberParser = _serviceProvider.GetRequiredService<IReleaseNumberParser>();
 
             var currentReleaseNumber = releaseNumberParser.Parse(CICDFile.VersioningSettings.CurrentVersion);
-
-            Logger.Info($"GitRepoInfo:{JsonSerializer.Serialize(GitRepository, SerializerContants.SERIALIZER_OPTIONS)}");
 
             var lastCommitId = Git($"log --no-merges --format=%H -n 1", logInvocation: false, logOutput: false).Select(x => x.Text).Single();
 
@@ -36,29 +35,24 @@ internal partial class Build : NukeBuild
             ControlFlow.Assert(!string.IsNullOrEmpty(commitMsg), "last commit does not have a msg");
 
             var conventionCommit = commitParser.ParseConventionCommit(commitMsg);
-            Logger.Info($"Commit Type: {conventionCommit.CommitType} ");
 
             var releaseType = conventionCommit.CommitType.ToReleaseType();
             var nextReleaseNumber = nextReleaseNumberHelper.Calculate(releaseType, currentReleaseNumber);
 
-            Logger.Info($"next release Number:{nextReleaseNumber}");
-
-            Logger.Success($"GitHubRepositoryOwner:{GitHubActions.GitHubRepositoryOwner}");
+            Logger.Info($"next release Number:{nextReleaseNumber} - Release Type: {releaseType}");
 
 
-            //var envVars = EnvironmentInfo.Variables;
-            //envVars.ToList().ForEach(x => Logger.Info($"{x.Key}:{x.Value}"));
-            // 
-            // 
-            // 
-            // request.RepositoryId
+            ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
 
 
-            //long repositoryId = 330426518;
-            //string githubToken = this.GitHubToken;
-            //var client = new GitHubClient(new ProductHeaderValue("cangulo.cicd"));
-            //client.Credentials = new Credentials(githubToken);
+            var repoName = GitHubActions.GitHubRepository;
+            var repoOwner = GitHubActions.GitHubRepositoryOwner;
 
-            //var repo = await client.Repository.Get(repositoryId);
+            var client = new GitHubClient(new ProductHeaderValue($"{repoOwner}"));
+            client.Credentials = new Credentials(GitHubToken);
+
+            var repo = await client.Repository.Get(repoOwner, repoName);
+
+            Logger.Info($"Repo:{JsonSerializer.Serialize(repo, SerializerContants.SERIALIZER_OPTIONS)}");
         });
 }
