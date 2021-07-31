@@ -9,15 +9,15 @@
 #
 #     - To trigger manual generation invoke:
 #
-#         nuke --generate-configuration GitHubActions_execute_ut_on_push --host GitHubActions
+#         nuke --generate-configuration GitHubActions_PR_Execute_DOTNET_UT --host GitHubActions
 #
 # </auto-generated>
 # ------------------------------------------------------------------------------
 
-name: execute_ut_on_push
+name: PR_Execute_DOTNET_UT
 
 on:
-  push:
+  pull_request:
     paths:
       - 'src/**'
 
