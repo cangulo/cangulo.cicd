@@ -15,4 +15,7 @@ internal partial class Build : NukeBuild
 
     [PathExecutable("git")]
     private readonly Tool Git;
+
+    [Parameter("GitHub auth token", Name = "github-token"), Secret]
+    private readonly string GitHubToken;
 }
