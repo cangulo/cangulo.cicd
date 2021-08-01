@@ -13,7 +13,7 @@ internal partial class Build : NukeBuild
             Logger.Info("Setting email and name in git");
 
             Git($"config --global user.email \"{request.Email}\"");
-            Git($"config --global user.name \"{request.n}\"");
+            Git($"config --global user.name \"{request.Name}\"");
         });
 
     private Target GitPush => _ => _
