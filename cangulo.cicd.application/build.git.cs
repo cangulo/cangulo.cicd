@@ -75,6 +75,5 @@ internal partial class Build : NukeBuild
                 {
                     Logger.Info($"{x.Sha}: {x.Commit.Message}");
                 });
-
         });
 }

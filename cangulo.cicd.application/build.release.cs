@@ -9,15 +9,19 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using cangulo.cicd.domain.Extensions;
+using cangulo.cicd.domain.Services;
 
 internal partial class Build : NukeBuild
 
 {
     private Target CalculateNextReleaseNumber => _ => _
         .DependsOn(ParseCICDFile)
-        .Executes(() =>
+        .Executes(async () =>
         {
             ValidateCICDPropertyIsProvided(CICDFile.VersioningSettings, nameof(CICDFile.VersioningSettings));
+
+            var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
+
             var request = CICDFile.VersioningSettings;
 
             var commitParser = _serviceProvider.GetRequiredService<ICommitParser>();
@@ -26,7 +30,16 @@ internal partial class Build : NukeBuild
 
             var currentReleaseNumber = releaseNumberParser.Parse(request.CurrentVersion);
 
-            var lastCommitMsg = Git($"log --format=%B -n 1", logOutput: true).ConcatenateOutputText();
+            (string repoOwner, string repoName, GitHubClient ghClient) = SetGHClient(GitHubActions);
+            var commitMsgs = await prService.GetCommitsFromLastMergedPR(ghClient, GitHubActions);
+
+            ControlFlow.Assert(commitMsgs.Any(), "no commits founds");
+            Logger.Info($"Commits Found:{commitMsgs.Count()}");
+            commitMsgs
+                .ToList()
+                .ForEach(Logger.Info);
+
+            var lastCommitMsg = commitMsgs.Last();
             var conventionalCommit = commitParser.ParseConventionalCommit(lastCommitMsg);
 
             var releaseType = conventionalCommit.CommitType.ToReleaseType();
@@ -51,12 +64,7 @@ internal partial class Build : NukeBuild
         {
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
 
-            var repoOwner = GitHubActions.GitHubRepositoryOwner;
-            var repoName = GitHubActions.GitHubRepository.Replace($"{repoOwner}/", string.Empty);
-
-            // TODO: Migrate the injection of the client to an interface
-            var ghClient = new GitHubClient(new ProductHeaderValue($"{repoOwner}"));
-            ghClient.Credentials = new Credentials(GitHubToken);
+            (string repoOwner, string repoName, GitHubClient ghClient) = SetGHClient(GitHubActions);
             var client = ghClient.Repository.Release;
 
             var request = CICDFile.VersioningSettings;
@@ -86,4 +94,16 @@ internal partial class Build : NukeBuild
                 Logger.Info($"Asset {fileName} uploaded");
             }
         });
+
+    private (string, string, GitHubClient) SetGHClient(GitHubActions gitHubAction)
+    {
+        var repoOwner = GitHubActions.GitHubRepositoryOwner;
+        var repoName = GitHubActions.GitHubRepository.Replace($"{repoOwner}/", string.Empty);
+
+        // TODO: Migrate the injection of the client to an interface
+        var ghClient = new GitHubClient(new ProductHeaderValue($"{repoOwner}"));
+        ghClient.Credentials = new Credentials(GitHubToken);
+
+        return (repoOwner, repoName, ghClient);
+    }
 }

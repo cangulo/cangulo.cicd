@@ -1,5 +1,6 @@
 ﻿using cangulo.cicd.domain.Helpers;
 using cangulo.cicd.domain.Parsers;
+using cangulo.cicd.domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace cangulo.cicd.domain.Extensions
@@ -11,6 +12,7 @@ namespace cangulo.cicd.domain.Extensions
             return services
                 .AddTransient<ICommitParser, CommitParser>()
                 .AddTransient<IReleaseNumberParser, ReleaseNumberParser>()
+                .AddTransient<IPullRequestService, PullRequestService>()
                 .AddTransient<INextReleaseNumberHelper, NextReleaseNumberHelper>();
         }
     }
