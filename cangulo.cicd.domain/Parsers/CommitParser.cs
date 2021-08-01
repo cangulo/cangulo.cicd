@@ -10,6 +10,7 @@ namespace cangulo.cicd.domain.Parsers
     {
         ConventionCommit[] ParseConventionalCommitFromMergeCommit(string mergeCommit);
         ConventionCommit ParseConventionalCommit(string lastCommitMessage);
+        ConventionCommit[] ParseConventionalCommits(string[] lastCommitMessage);
     }
 
     public class CommitParser : ICommitParser
@@ -44,5 +45,10 @@ namespace cangulo.cicd.domain.Parsers
                 Body = parts[1]
             };
         }
+        public ConventionCommit[] ParseConventionalCommits(string[] lastCommitMessage)
+            => lastCommitMessage
+                .Select(ParseConventionalCommit)
+                .ToArray();
+
     }
 }
