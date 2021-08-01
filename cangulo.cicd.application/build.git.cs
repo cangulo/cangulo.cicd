@@ -9,6 +9,8 @@ internal partial class Build : NukeBuild
         {
             ValidateCICDPropertyIsProvided(CICDFile.GitPipelineSettings, nameof(CICDFile.GitPipelineSettings));
 
+            Logger.Info("Setting email and name in git");
+
             Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"");
             Git($"config --global user.name \"Carlos Angulo\"");
         });
@@ -19,6 +21,6 @@ internal partial class Build : NukeBuild
         {
             Git($"add cicd.json", logOutput: true);
             Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
-            var outputCmd = Git($"push --force --verbose", logOutput: false);
+            Git($"push --verbose", logOutput: false);
         });
 }
