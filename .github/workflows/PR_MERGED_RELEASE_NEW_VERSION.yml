@@ -18,8 +18,8 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Get Last Commit Msg
-        run: ./build.cmd GetLastCommitMsgTarget
+      - name: Parse Last Commit to Convention Commit
+        run: ./build.cmd GetLastConventionCommit
       # - name: Calculate Next Release Number, Update Version In Files, Push Changes
       #   run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
       # - name: Publish Dotnet Core and Zip the output
