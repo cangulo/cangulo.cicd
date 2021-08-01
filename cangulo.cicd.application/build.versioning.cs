@@ -58,6 +58,7 @@ internal partial class Build : NukeBuild
 
             //Git("checkout \"${ GITHUB_REF: 11}\"", logOutput: true);
 
+
             Git($"status", logOutput: true);
             Git($"add cicd.json", logOutput: true);
             Git($"status", logOutput: true);
