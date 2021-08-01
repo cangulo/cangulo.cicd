@@ -34,7 +34,7 @@ internal partial class Build : NukeBuild
         {
             var commitParser = _serviceProvider.GetRequiredService<ICommitParser>();
 
-            var lastCommitMsg = Git($"log --format=%B -n 1", logOutput: true).Single().Text;
+            var lastCommitMsg = Git($"log --format=%B -n 1", logOutput: true).ConcatenateOutputText();
             var conventionalCommit = commitParser.ParseConventionCommit(lastCommitMsg);
 
             Logger.Info($"ConventionCommit:\n{JsonSerializer.Serialize(conventionalCommit, SerializerContants.SERIALIZER_OPTIONS)}");
