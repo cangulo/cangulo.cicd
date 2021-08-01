@@ -34,21 +34,18 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Run './build.cmd ExecuteUnitTests Publish UpdateVersionInFiles ZipReleaseAssetDirectory CreateNewRelease'
-        run: ./build.cmd ExecuteUnitTests Publish UpdateVersionInFiles ZipReleaseAssetDirectory CreateNewRelease
-        env:
-          GitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Calculate Next Release Number
         run: ./build.cmd CalculateNextReleaseNumber
       - name: Update Version In Files
         run: ./build.cmd UpdateVersionInFiles
-      - name: Update Version In Files
+      - name: Push Updated Files Changes
         run: |
           git config --global user.name 'CI-cangulo.cicd'
           git config --global user.email 'cangulo.cicd@github.com'
           newReleaseNumber=$(cat cicd.json | jq -r .versioningSettings.currentVersion)
           echo $newReleaseNumber
-          git commit -am "[ci] version $newReleaseNumbe created"
+          git add cicd.json
+          git commit -m "[ci] version $newReleaseNumbe created"
           git push
       # - name: Publish Dotnet Solution and Zip It
       #   run: ./build.cmd Publish CompressDirectory
@@ -56,3 +53,7 @@ jobs:
       #     GitHubToken: ${{ secrets.GITHUB_TOKEN }}
       # - name: Run './build.cmd ExecuteUnitTests Publish UpdateVersionInFiles ZipReleaseAssetDirectory CreateNewRelease'
       #   run: ./build.cmd ExecuteUnitTests Publish UpdateVersionInFiles ZipReleaseAssetDirectory CreateNewRelease
+      # - name: Run './build.cmd ExecuteUnitTests Publish UpdateVersionInFiles ZipReleaseAssetDirectory CreateNewRelease'
+      #   run: ./build.cmd ExecuteUnitTests Publish UpdateVersionInFiles ZipReleaseAssetDirectory CreateNewRelease
+      #   env:
+      #     GitHubToken: ${{ secrets.GITHUB_TOKEN }}
