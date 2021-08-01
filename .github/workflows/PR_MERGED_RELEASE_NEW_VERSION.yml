@@ -42,10 +42,14 @@ jobs:
           git config --global user.email 'cangulo.cicd@github.com'
           newReleaseNumber=$(cat cicd.json | jq -r .versioningSettings.currentVersion)
           echo $newReleaseNumber
+          git status
           git add cicd.json
+          git status
           git commit -m "[ci] version $newReleaseNumbe created"
+          git status
           git push --verbose
           echo $?
+          git status
       # - name: Publish Dotnet Solution and Zip It
       #   run: ./build.cmd Publish CompressDirectory
       #   env:
