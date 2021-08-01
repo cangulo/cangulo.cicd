@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using cangulo.cicd.domain.Parsers;
+using Microsoft.Extensions.DependencyInjection;
 using Nuke.Common;
 
 internal partial class Build : NukeBuild
@@ -30,14 +32,8 @@ internal partial class Build : NukeBuild
         {
             var cmdOutput = Git($"log --no-merges --format=%B -n 1", logOutput: true);
             var commitMsg = string.Join(string.Empty, cmdOutput.Select(x => x.Text).ToArray());
-            Logger.Info($"INIT: last commit msg: {commitMsg}");
-            if (commitMsg.Contains("Merge pull request"))
-            {
-                var cmdSkipLastCommit = Git($"log --no-merges --format=%B -n 1 --skip 1", logOutput: true);
-                commitMsg = string.Join(string.Empty, cmdSkipLastCommit.Select(x => x.Text).ToArray());
-            }
-            Logger.Info($"END: last commit msg: {commitMsg}");
-
-
+            Logger.Info($"LastCommitMessage:\n{commitMsg}");
+            var commitParser = _serviceProvider.GetRequiredService<ICommitParser>();
+            var conventionalCommit = commitParser.ParseConventionCommitFromMergeCommit(commitMsg);
         });
 }

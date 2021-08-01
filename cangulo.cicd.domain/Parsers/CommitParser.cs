@@ -1,5 +1,6 @@
 ﻿using cangulo.cicd.abstractons.Models;
 using cangulo.cicd.abstractons.Models.Enums;
+using Nuke.Common;
 using System;
 using System.Linq;
 
@@ -7,6 +8,7 @@ namespace cangulo.cicd.domain.Parsers
 {
     public interface ICommitParser
     {
+        ConventionCommit[] ParseConventionCommitFromMergeCommit(string mergeCommit);
         ConventionCommit ParseConventionCommit(string lastCommitMessage);
     }
 
@@ -14,6 +16,18 @@ namespace cangulo.cicd.domain.Parsers
     {
         private const string InvalidCommitMsg = "commit msg does not provide a valid convention commit type.";
 
+        public ConventionCommit[] ParseConventionCommitFromMergeCommit(string mergeCommit)
+        {
+            return mergeCommit
+                            .Split("\n", StringSplitOptions.TrimEntries)
+                            .ToList()
+                            .Skip(1)
+                            .Select((x, index) =>
+                            {
+                                Logger.Info($"commit {index}: {x}");
+                                return ParseConventionCommit(x);
+                            }).ToArray();
+        }
         public ConventionCommit ParseConventionCommit(string lastCommitMessage)
         {
             var parts = lastCommitMessage.Split(":", StringSplitOptions.TrimEntries);
