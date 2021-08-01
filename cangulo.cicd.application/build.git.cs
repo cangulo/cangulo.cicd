@@ -73,9 +73,9 @@ internal partial class Build : NukeBuild
                 .ToList()
                 .ForEach(x =>
                 {
-                    Logger.Info($"{x.Commit.Ref}: {x.Commit.Message}")
-                    Logger.Info($"PRCommit:\n{JsonSerializer.Serialize(x, SerializerContants.SERIALIZER_OPTIONS)}")
-                    Logger.Info($"Commit:\n{JsonSerializer.Serialize(x.Commit, SerializerContants.SERIALIZER_OPTIONS)}")
+                    Logger.Info($"{x.Commit.Ref}: {x.Commit.Message}");
+                    Logger.Info($"PRCommit:\n{JsonSerializer.Serialize(x, SerializerContants.SERIALIZER_OPTIONS)}");
+                    Logger.Info($"Commit:\n{JsonSerializer.Serialize(x.Commit, SerializerContants.SERIALIZER_OPTIONS)}");
                 });
 
         });
