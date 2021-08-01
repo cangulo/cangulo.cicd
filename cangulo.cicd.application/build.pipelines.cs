@@ -15,9 +15,12 @@ using Nuke.Common.Execution;
     GitHubActionsImage.UbuntuLatest,
     OnPushBranches = new[] { "main" },
     InvokedTargets = new[] {
-        //nameof(ExecuteUnitTests),
-        //nameof(Publish),
-        nameof(UpdateVersionInFiles) },
+        nameof(ExecuteUnitTests),
+        nameof(Publish),
+        nameof(UpdateVersionInFiles),
+        nameof(ZipReleaseAssetDirectory),
+        nameof(CreateNewRelease)
+        },
     ImportGitHubTokenAs = nameof(GitHubToken)
     )]
 internal partial class Build : NukeBuild { }
