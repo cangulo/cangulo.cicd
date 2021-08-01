@@ -7,8 +7,4 @@ internal partial class Build : NukeBuild
         var errorMsg = $"{obj.GetType().Name} should be provided in the cicd.json";
         ControlFlow.NotNull(obj, errorMsg);
     }
-    private void ValidateObjectNotNull(object obj, string errorMsg)
-    {
-        ControlFlow.NotNull(obj, errorMsg);
-    }
 }

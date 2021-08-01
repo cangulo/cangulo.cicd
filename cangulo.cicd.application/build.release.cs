@@ -21,7 +21,7 @@ internal partial class Build : NukeBuild
         .DependsOn(ParseCICDFile)
         .Executes(() =>
         {
-            ControlFlow.NotNull(CICDFile.VersioningSettings, "versioningSettings should be provided in the cicd.json");
+            ValidateCICDPropertyIsProvided(CICDFile.VersioningSettings);
             var request = CICDFile.VersioningSettings;
 
             var commitParser = _serviceProvider.GetRequiredService<ICommitParser>();
