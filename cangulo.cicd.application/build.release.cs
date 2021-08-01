@@ -61,38 +61,32 @@ internal partial class Build : NukeBuild
             ghClient.Credentials = new Credentials(GitHubToken);
             var client = ghClient.Repository.Release;
 
-            var nextVersion = CICDFile.VersioningSettings.CurrentVersion;
+            var request = CICDFile.VersioningSettings;
+            var nextVersion = request.CurrentVersion;
             Logger.Info($"Creating Release {nextVersion}");
 
-            var newReleaseData = new NewRelease(CICDFile.VersioningSettings.CurrentVersion.ToString())
+            var newReleaseData = new NewRelease(nextVersion)
             {
-                Name = "empty title... for now",
+                Name = nextVersion,
                 Body = "empty body... for now"
             };
 
             var releaseCreated = await client.Create(repoOwner, repoName, newReleaseData);
+            Logger.Success($"Created release {nextVersion}!");
 
-            var releaseCreatedInfo = new
+            foreach (var releaseAsset in request.ReleaseAssets)
             {
-                releaseCreated.Id,
-                releaseCreated.Name,
-                releaseCreated.TagName,
-                releaseCreated.TargetCommitish,
-                releaseCreated.AssetsUrl
-            };
-            Logger.Success($"Created release: {JsonSerializer.Serialize(releaseCreatedInfo)}");
+                var fileName = Path.GetFileName(releaseAsset);
 
-            // var assetDirectoryZipped = RootDirectory / $"{CICDFile.VersioningSettings.ReleaseAssetName}.zip";
-            // var fileName = Path.GetFileName(assetDirectoryZipped);
-            // Logger.Info($"Uploading file: {fileName}");
-
-            // var assetData = new ReleaseAssetUpload
-            // {
-            //     FileName = fileName,
-            //     RawData = File.OpenRead(assetDirectoryZipped),
-            //     ContentType = "application/zip"
-            // };
-            // await client.UploadAsset(releaseCreated, assetData);
+                var assetData = new ReleaseAssetUpload
+                {
+                    FileName = fileName,
+                    RawData = File.OpenRead(RootDirectory / releaseAsset),
+                    ContentType = "application/zip"
+                };
+                await client.UploadAsset(releaseCreated, assetData);
+                Logger.Info($"Asset {fileName} uploaded");
+            }
         });
 
     private string GetLastCommitMsg()
