@@ -1,4 +1,4 @@
-name: PR_MERGED_RELEASE_NEW_VERSION
+name: PR_MERGED_PRINT_PIPE_INFO
 
 on:
   pull_request:
@@ -20,11 +20,9 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Calculate Next Release Number, Update Version In Files, Push Changes
-        run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
-      - name: Publish Dotnet Core and Zip the output
-        run: ./build.cmd Publish CompressDirectory
-      - name: Publish Create the New Release
-        run: ./build.cmd CreateNewRelease
+      - name: Print Execution Info
+        run: ./build.cmd PrintPipelineInfo
+      - name: List Commits in the PR Merged
+        run: ./build.cmd GetCommitsInAMergedPR
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
