@@ -351,3 +351,6 @@ MigrationBackup/
 
 # Nuke
 .nuke/temp/execution-plan.html
+
+# cangulo.cicd
+releaseAssets

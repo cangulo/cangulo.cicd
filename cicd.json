@@ -7,12 +7,12 @@
   },
   "CompressDirectory": {
     "Path": "./artifacts/cangulo.cicd",
-    "OutputFileName": "./releaseAssets/cangulo.cicd-linux-x64"
+    "OutputFileName": "./releaseAssets/cangulo.cicd-linux-x64.zip"
   },
   "VersioningSettings": {
     "CurrentVersion": "0.0.3",
     "ReleaseAssets": [
-      "./releaseAssets/cangulo.cicd-linux-x64"
+      "./releaseAssets/cangulo.cicd-linux-x64.zip"
     ]
   },
   "GitPipelineSettings": {

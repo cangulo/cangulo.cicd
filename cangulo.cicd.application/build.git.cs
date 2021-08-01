@@ -1,5 +1,4 @@
 ﻿using Nuke.Common;
-using System.Linq;
 
 internal partial class Build : NukeBuild
 {
@@ -9,10 +8,11 @@ internal partial class Build : NukeBuild
         {
             ValidateCICDPropertyIsProvided(CICDFile.GitPipelineSettings, nameof(CICDFile.GitPipelineSettings));
 
+            var request = CICDFile.GitPipelineSettings;
             Logger.Info("Setting email and name in git");
 
-            Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"");
-            Git($"config --global user.name \"Carlos Angulo\"");
+            Git($"config --global user.email \"{request.Email}\"");
+            Git($"config --global user.name \"{request.Name}\"");
         });
 
     private Target GitPush => _ => _

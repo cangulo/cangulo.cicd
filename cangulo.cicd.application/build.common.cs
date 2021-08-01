@@ -1,10 +1,5 @@
 ﻿using Nuke.Common;
 using Nuke.Common.IO;
-using Nuke.Common.ProjectModel;
-using Nuke.Common.Utilities.Collections;
-using static Nuke.Common.IO.FileSystemTasks;
-using System;
-using System.IO;
 
 internal partial class Build : NukeBuild
 {
