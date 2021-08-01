@@ -37,7 +37,7 @@ jobs:
       - name: Calculate Next Release Number, Update Version In Files, Push Changes
         run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
       - name: Publish Dotnet Core and Zip the output
-        run: ./build.cmd Publish ZipReleaseAssetDirectory
+        run: ./build.cmd Publish CompressDirectory
       - name: Publish Create a New Release
         run: ./build.cmd CreateNewRelease
         env:

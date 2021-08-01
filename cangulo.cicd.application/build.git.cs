@@ -21,6 +21,6 @@ internal partial class Build : NukeBuild
         {
             Git($"add cicd.json", logOutput: true);
             Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
-            Git($"push --verbose", logOutput: false);
+            Git($"push", logOutput: false);
         });
 }
