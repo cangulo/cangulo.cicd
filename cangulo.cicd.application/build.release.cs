@@ -50,12 +50,12 @@ internal partial class Build : NukeBuild
             var content = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
             File.WriteAllText(cicdFilePath, content);
 
-            Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"", logOutput: true);
-            Git($"config --global user.name \"Carlos Angulo\"", logOutput: true);
+            // Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"", logOutput: true);
+            // Git($"config --global user.name \"Carlos Angulo\"", logOutput: true);
 
-            Git($"add cicd.json", logOutput: true);
-            Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
-            Git($"push", logOutput: true);
+            // Git($"add cicd.json", logOutput: true);
+            // Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
+            // Git($"push", logOutput: true);
         });
 
     private Target CreateNewRelease => _ => _
