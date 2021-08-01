@@ -26,8 +26,10 @@ internal partial class Build : NukeBuild
 
             var currentReleaseNumber = releaseNumberParser.Parse(request.CurrentVersion);
 
-            var commitMsg = GetLastCommitMsg();
-            var conventionalCommit = commitParser.ParseConventionCommit(commitMsg);
+            var cmdOutput = Git($"log --no-merges --format=%B -n 1", logOutput: true);
+            var commitMsg = string.Join(string.Empty, cmdOutput.Select(x => x.Text).ToArray());
+            Logger.Info($"LastCommitMessage:\n{commitMsg}");
+            var conventionalCommit = commitParser.ParseConventionCommitFromMergeCommit(commitMsg);
 
             var releaseType = conventionalCommit.CommitType.ToReleaseType();
             var nextReleaseNumber = nextReleaseNumberHelper.Calculate(releaseType, currentReleaseNumber);
@@ -86,16 +88,4 @@ internal partial class Build : NukeBuild
                 Logger.Info($"Asset {fileName} uploaded");
             }
         });
-
-    private string GetLastCommitMsg()
-    {
-        var cmdOutput = Git($"log --no-merges --format=%B -n 1", logOutput: true);
-        var commitMsg = string.Join(string.Empty, cmdOutput.Select(x => x.Text).ToArray());
-        if (commitMsg.Contains("Merge pull request"))
-        {
-            var cmdSkipLastCommit = Git($"log --format=%B -n 1 --skip 1", logOutput: true);
-            commitMsg = string.Join(string.Empty, cmdSkipLastCommit.Select(x => x.Text).ToArray());
-        }
-        return commitMsg;
-    }
 }

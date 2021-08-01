@@ -24,20 +24,4 @@ internal partial class Build : NukeBuild
             Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
             Git($"push", logOutput: false);
         });
-
-    private Target GetLastCommitMsgTarget => _ => _
-        .Executes(() =>
-        {
-            var cmdOutput = Git($"log --no-merges --format=%B -n 1", logOutput: true);
-            var commitMsg = string.Join(string.Empty, cmdOutput.Select(x => x.Text).ToArray());
-            Logger.Info($"INIT: last commit msg: {commitMsg}");
-            if (commitMsg.Contains("Merge pull request"))
-            {
-                var cmdSkipLastCommit = Git($"log --no-merges --format=%B -n 1 --skip 1", logOutput: true);
-                commitMsg = string.Join(string.Empty, cmdSkipLastCommit.Select(x => x.Text).ToArray());
-            }
-            Logger.Info($"END: last commit msg: {commitMsg}");
-
-
-        });
 }
