@@ -45,21 +45,23 @@ internal partial class Build : NukeBuild
         {
             var cicdFilePath = RootDirectory / "cicd.json";
 
+            Logger.Info($"{JsonSerializer.Serialize(GitHubActions, SerializerContants.SERIALIZER_OPTIONS)}");
 
             var content = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
             File.WriteAllText(cicdFilePath, content);
 
             Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"", logOutput: true);
             Git($"config --global user.name \"Carlos Angulo\"", logOutput: true);
-            
-            Git("remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY", logOutput: true);
-            Git("checkout \"${ GITHUB_REF: 11}\"", logOutput: true);
+
+            Git($"remote", logOutput: true);
+            Git($"remote set-url origin https://x-access-token:{GitHubToken}@github.com/${GitHubActions.GitHubRepository}", logOutput: true);
+            //Git("checkout \"${ GITHUB_REF: 11}\"", logOutput: true);
 
             Git($"status", logOutput: true);
             Git($"add cicd.json", logOutput: true);
             Git($"status", logOutput: true);
             Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
-            Git($"push", logOutput: true);
+            Git($"push origin main", logOutput: true);
         });
 
     private Target ZipReleaseAssetDirectory => _ => _
