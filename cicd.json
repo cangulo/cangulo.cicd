@@ -1,17 +1,17 @@
 {
-  "solutionPath": "./cangulo.cicd.sln",
-  "dotnetPublish": {
-    "projectPath": "./cangulo.cicd.application/cangulo.cicd.application.csproj",
-    "outputFolder": "./artifacts/cangulo.cicd",
-    "runTime": "linux-x64"
+  "SolutionPath": "./cangulo.cicd.sln",
+  "DotnetPublish": {
+    "ProjectPath": "./cangulo.cicd.application/cangulo.cicd.application.csproj",
+    "OutputFolder": "./artifacts/cangulo.cicd",
+    "RunTime": "linux-x64"
   },
-  "compressDirectory": {
-    "path": "./artifacts/cangulo.cicd",
-    "outputFileName": "./releaseAssets/cangulo.cicd-linux-x64"
+  "CompressDirectory": {
+    "Path": "./artifacts/cangulo.cicd",
+    "OutputFileName": "./releaseAssets/cangulo.cicd-linux-x64"
   },
-  "versioningSettings": {
-    "currentVersion": "0.1.2",
-    "releaseAssets": [
+  "VersioningSettings": {
+    "CurrentVersion": "0.1.3",
+    "ReleaseAssets": [
       "./releaseAssets/cangulo.cicd-linux-x64"
     ]
   }
