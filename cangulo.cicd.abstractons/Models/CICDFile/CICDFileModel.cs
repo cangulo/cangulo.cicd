@@ -6,5 +6,6 @@
         public DotnetPublishSettings DotnetPublish { get; set; }
         public CompressDirectory CompressDirectory { get; set; }
         public VersioningSettings VersioningSettings { get; set; }
+        public GitPipelineSettings GitPipelineSettings { get; set; }
     }
 }
