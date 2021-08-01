@@ -19,7 +19,7 @@ internal partial class Build : NukeBuild
         {
             Git($"add cicd.json", logOutput: true);
             Git($"commit -am \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
-            var outputCmd = Git($"push", logOutput: true);
+            var outputCmd = Git($"push --verbose", logOutput: true);
 
             outputCmd.ToList().ForEach(x => Logger.Info($"{x.Type} - {x.Text}"));
 
