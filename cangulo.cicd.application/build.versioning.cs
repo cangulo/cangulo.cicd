@@ -12,6 +12,7 @@ using Octokit;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using cangulo.cicd.abstractons.Models.Enums;
 
 internal partial class Build : NukeBuild
 
@@ -29,10 +30,11 @@ internal partial class Build : NukeBuild
 
             var currentReleaseNumber = releaseNumberParser.Parse(request.CurrentVersion);
 
-            var commitMsg = GetLastCommitMsg();
-            var conventionalCommit = commitParser.ParseConventionCommit(commitMsg);
+            //var commitMsg = GetLastCommitMsg();
+            //var conventionalCommit = commitParser.ParseConventionCommit(commitMsg);
 
-            var releaseType = conventionalCommit.CommitType.ToReleaseType();
+            //var releaseType = conventionalCommit.CommitType.ToReleaseType();
+            var releaseType = ReleaseType.Patch;
             var nextReleaseNumber = nextReleaseNumberHelper.Calculate(releaseType, currentReleaseNumber);
 
             Logger.Info($"next release Number:{nextReleaseNumber} - Release Type: {releaseType}");
