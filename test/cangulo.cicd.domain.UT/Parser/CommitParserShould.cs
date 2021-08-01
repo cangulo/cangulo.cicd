@@ -22,7 +22,7 @@ namespace cangulo.cicd.domain.UT.Parser
         {
             // Arrange
             // Act
-            var result = sut.ParseConventionCommit(commitMsg);
+            var result = sut.ParseConventionalCommit(commitMsg);
 
             // Assert
             result.Body.Should().Be(expectedBody);
@@ -41,7 +41,7 @@ namespace cangulo.cicd.domain.UT.Parser
         {
             // Arrange
             // Act
-            Action action = () => sut.ParseConventionCommit(commitMsg);
+            Action action = () => sut.ParseConventionalCommit(commitMsg);
 
             // Assert
             action.Should().Throw<Exception>();

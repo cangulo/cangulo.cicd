@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text.Json;
 using cangulo.cicd.Abstractions.Constants;
+using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Parsers;
 using Microsoft.Extensions.DependencyInjection;
 using Nuke.Common;
@@ -35,7 +36,7 @@ internal partial class Build : NukeBuild
             var commitParser = _serviceProvider.GetRequiredService<ICommitParser>();
 
             var lastCommitMsg = Git($"log --format=%B -n 1", logOutput: true).ConcatenateOutputText();
-            var conventionalCommit = commitParser.ParseConventionCommit(lastCommitMsg);
+            var conventionalCommit = commitParser.ParseConventionalCommit(lastCommitMsg);
 
             Logger.Info($"ConventionCommit:\n{JsonSerializer.Serialize(conventionalCommit, SerializerContants.SERIALIZER_OPTIONS)}");
         });
