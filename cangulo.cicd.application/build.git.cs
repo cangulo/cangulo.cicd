@@ -9,8 +9,8 @@ internal partial class Build : NukeBuild
         {
             ValidateCICDPropertyIsProvided(CICDFile.GitPipelineSettings, nameof(CICDFile.GitPipelineSettings));
 
-            // Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"", logOutput: true);
-            // Git($"config --global user.name \"Carlos Angulo\"", logOutput: true);
+            Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"");
+            Git($"config --global user.name \"Carlos Angulo\"");
         });
 
     private Target GitPush => _ => _
