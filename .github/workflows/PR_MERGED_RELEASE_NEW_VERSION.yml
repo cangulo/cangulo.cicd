@@ -21,6 +21,8 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Calculate Next Release Number, Update Version In Files, Push Changes
+        env:
+          GitHubToken: ${{ secrets.GITHUB_TOKEN }}
         run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
       - name: Publish Dotnet Core and Zip the output
         run: ./build.cmd Publish CompressDirectory
