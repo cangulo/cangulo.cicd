@@ -2,9 +2,6 @@
 
 internal partial class Build : NukeBuild
 {
-    private void ValidateCICDPropertyIsProvided(object obj)
-    {
-        var errorMsg = $"{obj.GetType().Name} should be provided in the cicd.json";
-        ControlFlow.NotNull(obj, errorMsg);
-    }
+    private void ValidateCICDPropertyIsProvided(object obj, string propertyName)
+        => ControlFlow.NotNull(obj, $"{propertyName} should be provided in the cicd.json");
 }

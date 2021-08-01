@@ -67,10 +67,12 @@
               "CompressDirectory",
               "CreateNewRelease",
               "ExecuteUnitTests",
+              "GitPush",
               "ParseCICDFile",
               "Publish",
               "Restore",
               "SetTargetSolution",
+              "SetupGitInPipeline",
               "UpdateVersionInFiles"
             ]
           }
@@ -87,10 +89,12 @@
               "CompressDirectory",
               "CreateNewRelease",
               "ExecuteUnitTests",
+              "GitPush",
               "ParseCICDFile",
               "Publish",
               "Restore",
               "SetTargetSolution",
+              "SetupGitInPipeline",
               "UpdateVersionInFiles"
             ]
           }

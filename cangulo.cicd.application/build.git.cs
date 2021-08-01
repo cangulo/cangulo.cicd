@@ -20,7 +20,7 @@ internal partial class Build : NukeBuild
         .DependsOn(ParseCICDFile)
         .Executes(() =>
         {
-            ValidateCICDPropertyIsProvided(CICDFile.GitPipelineSettings);
+            ValidateCICDPropertyIsProvided(CICDFile.GitPipelineSettings, nameof(CICDFile.GitPipelineSettings));
 
             Git($"config --global user.email \"carlos.angulo.mascarell@outlook.com\"", logOutput: true);
             Git($"config --global user.name \"Carlos Angulo\"", logOutput: true);

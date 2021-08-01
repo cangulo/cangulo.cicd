@@ -35,7 +35,7 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Calculate Next Release Number, Update Version In Files, Push Changes
-        run: ./build.cmd SetupGitInPipeline
+        run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
       # - name: Push Updated Files Changes
       #   run: |
       #     git config --global user.name 'CI-cangulo.cicd'
