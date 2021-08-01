@@ -29,7 +29,7 @@ internal partial class Build : NukeBuild
             var cmdOutput = Git($"log --no-merges --format=%B -n 1", logOutput: true);
             var commitMsg = string.Join(string.Empty, cmdOutput.Select(x => x.Text).ToArray());
             Logger.Info($"LastCommitMessage:\n{commitMsg}");
-            var conventionalCommit = commitParser.ParseConventionCommitFromMergeCommit(commitMsg);
+            var conventionalCommit = commitParser.ParseConventionCommitFromMergeCommit(commitMsg).Single();
 
             var releaseType = conventionalCommit.CommitType.ToReleaseType();
             var nextReleaseNumber = nextReleaseNumberHelper.Calculate(releaseType, currentReleaseNumber);
