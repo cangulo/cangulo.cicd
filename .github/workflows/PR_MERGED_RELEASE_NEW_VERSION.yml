@@ -44,7 +44,7 @@ jobs:
           echo $newReleaseNumber
           git add cicd.json
           git commit -m "[ci] version $newReleaseNumbe created"
-          git push
+          git push --verbose
           echo $?
       # - name: Publish Dotnet Solution and Zip It
       #   run: ./build.cmd Publish CompressDirectory
