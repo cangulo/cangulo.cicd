@@ -65,14 +65,18 @@ internal partial class Build : NukeBuild
             var apiOptions = new ApiOptions { PageCount = 1, PageSize = 1 };
             var prMerged = (await client.GetAllForRepository(repoOwner, repoName, query, apiOptions)).Single();
 
-            Logger.Info($"PR:\n{JsonSerializer.Serialize(prMerged, SerializerContants.SERIALIZER_OPTIONS)}");
+            // Logger.Info($"PR:\n{JsonSerializer.Serialize(prMerged, SerializerContants.SERIALIZER_OPTIONS)}");
 
             var commits = await client.Commits(repoOwner, repoName, prMerged.Number);
             Logger.Info($"Commits found:{commits.Count}");
             commits
                 .ToList()
                 .ForEach(x =>
-                    Logger.Info($"{x.Commit.Sha}: {x.Commit.Message}"));
+                {
+                    Logger.Info($"{x.Commit.Ref}: {x.Commit.Message}")
+                    Logger.Info($"PRCommit:\n{JsonSerializer.Serialize(x, SerializerContants.SERIALIZER_OPTIONS)}")
+                    Logger.Info($"Commit:\n{JsonSerializer.Serialize(x.Commit, SerializerContants.SERIALIZER_OPTIONS)}")
+                });
 
         });
 }
