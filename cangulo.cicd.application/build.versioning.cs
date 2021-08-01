@@ -54,14 +54,14 @@ internal partial class Build : NukeBuild
             Git($"config --global user.name \"Carlos Angulo\"", logOutput: true);
 
             Git($"remote", logOutput: true);
-            Git($"remote set-url origin https://x-access-token:{GitHubToken}@github.com/${GitHubActions.GitHubRepository}", logOutput: true);
+            Git($"remote set-url origin https://x-access-token:{GitHubToken}@github.com/{GitHubActions.GitHubRepository}", logOutput: true);
             //Git("checkout \"${ GITHUB_REF: 11}\"", logOutput: true);
 
             Git($"status", logOutput: true);
             Git($"add cicd.json", logOutput: true);
             Git($"status", logOutput: true);
             Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
-            Git($"push origin main", logOutput: true);
+            Git($"push origin {GitHubActions.GitHubHeadRef}", logOutput: true);
         });
 
     private Target ZipReleaseAssetDirectory => _ => _
