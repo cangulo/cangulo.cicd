@@ -14,9 +14,5 @@
     "ReleaseAssets": [
       "./releaseAssets/cangulo.cicd-linux-x64"
     ]
-  },
-  "GitPipelineSettings": {
-    "Email": "carlos.angulo.mascarell@outlook.com",
-    "Name": "cangulo.cicd"
   }
 }
