@@ -59,6 +59,7 @@ internal partial class Build : NukeBuild
             {
                 State = ItemStateFilter.Closed,
                 Base = GitHubActions.GitHubBaseRef,
+                Head = GitHubActions.GitHubHeadRef,
                 SortProperty = PullRequestSort.Updated
             };
             var apiOptions = new ApiOptions { PageCount = 1, PageSize = 1 };
