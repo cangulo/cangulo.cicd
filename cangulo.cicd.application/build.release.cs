@@ -26,7 +26,7 @@ internal partial class Build : NukeBuild
 
             var currentReleaseNumber = releaseNumberParser.Parse(request.CurrentVersion);
 
-            var lastCommitMsg = Git($"log --format=%B -n 1", logOutput: true).Single().Text;
+            var lastCommitMsg = Git($"log --format=%B -n 1", logOutput: true).ConcatenateOutputText();
             var conventionalCommit = commitParser.ParseConventionalCommit(lastCommitMsg);
 
             var releaseType = conventionalCommit.CommitType.ToReleaseType();
