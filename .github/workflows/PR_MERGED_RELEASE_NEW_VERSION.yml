@@ -11,18 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Cache .nuke/temp, ~/.nuget/packages
-        uses: actions/cache@v2
-        with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Calculate Next Release Number, Update Version In Files, Push Changes
-        run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
-      - name: Publish Dotnet Core and Zip the output
-        run: ./build.cmd Publish CompressDirectory
-      - name: Publish Create a New Release
-        run: ./build.cmd CreateNewRelease
-        env:
-          GitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push Updated Files Changes
+        run: |
+          git log --no-merges --oneline -n 3 HEAD
+      # - name: Cache .nuke/temp, ~/.nuget/packages
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       .nuke/temp
+      #       ~/.nuget/packages
+      #     key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+      # - name: Calculate Next Release Number, Update Version In Files, Push Changes
+      #   run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
+      # - name: Publish Dotnet Core and Zip the output
+      #   run: ./build.cmd Publish CompressDirectory
+      # - name: Publish Create a New Release
+      #   run: ./build.cmd CreateNewRelease
+      #   env:
+      #     GitHubToken: ${{ secrets.GITHUB_TOKEN }}
