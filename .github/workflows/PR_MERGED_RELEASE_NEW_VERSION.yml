@@ -11,18 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Push Updated Files Changes
-        run: |
-          git log --no-merges --oneline -n 3 HEAD
-
-          
-      # - name: Cache .nuke/temp, ~/.nuget/packages
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       .nuke/temp
-      #       ~/.nuget/packages
-      #     key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+      - name: Get Last Commit Msg
+        run: ./build.cmd GetLastCommitMsgTarget
       # - name: Calculate Next Release Number, Update Version In Files, Push Changes
       #   run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
       # - name: Publish Dotnet Core and Zip the output

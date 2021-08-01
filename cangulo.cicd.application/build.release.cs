@@ -4,12 +4,11 @@ using cangulo.cicd.domain.Parsers;
 using Microsoft.Extensions.DependencyInjection;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Tooling;
 using Octokit;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using cangulo.cicd.abstractons.Models.Enums;
+using cangulo.cicd.domain.Extensions;
 
 internal partial class Build : NukeBuild
 
@@ -27,11 +26,10 @@ internal partial class Build : NukeBuild
 
             var currentReleaseNumber = releaseNumberParser.Parse(request.CurrentVersion);
 
-            //var commitMsg = GetLastCommitMsg();
-            //var conventionalCommit = commitParser.ParseConventionCommit(commitMsg);
+            var commitMsg = GetLastCommitMsg();
+            var conventionalCommit = commitParser.ParseConventionCommit(commitMsg);
 
-            //var releaseType = conventionalCommit.CommitType.ToReleaseType();
-            var releaseType = ReleaseType.Patch;
+            var releaseType = conventionalCommit.CommitType.ToReleaseType();
             var nextReleaseNumber = nextReleaseNumberHelper.Calculate(releaseType, currentReleaseNumber);
 
             Logger.Info($"next release Number:{nextReleaseNumber} - Release Type: {releaseType}");
@@ -91,15 +89,13 @@ internal partial class Build : NukeBuild
 
     private string GetLastCommitMsg()
     {
-        var lastCommitId = Git($"log --no-merges --format=%H -n 1", logInvocation: false, logOutput: false).Select(x => x.Text).Single();
-
-        Logger.Info($"Last Commit: {lastCommitId} Message:");
-        var cmdOutput = Git($"show {lastCommitId} -q --oneline --format=%B", logInvocation: true, logOutput: true);
-
-        ControlFlow.Assert(cmdOutput.All(x => x.Type == OutputType.Std), "error getting last commit");
-
-        var commitMsg = string.Join('\n', cmdOutput.Select(x => x.Text).ToArray());
-        ControlFlow.Assert(!string.IsNullOrEmpty(commitMsg), "last commit does not have a msg");
+        var cmdOutput = Git($"log --no-merges --format=%B -n 1", logOutput: true);
+        var commitMsg = string.Join(string.Empty, cmdOutput.Select(x => x.Text).ToArray());
+        if (commitMsg.Contains("Merge pull request"))
+        {
+            var cmdSkipLastCommit = Git($"log --format=%B -n 1 --skip 1", logOutput: true);
+            commitMsg = string.Join(string.Empty, cmdSkipLastCommit.Select(x => x.Text).ToArray());
+        }
         return commitMsg;
     }
 }
