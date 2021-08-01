@@ -4,7 +4,7 @@ using System;
 
 internal partial class Build : NukeBuild
 {
-    public static int Main() => Execute<Build>(x => x.SetupGitInPipeline);
+    public static int Main() => Execute<Build>(x => x.GitPush);
 
     private readonly IServiceProvider _serviceProvider;
 

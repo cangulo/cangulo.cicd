@@ -35,16 +35,17 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Calculate Next Release Number, Update Version In Files, Push Changes
-        run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
-      # - name: Push Updated Files Changes
-      #   run: |
-      #     git config --global user.name 'CI-cangulo.cicd'
-      #     git config --global user.email 'cangulo.cicd@github.com'
-      #     newReleaseNumber=$(cat cicd.json | jq -r .versioningSettings.currentVersion)
-      #     echo $newReleaseNumber
-      #     git add cicd.json
-      #     git commit -m "[ci] version $newReleaseNumbe created"
-      #     git push
+        run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles
+      - name: Push Updated Files Changes
+        run: |
+          git config --global user.name 'CI-cangulo.cicd'
+          git config --global user.email 'cangulo.cicd@github.com'
+          newReleaseNumber=$(cat cicd.json | jq -r .versioningSettings.currentVersion)
+          echo $newReleaseNumber
+          git add cicd.json
+          git commit -m "[ci] version $newReleaseNumbe created"
+          git push
+          echo $?
       # - name: Publish Dotnet Solution and Zip It
       #   run: ./build.cmd Publish CompressDirectory
       #   env:
