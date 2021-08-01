@@ -61,7 +61,7 @@ internal partial class Build : NukeBuild
             Git($"add cicd.json", logOutput: true);
             Git($"status", logOutput: true);
             Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
-            Git($"push origin {GitHubActions.GitHubHeadRef}", logOutput: true);
+            Git($"push origin {GitHubActions.GitHubRef}", logOutput: true);
         });
 
     private Target ZipReleaseAssetDirectory => _ => _
