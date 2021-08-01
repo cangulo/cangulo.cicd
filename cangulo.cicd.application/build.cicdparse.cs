@@ -17,7 +17,7 @@ internal partial class Build : NukeBuild
 
                 CICDFile = JsonSerializer.Deserialize<CICDFileModel>(cicdContent, SerializerContants.DESERIALIZER_OPTIONS);
 
-                Logger.Info($"Request Mapped {JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS)}");
+                Logger.Info($"Request Mapped {JsonSerializer.Serialize(CICDFile)}");
             }
             else
                 throw new Exception("cicd.json not provided in the root directory");

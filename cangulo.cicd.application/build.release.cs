@@ -1,12 +1,9 @@
 ﻿using cangulo.cicd.Abstractions.Constants;
-using static Nuke.Common.IO.FileSystemTasks;
-using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Helpers;
 using cangulo.cicd.domain.Parsers;
 using Microsoft.Extensions.DependencyInjection;
 using Nuke.Common;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.IO;
 using Nuke.Common.Tooling;
 using Octokit;
 using System.IO;
@@ -46,13 +43,12 @@ internal partial class Build : NukeBuild
         .Executes(() =>
         {
             var cicdFilePath = RootDirectory / "cicd.json";
-
             var content = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
             File.WriteAllText(cicdFilePath, content);
         });
 
     private Target CreateNewRelease => _ => _
-        .DependsOn(ParseCICDFile, UpdateVersionInFiles, CompressDirectory)
+        .DependsOn(ParseCICDFile)
         .Executes(async () =>
         {
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
@@ -65,13 +61,13 @@ internal partial class Build : NukeBuild
             ghClient.Credentials = new Credentials(GitHubToken);
             var client = ghClient.Repository.Release;
 
-            Logger.Info($"{repoName} - {repoOwner}");
+            var nextVersion = CICDFile.VersioningSettings.CurrentVersion;
+            Logger.Info($"Creating Release {nextVersion}");
 
             var newReleaseData = new NewRelease(CICDFile.VersioningSettings.CurrentVersion.ToString())
             {
-                // TODO: Define a better body
                 Name = "empty title... for now",
-                Body = "empty body... for now",
+                Body = "empty body... for now"
             };
 
             var releaseCreated = await client.Create(repoOwner, repoName, newReleaseData);
