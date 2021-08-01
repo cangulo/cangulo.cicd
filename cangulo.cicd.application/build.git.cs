@@ -37,5 +37,7 @@ internal partial class Build : NukeBuild
                 commitMsg = string.Join(string.Empty, cmdSkipLastCommit.Select(x => x.Text).ToArray());
             }
             Logger.Info($"END: last commit msg: {commitMsg}");
+
+            
         });
 }
