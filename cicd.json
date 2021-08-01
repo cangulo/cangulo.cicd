@@ -6,7 +6,7 @@
     "RunTime": "linux-x64"
   },
   "VersioningSettings": {
-    "CurrentVersion": "0.1.0",
+    "CurrentVersion": "0.1.1",
     "ReleaseAssetDirectory": "./artifacts/cangulo.cicd",
     "ReleaseAssetName": "cangulo.cicd-linux-x64"
   }
