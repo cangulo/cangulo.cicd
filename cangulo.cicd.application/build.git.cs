@@ -17,19 +17,8 @@ internal partial class Build : NukeBuild
         .DependsOn(ParseCICDFile, SetupGitInPipeline)
         .Executes(() =>
         {
-            Git($"status", logOutput: true);
-
             Git($"add cicd.json", logOutput: true);
-            
-            Git($"status", logOutput: true);
-
-            Git($"commit -am \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
-
-            Git($"status", logOutput: true);
-
+            Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
             var outputCmd = Git($"push --force --verbose", logOutput: false);
-
-            outputCmd.ToList().ForEach(x => Logger.Info($"{x.Type} - {x.Text}"));
-
         });
 }
