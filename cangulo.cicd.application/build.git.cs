@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using System.Text.Json;
+using cangulo.cicd.Abstractions.Constants;
 using cangulo.cicd.domain.Parsers;
 using Microsoft.Extensions.DependencyInjection;
 using Nuke.Common;
@@ -27,13 +29,14 @@ internal partial class Build : NukeBuild
             Git($"push", logOutput: false);
         });
 
-    private Target GetLastCommitMsgTarget => _ => _
+    private Target GetLastConventionCommit => _ => _
         .Executes(() =>
         {
-            var cmdOutput = Git($"log --no-merges --format=%B -n 1", logOutput: true);
-            var commitMsg = string.Join(string.Empty, cmdOutput.Select(x => x.Text).ToArray());
-            Logger.Info($"LastCommitMessage:\n{commitMsg}");
             var commitParser = _serviceProvider.GetRequiredService<ICommitParser>();
-            var conventionalCommit = commitParser.ParseConventionCommitFromMergeCommit(commitMsg);
+
+            var lastCommitMsg = Git($"log --format=%B -n 1", logOutput: true).Single().Text;
+            var conventionalCommit = commitParser.ParseConventionCommit(lastCommitMsg);
+
+            Logger.Info($"ConventionCommit:\n{JsonSerializer.Serialize(conventionalCommit, SerializerContants.SERIALIZER_OPTIONS)}");
         });
 }

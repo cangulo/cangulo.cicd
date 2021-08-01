@@ -26,10 +26,8 @@ internal partial class Build : NukeBuild
 
             var currentReleaseNumber = releaseNumberParser.Parse(request.CurrentVersion);
 
-            var cmdOutput = Git($"log --no-merges --format=%B -n 1", logOutput: true);
-            var commitMsg = string.Join(string.Empty, cmdOutput.Select(x => x.Text).ToArray());
-            Logger.Info($"LastCommitMessage:\n{commitMsg}");
-            var conventionalCommit = commitParser.ParseConventionCommitFromMergeCommit(commitMsg).Single();
+            var lastCommitMsg = Git($"log --format=%B -n 1", logOutput: true).Single().Text;
+            var conventionalCommit = commitParser.ParseConventionCommit(lastCommitMsg);
 
             var releaseType = conventionalCommit.CommitType.ToReleaseType();
             var nextReleaseNumber = nextReleaseNumberHelper.Calculate(releaseType, currentReleaseNumber);

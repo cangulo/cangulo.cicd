@@ -8,5 +8,4 @@ namespace cangulo.cicd.abstractons.Models
         public CommitType CommitType { get; set; }
         public string Body { get; set; }
     }
-
 }
