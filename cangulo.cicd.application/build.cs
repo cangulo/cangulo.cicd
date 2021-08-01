@@ -4,7 +4,7 @@ using System;
 
 internal partial class Build : NukeBuild
 {
-    public static int Main() => Execute<Build>(x => x.ZipFile);
+    public static int Main() => Execute<Build>(x => x.CompressDirectory);
 
     private readonly IServiceProvider _serviceProvider;
 

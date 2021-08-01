@@ -47,8 +47,6 @@ internal partial class Build : NukeBuild
         {
             var cicdFilePath = RootDirectory / "cicd.json";
 
-            Logger.Info($"{JsonSerializer.Serialize(GitHubActions, SerializerContants.SERIALIZER_OPTIONS)}");
-
             var content = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
             File.WriteAllText(cicdFilePath, content);
 
@@ -60,20 +58,8 @@ internal partial class Build : NukeBuild
             Git($"push", logOutput: true);
         });
 
-    private Target ZipReleaseAssetDirectory => _ => _
-        .DependsOn(ParseCICDFile, Publish)
-        .Executes(() =>
-        {
-            ControlFlow.NotNull(CICDFile.VersioningSettings, "versioningSettings should be provided in the cicd.json");
-
-            Logger.Info($"Zipping the release asset directroy");
-
-            var releaseAssetDirectory = (RootDirectory / CICDFile.VersioningSettings.ReleaseAssetDirectory);
-            var assetDirectoryZipped = RootDirectory / $"{CICDFile.VersioningSettings.ReleaseAssetName}.zip";
-            CompressionTasks.CompressZip(releaseAssetDirectory, assetDirectoryZipped);
-        });
     private Target CreateNewRelease => _ => _
-        .DependsOn(ParseCICDFile, UpdateVersionInFiles, ZipReleaseAssetDirectory)
+        .DependsOn(ParseCICDFile, UpdateVersionInFiles, CompressDirectory)
         .Executes(async () =>
         {
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
@@ -91,7 +77,8 @@ internal partial class Build : NukeBuild
             var newReleaseData = new NewRelease(CICDFile.VersioningSettings.CurrentVersion.ToString())
             {
                 // TODO: Define a better body
-                Name = "empty body... for now"
+                Name = "empty title... for now",
+                Body = "empty body... for now",
             };
 
             var releaseCreated = await client.Create(repoOwner, repoName, newReleaseData);
@@ -106,17 +93,17 @@ internal partial class Build : NukeBuild
             };
             Logger.Success($"Created release: {JsonSerializer.Serialize(releaseCreatedInfo)}");
 
-            var assetDirectoryZipped = RootDirectory / $"{CICDFile.VersioningSettings.ReleaseAssetName}.zip";
-            var fileName = Path.GetFileName(assetDirectoryZipped);
-            Logger.Info($"Uploading file: {fileName}");
+            // var assetDirectoryZipped = RootDirectory / $"{CICDFile.VersioningSettings.ReleaseAssetName}.zip";
+            // var fileName = Path.GetFileName(assetDirectoryZipped);
+            // Logger.Info($"Uploading file: {fileName}");
 
-            var assetData = new ReleaseAssetUpload
-            {
-                FileName = fileName,
-                RawData = File.OpenRead(assetDirectoryZipped),
-                ContentType = "application/zip"
-            };
-            await client.UploadAsset(releaseCreated, assetData);
+            // var assetData = new ReleaseAssetUpload
+            // {
+            //     FileName = fileName,
+            //     RawData = File.OpenRead(assetDirectoryZipped),
+            //     ContentType = "application/zip"
+            // };
+            // await client.UploadAsset(releaseCreated, assetData);
         });
 
     private string GetLastCommitMsg()

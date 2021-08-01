@@ -1,4 +1,4 @@
-﻿using cangulo.cicd.Abstractions.Requests;
+﻿using cangulo.cicd.abstractons.Models.CICDFile;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;

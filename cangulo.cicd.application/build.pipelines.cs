@@ -13,12 +13,13 @@ using Nuke.Common.Execution;
 [GitHubActions(
     "PR_MERGED_RELEASE_NEW_VERSION",
     GitHubActionsImage.UbuntuLatest,
+     AutoGenerate = false,
     OnPushBranches = new[] { "main" },
     InvokedTargets = new[] {
         nameof(ExecuteUnitTests),
         nameof(Publish),
         nameof(UpdateVersionInFiles),
-        nameof(ZipReleaseAssetDirectory),
+        nameof(CompressDirectory),
         nameof(CreateNewRelease)
         },
     ImportGitHubTokenAs = nameof(GitHubToken)

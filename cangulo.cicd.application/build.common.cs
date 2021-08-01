@@ -8,33 +8,22 @@ using System.IO;
 
 internal partial class Build : NukeBuild
 {
-    private Target SetTargetSolution => _ => _
-        .DependsOn(ParseCICDFile)
-        .Executes(() =>
-            {
-                var solutionPath = RootDirectory / CICDFile.SolutionPath;
-                if (File.Exists(solutionPath))
-                    TargetSolutionParsed = ProjectModelTasks.ParseSolution(solutionPath);
-                else
-                    throw new Exception("invalid SolutionPath provided");
-                Logger.Info($"solution set to {TargetSolutionParsed.Name}");
-            });
-
-    private Target Clean => _ => _
-        .Before(Restore)
-        .Executes(() =>
-            {
-                RootDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            });
-
-    private Target ZipFile => _ => _
+    private Target CompressDirectory => _ => _
         .DependsOn(ParseCICDFile)
         .Executes(() =>
         {
-            var request = CICDFile.VersioningSettings;
+            ControlFlow.NotNull(CICDFile.CompressDirectory, "CompressDirectory should be provided in the cicd.json");
 
-            var releaseAssetDirectory = (RootDirectory / request.ReleaseAssetDirectory);
-            var outputFileName = RootDirectory / request.ReleaseAssetName;
-            CompressionTasks.CompressZip(releaseAssetDirectory, outputFileName);
+            var request = CICDFile.CompressDirectory;
+
+            var path = (RootDirectory / request.Path);
+            var outputFileName = RootDirectory / request.OutputFileName;
+
+            ControlFlow.Assert(outputFileName.ToString().ToLowerInvariant().Contains(".zip"),"OutputFileName should end with .zip");
+            
+            Logger.Info($"zipping directory: {request.Path} into file: {outputFileName}");
+
+            CompressionTasks.CompressZip(path, outputFileName);
         });
+
 }

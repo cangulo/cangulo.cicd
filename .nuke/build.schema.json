@@ -62,17 +62,16 @@
             "type": "string",
             "enum": [
               "CalculateNextReleaseNumber",
-              "Clean",
+              "CleanBuildFolders",
               "Compile",
+              "CompressDirectory",
               "CreateNewRelease",
               "ExecuteUnitTests",
               "ParseCICDFile",
               "Publish",
               "Restore",
               "SetTargetSolution",
-              "UpdateVersionInFiles",
-              "ZipFile",
-              "ZipReleaseAssetDirectory"
+              "UpdateVersionInFiles"
             ]
           }
         },
@@ -83,17 +82,16 @@
             "type": "string",
             "enum": [
               "CalculateNextReleaseNumber",
-              "Clean",
+              "CleanBuildFolders",
               "Compile",
+              "CompressDirectory",
               "CreateNewRelease",
               "ExecuteUnitTests",
               "ParseCICDFile",
               "Publish",
               "Restore",
               "SetTargetSolution",
-              "UpdateVersionInFiles",
-              "ZipFile",
-              "ZipReleaseAssetDirectory"
+              "UpdateVersionInFiles"
             ]
           }
         },

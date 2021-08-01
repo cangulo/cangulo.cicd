@@ -19,3 +19,26 @@
   GITHUB_JOB:ubuntu-latest
   GITHUB_HEAD_REF:
   GITHUB_WORKSPACE:/home/runner/work/cangulo.cicd/cangulo.cicd
+
+
+Logger.Info($"{JsonSerializer.Serialize(GitHubActions, SerializerContants.SERIALIZER_OPTIONS)}");
+
+{
+"Home": "/home/runner",
+"GitHubWorkflow": "PR_MERGED_RELEASE_NEW_VERSION",
+"GitHubAction": "__run",
+"GitHubActor": "cangulo",
+"GitHubRepository": "cangulo/cangulo.cicd",
+"GitHubRepositoryOwner": "cangulo",
+"GitHubEventName": "push",
+"GitHubEventPath": "/home/runner/work/_temp/_github_workflow/event.json",
+"GitHubWorkspace": "/home/runner/work/cangulo.cicd/cangulo.cicd",
+"GitHubSha": "7a76c56cb440ffbc37d171d51cf56ef10fbdb3f9",
+"GitHubRef": "refs/heads/main",
+"GitHubHeadRef": "",
+"GitHubBaseRef": "",
+"GitHubRunNumber": 19,
+"GitHubRunId": 1086158973,
+"GitHubServerUrl": "https://github.com",
+"GitHubJob": "ubuntu-latest"
+}

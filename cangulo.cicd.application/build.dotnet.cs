@@ -2,11 +2,34 @@
 using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.IO.FileSystemTasks;
+using Nuke.Common.IO;
+using Nuke.Common.Utilities.Collections;
+using System.IO;
+using Nuke.Common.ProjectModel;
+using System;
 
 internal partial class Build : NukeBuild
 {
+    private Target SetTargetSolution => _ => _
+        .DependsOn(ParseCICDFile)
+        .Executes(() =>
+            {
+                var solutionPath = RootDirectory / CICDFile.SolutionPath;
+                if (File.Exists(solutionPath))
+                    TargetSolutionParsed = ProjectModelTasks.ParseSolution(solutionPath);
+                else
+                    throw new Exception("invalid SolutionPath provided");
+                Logger.Info($"solution set to {TargetSolutionParsed.Name}");
+            });
+
+    private Target CleanBuildFolders => _ => _
+        .Before(Restore)
+        .Executes(() =>
+            {
+                RootDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            });
     private Target Restore => _ => _
-        .DependsOn(ParseCICDFile, SetTargetSolution, Clean)
+        .DependsOn(ParseCICDFile, SetTargetSolution, CleanBuildFolders)
         .Executes(() =>
          {
              DotNetRestore(s => s
@@ -33,7 +56,8 @@ internal partial class Build : NukeBuild
         });
 
     private Target Publish => _ => _
-        .DependsOn(ParseCICDFile, SetTargetSolution, ExecuteUnitTests)
+        .DependsOn(ParseCICDFile, SetTargetSolution)
+        .Before(CompressDirectory)
         .Executes(() =>
         {
             ControlFlow.NotNull(CICDFile.DotnetPublish, "DotnetPublish should be provided in the cicd.json");

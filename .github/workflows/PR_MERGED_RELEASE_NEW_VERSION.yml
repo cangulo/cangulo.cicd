@@ -38,3 +38,21 @@ jobs:
         run: ./build.cmd ExecuteUnitTests Publish UpdateVersionInFiles ZipReleaseAssetDirectory CreateNewRelease
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Calculate Next Release Number
+        run: ./build.cmd CalculateNextReleaseNumber
+      - name: Update Version In Files
+        run: ./build.cmd UpdateVersionInFiles
+      - name: Update Version In Files
+        run: |
+          git config --global user.name 'CI-cangulo.cicd'
+          git config --global user.email 'cangulo.cicd@github.com'
+          newReleaseNumber=$(cat cicd.json | jq -r .versioningSettings.currentVersion)
+          echo $newReleaseNumber
+          git commit -am "[ci] version $newReleaseNumbe created"
+          git push
+      # - name: Publish Dotnet Solution and Zip It
+      #   run: ./build.cmd Publish CompressDirectory
+      #   env:
+      #     GitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Run './build.cmd ExecuteUnitTests Publish UpdateVersionInFiles ZipReleaseAssetDirectory CreateNewRelease'
+      #   run: ./build.cmd ExecuteUnitTests Publish UpdateVersionInFiles ZipReleaseAssetDirectory CreateNewRelease
