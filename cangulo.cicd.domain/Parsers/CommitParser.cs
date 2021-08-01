@@ -33,7 +33,7 @@ namespace cangulo.cicd.domain.Parsers
         {
             var parts = lastCommitMessage.Split(":", StringSplitOptions.TrimEntries);
 
-            if (parts.Length < 2 || parts.Any(string.IsNullOrEmpty))
+            if (parts.Length > 2 || parts.Any(string.IsNullOrEmpty))
                 throw new ArgumentException(InvalidCommitMsg);
 
             if (!Enum.TryParse(parts[0], ignoreCase: true, out CommitType commitType) || commitType == CommitType.Undefined)
