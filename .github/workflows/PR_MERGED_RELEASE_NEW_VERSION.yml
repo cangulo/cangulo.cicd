@@ -22,6 +22,8 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Print Execution Info
         run: ./build.cmd PrintPipelineInfo
+      - name: List Commits in the PR Merged
+        run: ./build.cmd GetCommitsInAMergedPR
       # - name: Calculate Next Release Number, Update Version In Files, Push Changes
       #   run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
       # - name: Publish Dotnet Core and Zip the output
