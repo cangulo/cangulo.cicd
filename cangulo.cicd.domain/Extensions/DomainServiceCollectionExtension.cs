@@ -13,6 +13,7 @@ namespace cangulo.cicd.domain.Extensions
                 .AddTransient<ICommitParser, CommitParser>()
                 .AddTransient<IReleaseNumberParser, ReleaseNumberParser>()
                 .AddTransient<IPullRequestService, PullRequestService>()
+                .AddTransient<IChangeLogService, ChangeLogService>()
                 .AddTransient<INextReleaseNumberHelper, NextReleaseNumberHelper>();
         }
     }

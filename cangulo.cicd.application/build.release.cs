@@ -12,7 +12,6 @@ using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Services;
 
 internal partial class Build : NukeBuild
-
 {
     private Target CalculateNextReleaseNumber => _ => _
         .DependsOn(ParseCICDFile)
@@ -55,6 +54,10 @@ internal partial class Build : NukeBuild
             var cicdFilePath = RootDirectory / "cicd.json";
             var content = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
             File.WriteAllText(cicdFilePath, content);
+
+            // TODO: Update Changelog
+
+            var changeLogService = _serviceProvider.GetRequiredService<IChangeLogService>();
         });
 
     private Target CreateNewRelease => _ => _

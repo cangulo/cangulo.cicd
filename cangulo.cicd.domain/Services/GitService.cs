@@ -7,7 +7,7 @@ namespace cangulo.cicd.domain.Services
     {
         string GetLastCommitMsg(Tool Git);
     }
-    public class GitService
+    public class GitService : IGitService
     {
         public string GetLastCommitMsg(Tool Git)
             => Git($"log --format=%B -n 1", logOutput: true).ConcatenateOutputText();
