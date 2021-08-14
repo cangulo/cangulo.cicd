@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text.Json;
 using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 internal partial class Build : NukeBuild
 {
@@ -27,14 +29,7 @@ internal partial class Build : NukeBuild
             var nextReleaseNumberHelper = _serviceProvider.GetRequiredService<INextReleaseNumberHelper>();
             var releaseNumberParser = _serviceProvider.GetRequiredService<IReleaseNumberParser>();
 
-            var ghClient = GetGHClient(GitHubActions);
-            var commitMsgs = await prService.GetCommitsFromLastMergedPR(ghClient, GitHubActions);
-
-            ControlFlow.Assert(commitMsgs.Any(), "no commits founds");
-            Logger.Info($"Commits Found:{commitMsgs.Count()}");
-            commitMsgs
-                .ToList()
-                .ForEach(Logger.Info);
+            var commitMsgs = await GetCommitsFromLastMergedPR(prService);
 
             var commitChoosen = commitMsgs.Last();
             var conventionalCommit = commitParser.ParseConventionalCommit(commitChoosen);
@@ -46,6 +41,19 @@ internal partial class Build : NukeBuild
             Logger.Info($"next release Number:{nextReleaseNumber} - Release Type: {releaseType}");
             CICDFile.VersioningSettings.CurrentVersion = nextReleaseNumber.ToString();
         });
+
+    private async Task<IEnumerable<string>> GetCommitsFromLastMergedPR(IPullRequestService prService)
+    {
+        var ghClient = GetGHClient(GitHubActions);
+        var commitMsgs = await prService.GetCommitsFromLastMergedPR(ghClient, GitHubActions);
+
+        ControlFlow.Assert(commitMsgs.Any(), "no commits founds");
+        Logger.Info($"Commits Found:{commitMsgs.Count()}");
+        commitMsgs
+            .ToList()
+            .ForEach(Logger.Info);
+        return commitMsgs;
+    }
 
     private Target UpdateVersionInFiles => _ => _
         .DependsOn(ParseCICDFile, CalculateNextReleaseNumber)
@@ -66,11 +74,18 @@ internal partial class Build : NukeBuild
         {
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
 
-            (string repoOwner, string repoName, GitHubClient ghClient) = SetGHClient(GitHubActions);
+            var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
+
+            var repoOwner = GitHubActions.GitHubRepositoryOwner;
+            var repoName = GitHubActions.GitHubRepository.Replace($"{repoOwner}/", string.Empty);
+            var ghClient = GetGHClient(GitHubActions);
             var client = ghClient.Repository.Release;
 
             var request = CICDFile.VersioningSettings;
             var nextVersion = request.CurrentVersion;
+            var commitMsgs = await GetCommitsFromLastMergedPR(prService);
+
+
             Logger.Info($"Creating Release {nextVersion}");
 
             var newReleaseData = new NewRelease(nextVersion)
@@ -96,18 +111,6 @@ internal partial class Build : NukeBuild
                 Logger.Info($"Asset {fileName} uploaded");
             }
         });
-
-    private (string, string, GitHubClient) SetGHClient(GitHubActions gitHubAction)
-    {
-        var repoOwner = GitHubActions.GitHubRepositoryOwner;
-        var repoName = GitHubActions.GitHubRepository.Replace($"{repoOwner}/", string.Empty);
-
-        // TODO: Migrate the injection of the client to an interface
-        var ghClient = new GitHubClient(new ProductHeaderValue($"{repoOwner}"));
-        ghClient.Credentials = new Credentials(GitHubToken);
-
-        return (repoOwner, repoName, ghClient);
-    }
 
     private GitHubClient GetGHClient(GitHubActions gitHubAction)
     {

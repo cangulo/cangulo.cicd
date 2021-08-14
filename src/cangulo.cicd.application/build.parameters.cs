@@ -5,6 +5,7 @@ using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Git;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
+using System.Collections.Generic;
 
 internal partial class Build : NukeBuild
 {
@@ -22,4 +23,6 @@ internal partial class Build : NukeBuild
     private readonly string GitHubToken;
 
     [CI] GitHubActions GitHubActions;
+
+    public IDictionary<string, object> DinamycProperties;
 }

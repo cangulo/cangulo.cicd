@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Procesor\" />
+    <Compile Remove="Procesor\**" />
+    <EmbeddedResource Remove="Procesor\**" />
+    <None Remove="Procesor\**" />
   </ItemGroup>
 
   <ItemGroup>
