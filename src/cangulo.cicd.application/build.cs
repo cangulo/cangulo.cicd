@@ -4,7 +4,7 @@ using System;
 
 internal partial class Build : NukeBuild
 {
-    public static int Main() => Execute<Build>(x => x.GetLastConventionalCommit);
+    public static int Main() => Execute<Build>(x => x.GetCommitsInAMergedPR);
 
     private readonly IServiceProvider _serviceProvider;
 
