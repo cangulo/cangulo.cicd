@@ -1,7 +1,7 @@
 {
   "SolutionPath": "./cangulo.cicd.sln",
   "DotnetPublish": {
-    "ProjectPath": "./cangulo.cicd.application/cangulo.cicd.application.csproj",
+    "ProjectPath": "./src/cangulo.cicd.application/cangulo.cicd.application.csproj",
     "OutputFolder": "./artifacts/cangulo.cicd",
     "RunTime": "linux-x64"
   },
