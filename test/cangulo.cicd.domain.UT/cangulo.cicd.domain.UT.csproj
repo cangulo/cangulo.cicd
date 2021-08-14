@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\cangulo.cicd.domain\cangulo.cicd.domain.csproj" />
+    <ProjectReference Include="..\..\src\cangulo.cicd.domain\cangulo.cicd.domain.csproj" />
     <ProjectReference Include="..\cangulo.cicd.UT.common\cangulo.cicd.UT.common.csproj" />
   </ItemGroup>
 

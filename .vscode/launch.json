@@ -13,7 +13,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/cangulo.cicd.application/bin/Debug/cangulo.cicd.application.dll",
+            "program": "${workspaceFolder}/src/cangulo.cicd.application/bin/Debug/cangulo.cicd.application.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
