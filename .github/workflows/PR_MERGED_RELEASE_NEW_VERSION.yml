@@ -1,14 +1,14 @@
 name: PR_MERGED_RELEASE_NEW_VERSION
 
 on:
-  push:
-    branches:
-      - main
-  # pull_request:
-  #   types:
-  #     - closed
+  # push:
   #   branches:
   #     - main
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
 
 jobs:
   ubuntu-latest:
