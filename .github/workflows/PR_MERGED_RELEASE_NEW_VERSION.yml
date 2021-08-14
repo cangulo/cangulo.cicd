@@ -20,13 +20,17 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Calculate Next Release Number, Update Version In Files, Push Changes
+      - name: Should last commit merged
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
-        run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
-      - name: Publish Dotnet Core and Zip the output
-        run: ./build.cmd Publish CompressDirectory
-      - name: Publish Create the New Release
-        run: ./build.cmd CreateNewRelease
-        env:
-          GitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        run: ./build.cmd GetCommitsInAMergedPR
+      # - name: Calculate Next Release Number, Update Version In Files, Push Changes
+      #   env:
+      #     GitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      #   run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
+      # - name: Publish Dotnet Core and Zip the output
+      #   run: ./build.cmd Publish CompressDirectory
+      # - name: Publish Create the New Release
+      #   run: ./build.cmd CreateNewRelease
+      #   env:
+      #     GitHubToken: ${{ secrets.GITHUB_TOKEN }}
