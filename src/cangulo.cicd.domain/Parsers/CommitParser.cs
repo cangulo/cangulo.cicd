@@ -28,7 +28,7 @@ namespace cangulo.cicd.domain.Parsers
             return new ConventionCommit
             {
                 CommitType = commitType,
-                Body = parts[1]
+                Body = parts[1].Trim()
             };
         }
     }
