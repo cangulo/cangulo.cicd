@@ -49,7 +49,7 @@ internal partial class Build : NukeBuild
         var commitMsgs = await prService.GetCommitsFromLastMergedPR(ghClient, GitHubActions);
 
         ControlFlow.Assert(commitMsgs.Any(), "no commits founds");
-        
+
         Logger.Info($"Commits Found:{commitMsgs.Count()}");
         commitMsgs
             .ToList()
@@ -93,7 +93,7 @@ internal partial class Build : NukeBuild
             var newReleaseData = new NewRelease(nextVersion)
             {
                 Name = nextVersion,
-                Body = releaseBodyBuilder.Build(commitMsgs.ToArray(), nextVersion)
+                Body = releaseBodyBuilder.Build(commitMsgs.ToArray())
             };
 
             var releaseCreated = await releaseOperatorClient.Create(repoOwner, repoName, newReleaseData);

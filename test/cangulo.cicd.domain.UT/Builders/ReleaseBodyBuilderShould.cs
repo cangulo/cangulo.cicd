@@ -11,7 +11,6 @@ namespace cangulo.cicd.domain.UT.Builders
         public class Input
         {
             public string[] Changes { get; set; }
-            public string Version { get; set; }
         }
 
         [Theory]
@@ -29,25 +28,12 @@ namespace cangulo.cicd.domain.UT.Builders
             var expectedResult = await TextFileReader.ReadAsync(expectedResultFilePath);
 
             // Act
-            var result = sut.Build(input.Changes, input.Version);
+            var result = sut.Build(input.Changes);
 
             // Assert
             result.Should().BeEquivalentTo(expectedResult);
         }
 
-        [Theory]
-        [InlineAutoNSubstituteData(null)]
-        [InlineAutoNSubstituteData("")]
-        public void ReturnEmpty_WhenInvalidVersionProvided(string version, string[] changes, ReleaseBodyBuilder sut)
-        {
-            // Arrange
-
-            // Act
-            var result = sut.Build(changes, version);
-
-            // Assert
-            result.Should().BeEquivalentTo(string.Empty);
-        }
 
         [Theory]
         [AutoNSubstituteData]
@@ -56,7 +42,7 @@ namespace cangulo.cicd.domain.UT.Builders
             // Arrange
             var changes = new string[] { };
             // Act
-            var result = sut.Build(changes, version);
+            var result = sut.Build(changes);
 
             // Assert
             result.Should().BeEquivalentTo(string.Empty);

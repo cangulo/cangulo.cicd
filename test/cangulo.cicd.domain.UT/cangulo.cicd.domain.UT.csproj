@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Builders\ReleaseNumberParserShould.cs" />
+    <Resource Include="Builders\ReleaseBodyBuilderShould.cs" />
     <Resource Include="Builders\testData\ReleaseBodyBuider_happyPath_input.json" />
   </ItemGroup>
 

@@ -10,7 +10,7 @@
     "OutputFileName": "./releaseAssets/cangulo.cicd-linux-x64.zip"
   },
   "VersioningSettings": {
-    "CurrentVersion": "0.0.2",
+    "CurrentVersion": "0.0.0",
     "ReleaseAssets": [
       "./releaseAssets/cangulo.cicd-linux-x64.zip"
     ]

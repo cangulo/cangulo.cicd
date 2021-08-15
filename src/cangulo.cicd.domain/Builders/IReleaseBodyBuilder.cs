@@ -5,25 +5,20 @@ namespace cangulo.cicd.domain.Builders
 {
     public interface IReleaseBodyBuilder
     {
-        public string Build(string[] changes, string version);
+        public string Build(string[] changes);
     }
 
     public class ReleaseBodyBuilder : IReleaseBodyBuilder
     {
-        public string Build(string[] changes, string version)
+        public string Build(string[] changes)
         {
-            if (changes.Any() && !string.IsNullOrEmpty(version))
+            if (changes.Any())
             {
                 var body = new StringBuilder();
-
-                body.AppendLine($"<!-- START:{version} -->");
-                body.AppendLine($"# {version}\r\n");
 
                 changes
                     .ToList()
                     .ForEach(x => body.AppendLine(MarkdownBullet(x)));
-
-                body.AppendLine($"\r\n<!-- END:{version} -->");
 
                 return body.ToString();
             }
