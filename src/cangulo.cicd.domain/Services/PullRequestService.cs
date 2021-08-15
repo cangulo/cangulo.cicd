@@ -4,6 +4,7 @@ using Octokit;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace cangulo.cicd.domain.Services
 {
@@ -31,11 +32,14 @@ namespace cangulo.cicd.domain.Services
                 SortProperty = PullRequestSort.Updated
             };
             var apiOptions = new ApiOptions { PageCount = 1, PageSize = 1 };
-            var prMerged = (await client.GetAllForRepository(repoOwner, repoName, query, apiOptions)).Single();
+            var prsMerged = (await client.GetAllForRepository(repoOwner, repoName, query, apiOptions));
+
+            if (prsMerged.Count() == 0)
+                throw new Exception("No PR found");
 
             // Logger.Info($"PR:\n{JsonSerializer.Serialize(prMerged, SerializerContants.SERIALIZER_OPTIONS)}");
 
-            var commits = await client.Commits(repoOwner, repoName, prMerged.Number);
+            var commits = await client.Commits(repoOwner, repoName, prsMerged.Single().Number);
             return commits.Select(x => x.Commit.Message);
         }
     }
