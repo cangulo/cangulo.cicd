@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using System.Text.Json;
+﻿using System.Text.Json;
 using cangulo.cicd.Abstractions.Constants;
 using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Parsers;
 using Microsoft.Extensions.DependencyInjection;
 using Nuke.Common;
-using Octokit;
 
 internal partial class Build : NukeBuild
 {
@@ -26,6 +24,8 @@ internal partial class Build : NukeBuild
         .DependsOn(ParseCICDFile, SetupGitInPipeline)
         .Executes(() =>
         {
+            // TODO: add all changes and push
+
             Git($"add cicd.json", logOutput: true);
             Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
             Git($"push", logOutput: false);
