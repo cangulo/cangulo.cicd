@@ -12,6 +12,7 @@ using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using cangulo.cicd.domain.Builders;
 
 internal partial class Build : NukeBuild
 {
@@ -48,6 +49,7 @@ internal partial class Build : NukeBuild
         var commitMsgs = await prService.GetCommitsFromLastMergedPR(ghClient, GitHubActions);
 
         ControlFlow.Assert(commitMsgs.Any(), "no commits founds");
+        
         Logger.Info($"Commits Found:{commitMsgs.Count()}");
         commitMsgs
             .ToList()
@@ -75,26 +77,26 @@ internal partial class Build : NukeBuild
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
 
             var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
+            var releaseBodyBuilder = _serviceProvider.GetRequiredService<IReleaseBodyBuilder>();
 
             var repoOwner = GitHubActions.GitHubRepositoryOwner;
             var repoName = GitHubActions.GitHubRepository.Replace($"{repoOwner}/", string.Empty);
             var ghClient = GetGHClient(GitHubActions);
-            var client = ghClient.Repository.Release;
+            var releaseOperatorClient = ghClient.Repository.Release;
 
             var request = CICDFile.VersioningSettings;
             var nextVersion = request.CurrentVersion;
             var commitMsgs = await GetCommitsFromLastMergedPR(prService);
-
 
             Logger.Info($"Creating Release {nextVersion}");
 
             var newReleaseData = new NewRelease(nextVersion)
             {
                 Name = nextVersion,
-                Body = "empty body... for now"
+                Body = releaseBodyBuilder.Build(commitMsgs.ToArray(), nextVersion)
             };
 
-            var releaseCreated = await client.Create(repoOwner, repoName, newReleaseData);
+            var releaseCreated = await releaseOperatorClient.Create(repoOwner, repoName, newReleaseData);
             Logger.Success($"Created release {nextVersion}!");
 
             foreach (var releaseAsset in request.ReleaseAssets)
@@ -107,20 +109,8 @@ internal partial class Build : NukeBuild
                     RawData = File.OpenRead(RootDirectory / releaseAsset),
                     ContentType = "application/zip"
                 };
-                await client.UploadAsset(releaseCreated, assetData);
+                await releaseOperatorClient.UploadAsset(releaseCreated, assetData);
                 Logger.Info($"Asset {fileName} uploaded");
             }
         });
-
-    private GitHubClient GetGHClient(GitHubActions gitHubAction)
-    {
-        var repoOwner = GitHubActions.GitHubRepositoryOwner;
-        var repoName = GitHubActions.GitHubRepository.Replace($"{repoOwner}/", string.Empty);
-
-        // TODO: Migrate the injection of the client to an interface
-        var ghClient = new GitHubClient(new ProductHeaderValue($"{repoOwner}"));
-        ghClient.Credentials = new Credentials(GitHubToken);
-
-        return ghClient;
-    }
 }

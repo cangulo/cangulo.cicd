@@ -1,4 +1,5 @@
-﻿using cangulo.cicd.domain.Helpers;
+﻿using cangulo.cicd.domain.Builders;
+using cangulo.cicd.domain.Helpers;
 using cangulo.cicd.domain.Parsers;
 using cangulo.cicd.domain.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ namespace cangulo.cicd.domain.Extensions
                 .AddTransient<IReleaseNumberParser, ReleaseNumberParser>()
                 .AddTransient<IPullRequestService, PullRequestService>()
                 .AddTransient<IChangeLogService, ChangeLogService>()
+                .AddTransient<IReleaseBodyBuilder, ReleaseBodyBuilder>()
                 .AddTransient<INextReleaseNumberHelper, NextReleaseNumberHelper>();
         }
     }

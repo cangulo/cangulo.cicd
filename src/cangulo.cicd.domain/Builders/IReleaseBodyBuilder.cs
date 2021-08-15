@@ -17,17 +17,19 @@ namespace cangulo.cicd.domain.Builders
                 var body = new StringBuilder();
 
                 body.AppendLine($"<!-- START:{version} -->");
-                body.AppendLine($"# {version}\n");
+                body.AppendLine($"# {version}\r\n");
 
                 changes
                     .ToList()
-                    .ForEach(x => body.AppendLine(x));
+                    .ForEach(x => body.AppendLine(MarkdownBullet(x)));
 
-                body.AppendLine($"<!-- END:{version} -->\n");
+                body.AppendLine($"\r\n<!-- END:{version} -->");
 
                 return body.ToString();
             }
             return string.Empty;
         }
+
+        private string MarkdownBullet(string input) => $"* {input}";
     }
 }
