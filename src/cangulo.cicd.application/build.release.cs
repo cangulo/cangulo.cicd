@@ -1,4 +1,4 @@
-﻿using cangulo.cicd.Abstractions.Constants;
+﻿using cangulo.cicd.abstractions.Constants;
 using cangulo.cicd.domain.Helpers;
 using cangulo.cicd.domain.Parsers;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +13,8 @@ using cangulo.cicd.domain.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using cangulo.cicd.domain.Builders;
+using System;
+using cangulo.cicd.domain.Repositories;
 
 internal partial class Build : NukeBuild
 {
@@ -21,8 +23,8 @@ internal partial class Build : NukeBuild
         .Executes(async () =>
         {
             ValidateCICDPropertyIsProvided(CICDFile.VersioningSettings, nameof(CICDFile.VersioningSettings));
-
             var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
+            var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
 
             var request = CICDFile.VersioningSettings;
 
@@ -40,7 +42,9 @@ internal partial class Build : NukeBuild
             var nextReleaseNumber = nextReleaseNumberHelper.Calculate(releaseType, currentReleaseNumber);
 
             Logger.Info($"next release Number:{nextReleaseNumber} - Release Type: {releaseType}");
-            CICDFile.VersioningSettings.CurrentVersion = nextReleaseNumber.ToString();
+
+            var resultKey = nameof(CalculateNextReleaseNumber);
+            await resultBagRepository.AddResult(resultKey, nextReleaseNumber.ToString());
         });
 
     private async Task<IEnumerable<string>> GetCommitsFromLastMergedPR(IPullRequestService prService)
@@ -59,15 +63,17 @@ internal partial class Build : NukeBuild
 
     private Target UpdateVersionInFiles => _ => _
         .DependsOn(ParseCICDFile, CalculateNextReleaseNumber)
-        .Executes(() =>
+        .Executes(async () =>
         {
-            var cicdFilePath = RootDirectory / "cicd.json";
-            var content = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
-            File.WriteAllText(cicdFilePath, content);
+            var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
+
+            var nextReleaseNumber = await resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
+            CICDFile.VersioningSettings.CurrentVersion = nextReleaseNumber;
+
+            using var openStreamCICD = File.OpenWrite(CICDFilePath);
+            await JsonSerializer.SerializeAsync(openStreamCICD, CICDFile, SerializerContants.SERIALIZER_OPTIONS);
 
             // TODO: Update Changelog
-
-            var changeLogService = _serviceProvider.GetRequiredService<IChangeLogService>();
         });
 
     private Target CreateNewRelease => _ => _

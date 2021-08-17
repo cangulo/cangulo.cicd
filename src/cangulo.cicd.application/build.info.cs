@@ -1,4 +1,4 @@
-﻿using cangulo.cicd.Abstractions.Constants;
+﻿using cangulo.cicd.abstractions.Constants;
 using Nuke.Common;
 using System.Linq;
 using System.Text.Json;

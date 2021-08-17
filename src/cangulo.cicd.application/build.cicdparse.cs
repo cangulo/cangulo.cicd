@@ -3,19 +3,17 @@ using System.IO;
 using System;
 using System.Text.Json;
 using cangulo.cicd.abstractons.Models.CICDFile;
-using cangulo.cicd.Abstractions.Constants;
+using cangulo.cicd.abstractions.Constants;
 
 internal partial class Build : NukeBuild
 {
     private Target ParseCICDFile => _ => _
-        .Executes(() =>
+        .Executes(async () =>
         {
-            var cicdFilePath = RootDirectory / "cicd.json";
-            if (File.Exists(cicdFilePath))
+            if (File.Exists(CICDFilePath))
             {
-                var cicdContent = File.ReadAllText(cicdFilePath);
-
-                CICDFile = JsonSerializer.Deserialize<CICDFileModel>(cicdContent, SerializerContants.DESERIALIZER_OPTIONS);
+                using var openStream = File.OpenRead(CICDFilePath);
+                CICDFile = await JsonSerializer.DeserializeAsync<CICDFileModel>(openStream, SerializerContants.DESERIALIZER_OPTIONS);
 
                 Logger.Info($"Request Mapped {JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS)}");
             }
