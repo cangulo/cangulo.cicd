@@ -4,6 +4,7 @@
     {
         Undefined,
         Fix,
+        Patch,
         Feat,
         Major
     }
