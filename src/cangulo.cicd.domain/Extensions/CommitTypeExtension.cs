@@ -9,6 +9,7 @@ namespace cangulo.cicd.domain.Extensions
             switch (commitType)
             {
                 case CommitType.Fix:
+                case CommitType.Patch:
                     return ReleaseType.Patch;
                 case CommitType.Feat:
                     return ReleaseType.Minor;

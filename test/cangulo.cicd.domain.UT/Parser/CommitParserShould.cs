@@ -13,6 +13,7 @@ namespace cangulo.cicd.domain.UT.Parser
         [Theory]
         [InlineAutoNSubstituteData("feat:bla bla", "bla bla", CommitType.Feat)]
         [InlineAutoNSubstituteData("fix:bla bla", "bla bla", CommitType.Fix)]
+        [InlineAutoNSubstituteData("patch:bla bla", "bla bla", CommitType.Patch)]
         [InlineAutoNSubstituteData("major:bla bla", "bla bla", CommitType.Major)]
         public void Parse_ConventionCommit(
             string commitMsg,
