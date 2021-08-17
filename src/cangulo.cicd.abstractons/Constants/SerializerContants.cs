@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace cangulo.cicd.Abstractions.Constants
+namespace cangulo.cicd.abstractions.Constants
 {
     public static class SerializerContants
     {

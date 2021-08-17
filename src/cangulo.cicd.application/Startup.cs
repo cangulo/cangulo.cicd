@@ -5,12 +5,12 @@ namespace cangulo.cicd
 {
     public static class Startup
     {
-        public static ServiceProvider RegisterServices()
+        public static ServiceProvider RegisterServices(DomainServiceContext context)
         {
             var services = new ServiceCollection();
 
             services
-                .AddDomainServices();
+                .AddDomainServices(context);
 
             return services.BuildServiceProvider(true);
         }

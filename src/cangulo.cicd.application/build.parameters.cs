@@ -3,6 +3,7 @@ using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Git;
+using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ using System.Collections.Generic;
 internal partial class Build : NukeBuild
 {
     public CICDFileModel CICDFile;
+
+    public AbsolutePath CICDFilePath = RootDirectory / "cicd.json";
 
     public Solution TargetSolutionParsed;
 
@@ -24,5 +27,6 @@ internal partial class Build : NukeBuild
 
     [CI] GitHubActions GitHubActions;
 
-    public IDictionary<string, object> DinamycProperties;
+    public IDictionary<string, object> ResultBagDictionary;
+    public AbsolutePath ResultBagFilePath = RootDirectory / "cicd.resultbag.json";
 }

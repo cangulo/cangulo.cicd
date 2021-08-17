@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using cangulo.cicd.Abstractions.Constants;
+using cangulo.cicd.abstractions.Constants;
 using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Parsers;
 using Microsoft.Extensions.DependencyInjection;
