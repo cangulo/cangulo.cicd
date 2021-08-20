@@ -44,7 +44,7 @@ internal partial class Build : NukeBuild
             Logger.Info($"next release Number:{nextReleaseNumber} - Release Type: {releaseType}");
 
             var resultKey = nameof(CalculateNextReleaseNumber);
-            await resultBagRepository.AddResult(resultKey, nextReleaseNumber.ToString());
+            resultBagRepository.AddResult(resultKey, nextReleaseNumber.ToString());
         });
 
     private async Task<IEnumerable<string>> GetCommitsFromLastMergedPR(IPullRequestService prService)
@@ -67,7 +67,7 @@ internal partial class Build : NukeBuild
         {
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
 
-            var nextReleaseNumber = await resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
+            var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
             CICDFile.VersioningSettings.CurrentVersion = nextReleaseNumber;
 
             using var openStreamCICD = File.OpenWrite(CICDFilePath);

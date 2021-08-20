@@ -11,9 +11,9 @@ namespace cangulo.cicd.domain.Repositories
 {
     public interface IResultBagRepository
     {
-        Task<string> GetResult(string key);
-        Task<T> GetResult<T>(string key) where T : class;
-        Task AddResult<T>(string key, T value);
+        string GetResult(string key);
+        T GetResult<T>(string key) where T : class;
+        void AddResult<T>(string key, T value);
     }
 
     public class ResultBagRepository : IResultBagRepository
@@ -25,20 +25,20 @@ namespace cangulo.cicd.domain.Repositories
             ResultBagFilePath = resultBagFilePath ?? throw new ArgumentNullException(nameof(resultBagFilePath));
         }
 
-        private Task<IDictionary<string, object>> GetResultBagDictionaryAsync()
+        private IDictionary<string, object> GetResultBagDictionary()
         {
             if (File.Exists(ResultBagFilePath))
             {
-                using var openStream = File.OpenRead(ResultBagFilePath);
-                return JsonSerializer.DeserializeAsync<IDictionary<string, object>>(openStream, SerializerContants.DESERIALIZER_OPTIONS).AsTask();
+                var jsonString = File.ReadAllText(ResultBagFilePath);
+                return JsonSerializer.Deserialize<IDictionary<string, object>>(jsonString, SerializerContants.DESERIALIZER_OPTIONS);
             }
             else
-                return Task.FromResult<IDictionary<string, object>>(new Dictionary<string, object>());
+                return new Dictionary<string, object>();
         }
 
-        public async Task<string> GetResult(string key)
+        public string GetResult(string key)
         {
-            var resultBag = await GetResultBagDictionaryAsync();
+            var resultBag = GetResultBagDictionary();
             if (resultBag.Keys.Any(x => x == key))
             {
                 return resultBag[key].ToString();
@@ -47,9 +47,9 @@ namespace cangulo.cicd.domain.Repositories
                 throw new Exception($"{key} not found in the result bag");
         }
 
-        public async Task<T> GetResult<T>(string key) where T : class
+        public T GetResult<T>(string key) where T : class
         {
-            var resultBag = await GetResultBagDictionaryAsync();
+            var resultBag = GetResultBagDictionary();
             if (resultBag.Keys.Any(x => x == key))
             {
                 var resultString = resultBag[key].ToString();
@@ -61,13 +61,13 @@ namespace cangulo.cicd.domain.Repositories
             }
         }
 
-        public async Task AddResult<T>(string key, T value)
+        public void AddResult<T>(string key, T value)
         {
-            var resultBag = await GetResultBagDictionaryAsync();
+            var resultBag = GetResultBagDictionary();
             resultBag.Add(key, value);
 
-            using var openStream = File.OpenWrite(ResultBagFilePath);
-            await JsonSerializer.SerializeAsync(openStream, resultBag, SerializerContants.SERIALIZER_OPTIONS);
+            var jsonString = JsonSerializer.Serialize(resultBag, SerializerContants.SERIALIZER_OPTIONS);
+            File.WriteAllText(ResultBagFilePath, jsonString);
         }
     }
 }
