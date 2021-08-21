@@ -1,0 +1,170 @@
+{
+  "definitions": {},
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/object1629576015.json",
+  "title": "Root",
+  "type": "object",
+  "required": [
+    "solutionPath",
+    "dotnetPublish",
+    "compressDirectory",
+    "versioningSettings",
+    "gitPipelineSettings"
+  ],
+  "properties": {
+    "solutionPath": {
+      "$id": "#root/solutionPath",
+      "title": "Solution Path",
+      "description": "path to the .sln file",
+      "type": "string",
+      "default": "",
+      "examples": [
+        "./cangulo.cicd.sln"
+      ],
+      "pattern": "^.*.sln$"
+    },
+    "dotnetPublish": {
+      "$id": "#root/dotnetPublish",
+      "title": "Dotnet Publish",
+      "type": "object",
+      "required": [
+        "projectPath",
+        "outputFolder",
+        "runTime"
+      ],
+      "properties": {
+        "projectPath": {
+          "$id": "#root/dotnetPublish/projectPath",
+          "title": "Project Path",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "./src/cangulo.cicd.application/cangulo.cicd.application.csproj"
+          ],
+          "pattern": "^.*.csproj$"
+        },
+        "outputFolder": {
+          "$id": "#root/dotnetPublish/outputFolder",
+          "title": "Output Folder",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "./artifacts/cangulo.cicd"
+          ],
+          "pattern": "^.*$"
+        },
+        "runTime": {
+          "$id": "#root/dotnetPublish/runTime",
+          "title": "Runtime",
+          "type": "string",
+          "enum": [
+            "linux-x64"
+          ],
+          "pattern": "^.*$"
+        }
+      }
+    },
+    "compressDirectory": {
+      "$id": "#root/compressDirectory",
+      "title": "Compress Directory",
+      "type": "object",
+      "required": [
+        "path",
+        "outputFileName"
+      ],
+      "properties": {
+        "path": {
+          "$id": "#root/compressDirectory/path",
+          "title": "Path",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "./artifacts/cangulo.cicd"
+          ],
+          "pattern": "^.*$"
+        },
+        "outputFileName": {
+          "$id": "#root/compressDirectory/outputFileName",
+          "title": "Output Filename",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "./releaseAssets/cangulo.cicd-linux-x64.zip"
+          ],
+          "pattern": "^.*.zip$"
+        }
+      }
+    },
+    "versioningSettings": {
+      "$id": "#root/versioningSettings",
+      "title": "Versioning Settings",
+      "type": "object",
+      "required": [
+        "currentVersion",
+        "releaseAssets"
+      ],
+      "properties": {
+        "currentVersion": {
+          "$id": "#root/versioningSettings/currentVersion",
+          "title": "Current Version",
+          "description": "Current Version of the project following semantic versioning. It also allow to add prefix version as",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "0.0.2",
+            "0.0.2-beta",
+            "0.0.2-alpha"
+          ],
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+.*$"
+        },
+        "releaseAssets": {
+          "$id": "#root/versioningSettings/releaseAssets",
+          "title": "Release Assets",
+          "type": "array",
+          "default": [],
+          "items": {
+            "$id": "#root/versioningSettings/releaseAssets/items",
+            "title": "Items",
+            "type": "string",
+            "default": "",
+            "examples": [
+              "./releaseAssets/cangulo.cicd-linux-x64.zip"
+            ],
+            "pattern": "^.*$"
+          }
+        }
+      }
+    },
+    "gitPipelineSettings": {
+      "$id": "#root/gitPipelineSettings",
+      "title": "Git Pipeline Settings",
+      "type": "object",
+      "required": [
+        "email",
+        "name"
+      ],
+      "properties": {
+        "email": {
+          "$id": "#root/gitPipelineSettings/email",
+          "title": "Email",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "carlos.angulo.mascarell@outlook.com"
+          ],
+          "pattern": "^.*$"
+        },
+        "name": {
+          "$id": "#root/gitPipelineSettings/name",
+          "title": "Name",
+          "type": "string",
+          "default": "",
+          "examples": [
+            "cangulo.cicd"
+          ],
+          "pattern": "^.*$"
+        }
+      }
+    }
+  }
+}

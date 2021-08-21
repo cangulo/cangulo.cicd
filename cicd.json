@@ -1,4 +1,5 @@
 {
+  "$schema": "./cicd.schema.json",
   "solutionPath": "./cangulo.cicd.sln",
   "dotnetPublish": {
     "projectPath": "./src/cangulo.cicd.application/cangulo.cicd.application.csproj",
