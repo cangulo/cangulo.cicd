@@ -1,6 +1,6 @@
-﻿using cangulo.cicd.abstractons.Models.Enums;
+﻿using cangulo.cicd.abstractions.Models.Enums;
 
-namespace cangulo.cicd.abstractons.Models
+namespace cangulo.cicd.abstractions.Models
 {
     // FOLLOWING https://www.conventionalcommits.org/en/v1.0.0/
     public class ConventionCommit

@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\cangulo.cicd.abstractons\cangulo.cicd.abstractons.csproj" />
+    <ProjectReference Include="..\cangulo.cicd.abstractions\cangulo.cicd.abstractions.csproj" />
   </ItemGroup>
 
 </Project>

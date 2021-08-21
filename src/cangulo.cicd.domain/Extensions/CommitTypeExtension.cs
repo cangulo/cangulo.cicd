@@ -1,4 +1,4 @@
-﻿using cangulo.cicd.abstractons.Models.Enums;
+﻿using cangulo.cicd.abstractions.Models.Enums;
 
 namespace cangulo.cicd.domain.Extensions
 {

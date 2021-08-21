@@ -2,7 +2,7 @@
 using System.IO;
 using System;
 using System.Text.Json;
-using cangulo.cicd.abstractons.Models.CICDFile;
+using cangulo.cicd.abstractions.Models.CICDFile;
 using cangulo.cicd.abstractions.Constants;
 
 internal partial class Build : NukeBuild

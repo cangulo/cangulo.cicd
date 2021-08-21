@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace cangulo.cicd.abstractons.Models.CICDFile
+namespace cangulo.cicd.abstractions.Models.CICDFile
 {
     public class CICDFileModel
     {

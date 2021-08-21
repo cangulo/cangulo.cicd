@@ -1,4 +1,4 @@
-﻿using cangulo.cicd.abstractons.Models.Enums;
+﻿using cangulo.cicd.abstractions.Models.Enums;
 using cangulo.cicd.domain.Parsers;
 using cangulo.common.testing.dataatributes;
 using FluentAssertions;
