@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/cangulo.cicd.application/cangulo.cicd.application.csproj",
+                "${workspaceFolder}/src/cangulo.cicd/cangulo.cicd.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/cangulo.cicd.application/cangulo.cicd.application.csproj",
+                "${workspaceFolder}/src/cangulo.cicd/cangulo.cicd.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/src/cangulo.cicd.application/cangulo.cicd.application.csproj",
+                "${workspaceFolder}/src/cangulo.cicd/cangulo.cicd.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
