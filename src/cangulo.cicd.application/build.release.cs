@@ -34,8 +34,8 @@ internal partial class Build : NukeBuild
 
             var commitMsgs = await GetCommitsFromLastMergedPR(prService);
 
-            var commitChoosen = commitMsgs.Last();
-            var conventionalCommit = commitParser.ParseConventionalCommit(commitChoosen);
+            var commitChosen = commitMsgs.Last();
+            var conventionalCommit = commitParser.ParseConventionalCommit(commitChosen);
 
             var releaseType = conventionalCommit.CommitType.ToReleaseType();
             var currentReleaseNumber = releaseNumberParser.Parse(request.CurrentVersion);

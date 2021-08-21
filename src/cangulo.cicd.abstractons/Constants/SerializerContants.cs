@@ -8,17 +8,17 @@ namespace cangulo.cicd.abstractions.Constants
         public static JsonSerializerOptions SERIALIZER_OPTIONS = new JsonSerializerOptions
         {
             WriteIndented = true,
-            Converters = {
-                        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                }
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
         public static JsonSerializerOptions DESERIALIZER_OPTIONS = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
-            Converters = {
-                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                }
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
     }
 }
