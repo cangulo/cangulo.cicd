@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "cangulo.cicd.application": {
+    "cangulo.cicd": {
       "commandName": "Project",
       "commandLineArgs": "--root ..\\..\\.."
     }

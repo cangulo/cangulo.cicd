@@ -3,7 +3,7 @@
   "dotnetTargets": {
     "solutionPath": "./cangulo.cicd.sln",
     "dotnetPublish": {
-      "projectPath": "./src/cangulo.cicd.application/cangulo.cicd.application.csproj",
+      "projectPath": "./src/cangulo.cicd/cangulo.cicd.csproj",
       "outputFolder": "./artifacts/cangulo.cicd",
       "runTime": "linux-x64"
     }
