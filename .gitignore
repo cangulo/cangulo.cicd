@@ -354,3 +354,6 @@ MigrationBackup/
 
 # cangulo.cicd
 releaseAssets
+
+# vscode
+.vscode/

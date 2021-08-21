@@ -8,7 +8,7 @@ using Nuke.Common.Execution;
 [GitHubActions(
     "PR_Execute_DOTNET_UT",
     GitHubActionsImage.UbuntuLatest,
-    OnPullRequestIncludePaths = new[] { "src/**" },
+    OnPullRequestIncludePaths = new[] { "src/**", "test/**" },
     InvokedTargets = new[] { nameof(ExecuteUnitTests) })]
 [GitHubActions(
     "PR_MERGED_RELEASE_NEW_VERSION",

@@ -1,6 +1,6 @@
 ﻿using cangulo.cicd.abstractons.Models.Enums;
 using cangulo.cicd.domain.Parsers;
-using cangulo.cicd.UT.common;
+using cangulo.common.testing.dataatributes;
 using FluentAssertions;
 using System;
 using Xunit;
