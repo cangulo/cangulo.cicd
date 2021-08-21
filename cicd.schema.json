@@ -52,7 +52,7 @@
               "type": "string",
               "default": "",
               "examples": [
-                "./src/cangulo.cicd.application/cangulo.cicd.application.csproj"
+                "./src/cangulo.cicd/cangulo.cicd.csproj"
               ],
               "pattern": "^.*.csproj$"
             },

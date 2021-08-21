@@ -3,13 +3,13 @@
 bash --version 2>&1 | head -n 1
 
 set -eo pipefail
-SCRIPT_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 ###########################################################################
 # CONFIGURATION
 ###########################################################################
 
-BUILD_PROJECT_FILE="$SCRIPT_DIR/src/cangulo.cicd.application/cangulo.cicd.application.csproj"
+BUILD_PROJECT_FILE="$SCRIPT_DIR/src/cangulo.cicd/cangulo.cicd.csproj"
 TEMP_DIRECTORY="$SCRIPT_DIR//.nuke/temp"
 
 DOTNET_GLOBAL_FILE="$SCRIPT_DIR//global.json"
@@ -25,7 +25,7 @@ export DOTNET_MULTILEVEL_LOOKUP=0
 ###########################################################################
 
 function FirstJsonValue {
-    perl -nle 'print $1 if m{"'"$1"'": "([^"]+)",?}' <<< "${@:2}"
+    perl -nle 'print $1 if m{"'"$1"'": "([^"]+)",?}' <<<"${@:2}"
 }
 
 # If dotnet CLI is installed globally and it matches requested version, use for execution
@@ -41,7 +41,7 @@ else
     # If global.json exists, load expected version
     if [[ -f "$DOTNET_GLOBAL_FILE" ]]; then
         DOTNET_VERSION=$(FirstJsonValue "version" "$(cat "$DOTNET_GLOBAL_FILE")")
-        if [[ "$DOTNET_VERSION" == ""  ]]; then
+        if [[ "$DOTNET_VERSION" == "" ]]; then
             unset DOTNET_VERSION
         fi
     fi

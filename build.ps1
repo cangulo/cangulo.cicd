@@ -1,6 +1,6 @@
 [CmdletBinding()]
 Param(
-    [Parameter(Position=0,Mandatory=$false,ValueFromRemainingArguments=$true)]
+    [Parameter(Position = 0, Mandatory = $false, ValueFromRemainingArguments = $true)]
     [string[]]$BuildArguments
 )
 
@@ -13,7 +13,7 @@ $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
 # CONFIGURATION
 ###########################################################################
 
-$BuildProjectFile = "$PSScriptRoot\\src\cangulo.cicd.application\cangulo.cicd.application.csproj"
+$BuildProjectFile = "$PSScriptRoot\\src\cangulo.cicd\cangulo.cicd.csproj"
 $TempDirectory = "$PSScriptRoot\\.nuke\temp"
 
 $DotNetGlobalFile = "$PSScriptRoot\\global.json"
@@ -35,7 +35,7 @@ function ExecSafe([scriptblock] $cmd) {
 
 # If dotnet CLI is installed globally and it matches requested version, use for execution
 if ($null -ne (Get-Command "dotnet" -ErrorAction SilentlyContinue) -and `
-     $(dotnet --version) -and $LASTEXITCODE -eq 0) {
+    $(dotnet --version) -and $LASTEXITCODE -eq 0) {
     $env:DOTNET_EXE = (Get-Command "dotnet").Path
 }
 else {
@@ -57,7 +57,8 @@ else {
     $DotNetDirectory = "$TempDirectory\dotnet-win"
     if (!(Test-Path variable:DotNetVersion)) {
         ExecSafe { & $DotNetInstallFile -InstallDir $DotNetDirectory -Channel $DotNetChannel -NoPath }
-    } else {
+    }
+    else {
         ExecSafe { & $DotNetInstallFile -InstallDir $DotNetDirectory -Version $DotNetVersion -NoPath }
     }
     $env:DOTNET_EXE = "$DotNetDirectory\dotnet.exe"
