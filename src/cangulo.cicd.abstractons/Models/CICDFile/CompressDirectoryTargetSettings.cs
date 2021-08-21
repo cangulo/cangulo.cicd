@@ -1,6 +1,6 @@
 namespace cangulo.cicd.abstractons.Models.CICDFile
 {
-    public class CompressDirectory
+    public class CompressDirectoryTargetSettings
     {
         public string Path { get; set; }
         public string OutputFileName { get; set; }

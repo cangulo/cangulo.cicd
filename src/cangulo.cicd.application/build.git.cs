@@ -11,9 +11,9 @@ internal partial class Build : NukeBuild
         .DependsOn(ParseCICDFile)
         .Executes(() =>
         {
-            ValidateCICDPropertyIsProvided(CICDFile.GitPipelineSettings, nameof(CICDFile.GitPipelineSettings));
+            ValidateCICDPropertyIsProvided(CICDFile.GitTargets, nameof(CICDFile.GitTargets));
 
-            var request = CICDFile.GitPipelineSettings;
+            var request = CICDFile.GitTargets;
             Logger.Info("Setting email and name in git");
 
             Git($"config --global user.email \"{request.Email}\"");
@@ -27,7 +27,7 @@ internal partial class Build : NukeBuild
             // TODO: add all changes and push
 
             Git($"add cicd.json", logOutput: true);
-            Git($"commit -m \"[ci] new version {CICDFile.VersioningSettings.CurrentVersion} created\"", logOutput: true);
+            Git($"commit -m \"[ci] new version {CICDFile.Versioning.CurrentVersion} created\"", logOutput: true);
             Git($"push", logOutput: false);
         });
 

@@ -22,11 +22,11 @@ internal partial class Build : NukeBuild
         .DependsOn(ParseCICDFile)
         .Executes(async () =>
         {
-            ValidateCICDPropertyIsProvided(CICDFile.VersioningSettings, nameof(CICDFile.VersioningSettings));
+            ValidateCICDPropertyIsProvided(CICDFile.Versioning, nameof(CICDFile.Versioning));
             var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
 
-            var request = CICDFile.VersioningSettings;
+            var request = CICDFile.Versioning;
 
             var commitParser = _serviceProvider.GetRequiredService<ICommitParser>();
             var nextReleaseNumberHelper = _serviceProvider.GetRequiredService<INextReleaseNumberHelper>();
@@ -68,7 +68,7 @@ internal partial class Build : NukeBuild
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
 
             var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
-            CICDFile.VersioningSettings.CurrentVersion = nextReleaseNumber;
+            CICDFile.Versioning.CurrentVersion = nextReleaseNumber;
 
             using var openStreamCICD = File.OpenWrite(CICDFilePath);
             await JsonSerializer.SerializeAsync(openStreamCICD, CICDFile, SerializerContants.SERIALIZER_OPTIONS);
@@ -90,7 +90,7 @@ internal partial class Build : NukeBuild
             var ghClient = GetGHClient(GitHubActions);
             var releaseOperatorClient = ghClient.Repository.Release;
 
-            var request = CICDFile.VersioningSettings;
+            var request = CICDFile.Versioning;
             var nextVersion = request.CurrentVersion;
             var commitMsgs = await GetCommitsFromLastMergedPR(prService);
 

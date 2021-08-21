@@ -4,63 +4,67 @@
   "$id": "https://example.com/object1629576015.json",
   "title": "Root",
   "type": "object",
-  "required": [
-    "solutionPath",
-    "dotnetPublish",
-    "compressDirectory",
-    "versioningSettings",
-    "gitPipelineSettings"
-  ],
+  "required": [],
   "properties": {
-    "solutionPath": {
-      "$id": "#root/solutionPath",
-      "title": "Solution Path",
-      "description": "path to the .sln file",
-      "type": "string",
-      "default": "",
-      "examples": [
-        "./cangulo.cicd.sln"
-      ],
-      "pattern": "^.*.sln$"
-    },
-    "dotnetPublish": {
-      "$id": "#root/dotnetPublish",
-      "title": "Dotnet Publish",
+    "dotnetTargets": {
+      "$id": "#root/dotnetTargets",
+      "title": "Dotnet Targets",
       "type": "object",
       "required": [
-        "projectPath",
-        "outputFolder",
-        "runTime"
+        "solutionPath"
       ],
       "properties": {
-        "projectPath": {
-          "$id": "#root/dotnetPublish/projectPath",
-          "title": "Project Path",
+        "solutionPath": {
+          "$id": "#root/solutionPath",
+          "title": "Solution Path",
+          "description": "path to the .sln file",
           "type": "string",
           "default": "",
           "examples": [
-            "./src/cangulo.cicd.application/cangulo.cicd.application.csproj"
+            "./cangulo.cicd.sln"
           ],
-          "pattern": "^.*.csproj$"
+          "pattern": "^.*.sln$"
         },
-        "outputFolder": {
-          "$id": "#root/dotnetPublish/outputFolder",
-          "title": "Output Folder",
-          "type": "string",
-          "default": "",
-          "examples": [
-            "./artifacts/cangulo.cicd"
+        "dotnetPublish": {
+          "$id": "#root/dotnetPublish",
+          "title": "Dotnet Publish",
+          "type": "object",
+          "required": [
+            "projectPath",
+            "outputFolder",
+            "runTime"
           ],
-          "pattern": "^.*$"
-        },
-        "runTime": {
-          "$id": "#root/dotnetPublish/runTime",
-          "title": "Runtime",
-          "type": "string",
-          "enum": [
-            "linux-x64"
-          ],
-          "pattern": "^.*$"
+          "properties": {
+            "projectPath": {
+              "$id": "#root/dotnetPublish/projectPath",
+              "title": "Project Path",
+              "type": "string",
+              "default": "",
+              "examples": [
+                "./src/cangulo.cicd.application/cangulo.cicd.application.csproj"
+              ],
+              "pattern": "^.*.csproj$"
+            },
+            "outputFolder": {
+              "$id": "#root/dotnetPublish/outputFolder",
+              "title": "Output Folder",
+              "type": "string",
+              "default": "",
+              "examples": [
+                "./artifacts/cangulo.cicd"
+              ],
+              "pattern": "^.*$"
+            },
+            "runTime": {
+              "$id": "#root/dotnetPublish/runTime",
+              "title": "Runtime",
+              "type": "string",
+              "enum": [
+                "linux-x64"
+              ],
+              "pattern": "^.*$"
+            }
+          }
         }
       }
     },
@@ -91,12 +95,12 @@
           "examples": [
             "./releaseAssets/cangulo.cicd-linux-x64.zip"
           ],
-          "pattern": "^.*.zip$"
+          "pattern": "^.*\\.zip$"
         }
       }
     },
-    "versioningSettings": {
-      "$id": "#root/versioningSettings",
+    "versioning": {
+      "$id": "#root/versioning",
       "title": "Versioning Settings",
       "type": "object",
       "required": [
@@ -105,7 +109,7 @@
       ],
       "properties": {
         "currentVersion": {
-          "$id": "#root/versioningSettings/currentVersion",
+          "$id": "#root/versioning/currentVersion",
           "title": "Current Version",
           "description": "Current Version of the project following semantic versioning. It also allow to add prefix version as",
           "type": "string",
@@ -118,12 +122,12 @@
           "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+.*$"
         },
         "releaseAssets": {
-          "$id": "#root/versioningSettings/releaseAssets",
+          "$id": "#root/versioning/releaseAssets",
           "title": "Release Assets",
           "type": "array",
           "default": [],
           "items": {
-            "$id": "#root/versioningSettings/releaseAssets/items",
+            "$id": "#root/versioning/releaseAssets/items",
             "title": "Items",
             "type": "string",
             "default": "",
@@ -135,8 +139,8 @@
         }
       }
     },
-    "gitPipelineSettings": {
-      "$id": "#root/gitPipelineSettings",
+    "gitTargets": {
+      "$id": "#root/gitTargets",
       "title": "Git Pipeline Settings",
       "type": "object",
       "required": [
@@ -145,7 +149,7 @@
       ],
       "properties": {
         "email": {
-          "$id": "#root/gitPipelineSettings/email",
+          "$id": "#root/gitTargets/email",
           "title": "Email",
           "type": "string",
           "default": "",
@@ -155,7 +159,7 @@
           "pattern": "^.*$"
         },
         "name": {
-          "$id": "#root/gitPipelineSettings/name",
+          "$id": "#root/gitTargets/name",
           "title": "Name",
           "type": "string",
           "default": "",
@@ -166,5 +170,6 @@
         }
       }
     }
-  }
+  },
+  "additionalProperties": false
 }
