@@ -6,6 +6,17 @@
   "type": "object",
   "required": [],
   "properties": {
+    "$schema": {
+      "$id": "#root/schema",
+      "title": "JSON Schema",
+      "description": "JSON schema from the cangulo.cicd definition",
+      "type": "string",
+      "default": "./cicd.schema.json",
+      "examples": [
+        "./cicd.schema.json"
+      ],
+      "pattern": "^.*cicd.schema.json$"
+    },
     "dotnetTargets": {
       "$id": "#root/dotnetTargets",
       "title": "Dotnet Targets",

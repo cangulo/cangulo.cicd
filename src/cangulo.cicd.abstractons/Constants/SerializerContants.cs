@@ -9,7 +9,6 @@ namespace cangulo.cicd.abstractions.Constants
         {
             WriteIndented = true,
             Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
-            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
@@ -17,7 +16,6 @@ namespace cangulo.cicd.abstractions.Constants
         {
             PropertyNameCaseInsensitive = true,
             Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
-            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
     }
