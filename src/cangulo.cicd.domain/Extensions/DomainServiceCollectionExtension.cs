@@ -1,5 +1,4 @@
-﻿using cangulo.cicd.domain.Builders;
-using cangulo.cicd.domain.Helpers;
+﻿using cangulo.cicd.domain.Helpers;
 using cangulo.cicd.domain.Parsers;
 using cangulo.cicd.domain.Repositories;
 using cangulo.cicd.domain.Services;
@@ -21,7 +20,6 @@ namespace cangulo.cicd.domain.Extensions
                 .AddTransient<IReleaseNumberParser, ReleaseNumberParser>()
                 .AddTransient<IPullRequestService, PullRequestService>()
                 .AddTransient<IChangeLogService, ChangeLogService>()
-                .AddTransient<IReleaseBodyBuilder, ReleaseBodyBuilder>()
                 .AddTransient<IResultBagRepository, ResultBagRepository>(s => new ResultBagRepository(context.ResultBagFilePath))
                 .AddTransient<INextReleaseNumberHelper, NextReleaseNumberHelper>();
         }

@@ -12,7 +12,7 @@ using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using cangulo.cicd.domain.Builders;
+using cangulo.changelog.builders;
 using System;
 using cangulo.cicd.domain.Repositories;
 
@@ -83,7 +83,7 @@ internal partial class Build : NukeBuild
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
 
             var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
-            var releaseBodyBuilder = _serviceProvider.GetRequiredService<IReleaseBodyBuilder>();
+            var releaseBodyBuilder = _serviceProvider.GetRequiredService<IReleaseNotesBuilder>();
 
             var repoOwner = GitHubActions.GitHubRepositoryOwner;
             var repoName = GitHubActions.GitHubRepository.Replace($"{repoOwner}/", string.Empty);
