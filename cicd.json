@@ -1,22 +1,24 @@
 {
   "$schema": "./cicd.schema.json",
-  "solutionPath": "./cangulo.cicd.sln",
-  "dotnetPublish": {
-    "projectPath": "./src/cangulo.cicd.application/cangulo.cicd.application.csproj",
-    "outputFolder": "./artifacts/cangulo.cicd",
-    "runTime": "linux-x64"
+  "dotnetTargets": {
+    "solutionPath": "./cangulo.cicd.sln",
+    "dotnetPublish": {
+      "projectPath": "./src/cangulo.cicd.application/cangulo.cicd.application.csproj",
+      "outputFolder": "./artifacts/cangulo.cicd",
+      "runTime": "linux-x64"
+    }
   },
   "compressDirectory": {
     "path": "./artifacts/cangulo.cicd",
     "outputFileName": "./releaseAssets/cangulo.cicd-linux-x64.zip"
   },
-  "versioningSettings": {
+  "versioning": {
     "currentVersion": "0.0.4",
     "releaseAssets": [
       "./releaseAssets/cangulo.cicd-linux-x64.zip"
     ]
   },
-  "gitPipelineSettings": {
+  "gitTargets": {
     "email": "carlos.angulo.mascarell@outlook.com",
     "name": "cangulo.cicd"
   }
