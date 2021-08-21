@@ -1,4 +1,4 @@
-﻿using cangulo.cicd.abstractons.Models;
+﻿using cangulo.cicd.abstractions.Models;
 using System;
 using System.Linq;
 

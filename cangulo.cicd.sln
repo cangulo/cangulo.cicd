@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cangulo.cicd.application", "src\cangulo.cicd.application\cangulo.cicd.application.csproj", "{E44CBF3B-2990-41DA-B623-3F650B2CF6A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cangulo.cicd", "src\cangulo.cicd\cangulo.cicd.csproj", "{E44CBF3B-2990-41DA-B623-3F650B2CF6A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cangulo.cicd.domain", "src\cangulo.cicd.domain\cangulo.cicd.domain.csproj", "{A8587015-7A46-4B8C-806F-10D5F63DDB6E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cangulo.cicd.abstractons", "src\cangulo.cicd.abstractons\cangulo.cicd.abstractons.csproj", "{F569A299-AB9C-468C-B74C-DC64FCF5307C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cangulo.cicd.abstractions", "src\cangulo.cicd.abstractions\cangulo.cicd.abstractions.csproj", "{F569A299-AB9C-468C-B74C-DC64FCF5307C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-Application", "01-Application", "{42DAE5C0-24EC-406E-9F00-0861955ED1E4}"
 EndProject

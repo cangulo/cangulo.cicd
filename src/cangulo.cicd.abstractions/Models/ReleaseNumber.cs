@@ -1,4 +1,4 @@
-﻿namespace cangulo.cicd.abstractons.Models
+﻿namespace cangulo.cicd.abstractions.Models
 {
     public class ReleaseNumber
     {

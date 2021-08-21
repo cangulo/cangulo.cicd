@@ -1,4 +1,4 @@
-﻿namespace cangulo.cicd.abstractons.Models.Enums
+﻿namespace cangulo.cicd.abstractions.Models.Enums
 {
     public enum CommitType
     {

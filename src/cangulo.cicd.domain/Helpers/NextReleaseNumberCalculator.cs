@@ -1,5 +1,5 @@
-﻿using cangulo.cicd.abstractons.Models;
-using cangulo.cicd.abstractons.Models.Enums;
+﻿using cangulo.cicd.abstractions.Models;
+using cangulo.cicd.abstractions.Models.Enums;
 using System;
 
 namespace cangulo.cicd.domain.Helpers
