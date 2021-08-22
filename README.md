@@ -69,6 +69,8 @@ https://www.continuousimprover.com/2020/03/reasons-for-adopting-nuke.html
 
 ```bash
 # cangulo.cicd
+dotnet publish ./src/cangulo.cicd/cangulo.cicd.csproj  -o ./artifacts/cangulo.cicd/ -r linux-x64 --self-contained
+
 nuke ExecuteUnitTests
 nuke Publish
 artifacts/cangulo.cicd/cangulo.cicd ExecuteUnitTests

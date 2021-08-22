@@ -49,8 +49,6 @@ internal partial class Build : NukeBuild
         .DependsOn(ParseCICDFile, SetTargetSolution, Compile)
         .Executes(() =>
         {
-            Logger.Info($"Executing UT");
-
             DotNetTest(s => s
                 .SetProjectFile(TargetSolutionParsed)
                 .EnableNoBuild()
