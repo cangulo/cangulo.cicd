@@ -18,7 +18,9 @@ internal partial class Build : NukeBuild
 
             Logger.Info($"zipping directory: {request.Path} into file: {outputFileName}");
 
-            CompressionTasks.CompressZip(path, outputFileName);
+            // CompressionTasks.Compress(path, outputFileName);
+            // zip -j -r ./releaseAssets/cangulo.cicd-linux-x64.zip ./artifacts/cangulo.cicd/
+            Zip($"-j -r {outputFileName} {path}");
         });
 
 }
