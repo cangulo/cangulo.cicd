@@ -1,4 +1,4 @@
-# cangulo.changelog
+# cangulo.cicd
 
 ## Goals
 
@@ -7,27 +7,50 @@ Main Goal:
 * Make it customizable  by providing settings in a cicd.json file
 * List the result in a json format so can be used in any pipeline
 
-## How does this work?
 
-1. Provide settings in the cicd.json file
-2. If result should be output 
+## Available actions
+
+| Action (Target)   | Group  | cicd.json properties required |
+| ----------------- | ------ | ----------------------------- |
+| CleanBuildFolders | dotnet |                               |
+| Restore           | dotnet |                               |
+| Compile           | dotnet |                               |
+| ExecuteUnitTests  | dotnet |                               |
+| Publish           | dotnet |                               |
+
+## how does this work?
+
+All the code behind is based on [NUKE](https://nuke.build). Following their approach, any CICD action will be defined as _Target_ in the build.cs, they are defined in a group per file:
+
+
+| Group   | File                                                  |
+| ------- | ----------------------------------------------------- |
+| dotnet  | [build.dotnet.cs](src/cangulo.cicd/build.dotnet.cs)   |
+| release | [build.release.cs](src/cangulo.cicd/build.release.cs) |
+
+.  The execution is rule by two things:
+
+* **Targets**: Is the CI Action want to execute. Please refer to the previous list for the available ones.
+* **Target Settings**: Parameters required for each targets. For example, in order to execute any dotnet target we should fill the property `dotnetTargets` in the cicd.json
+
+Once 
+
+## how to use it?
+
+This solution can be used as a GH Action. Please refer to it docs for importing:
 
 
 # TODO
 
-- [x] Move the cangulo projects to the src folder
-- [x] Clean the difference between build.git and PullRequestService. Search for `PullRequestRequest` to find the duplicate code
-- [x] Fix the release body to use all the commits messages
-  - [x] 1. Get all the commits again using the service
-  - [x] 2. Implement the IReleaseBodyBuilder
-    - [x] Fix UT, read the input from the json and the output from a txt
-    - [x] Use the IReleaseBodyBuilder to build the body
-- [x] **Create Result BAG** 
-  - [x] Save the commits from the step _calculate release number_ to a result file we will call cicd.resultbag.json, the class will be ResultBag
-  - [x] Create a service to 
-    - [x] add objects to a dictionary
-    - [x] save the dictionary to a json file
-    - [x] read the json file
+- [ ] **Group targets by groups** 
+  - [ ] Move compress directory to fileops
+- [ ] **Clean the release process** 
+  - [ ] Read a release change property from the resultbag
+- [ ] **Create PR validation**
+  - [ ] UT pass
+  - [ ] Convention commit provided
+- [ ] **Find a way to define all available targets in the .md file**
+
 
 https://www.continuousimprover.com/2020/03/reasons-for-adopting-nuke.html
 

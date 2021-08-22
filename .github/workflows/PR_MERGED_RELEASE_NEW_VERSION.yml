@@ -1,4 +1,4 @@
-name: PR_MERGED_RELEASE_NEW_VERSION
+name: PR Merged to Main
 
 on:
   pull_request:
@@ -13,13 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Cache .nuke/temp, ~/.nuget/packages
-        uses: actions/cache@v2
-        with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
       - name: Calculate Next Release Number, Update Version In Files, Push Changes
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
