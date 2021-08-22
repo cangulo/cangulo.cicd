@@ -24,9 +24,15 @@ jobs:
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
         run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
-      - name: Publish Dotnet Core and Zip the output
-        run: ./build.cmd Publish CompressDirectory
-      - name: Publish Create the New Release
+      - name: Dotnet Publish
+        run: dotnet publish ./src/cangulo.cicd/cangulo.cicd.csproj  -o ./artifacts/cangulo.cicd/ -r linux-x64 --self-contained
+      - name: Zip asset
+        run: |
+          mkdir releaseAssets
+          zip -j -r ./releaseAssets/cangulo.cicd-linux-x64.zip ./artifacts/cangulo.cicd/
+      # - name: Dotnet Publish and Zip the output
+      #   run: ./build.cmd Publish CompressDirectory
+      - name: Create the New Release
         run: ./build.cmd CreateNewRelease
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
