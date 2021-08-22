@@ -68,15 +68,26 @@ https://www.continuousimprover.com/2020/03/reasons-for-adopting-nuke.html
 # How to use this locally
 
 ```bash
+################
 # cangulo.cicd
+################
+# Publish
 dotnet publish ./src/cangulo.cicd/cangulo.cicd.csproj  -o ./artifacts/cangulo.cicd/ -r linux-x64 --self-contained
+# Test
+artifacts/cangulo.cicd/cangulo.cicd ExecuteUnitTests
+
+################
+# cangulo.changelog
+################
+# Move to cangulo.changelog
+mv artifacts/** ../cangulo.changelog/cangulo.cicd
+# Test in cangulo.changelog
+cangulo.cicd/cangulo.cicd ExecuteUnitTests
 
 nuke ExecuteUnitTests
 nuke Publish
 artifacts/cangulo.cicd/cangulo.cicd ExecuteUnitTests
 rm -rf ../cangulo.changelog/cangulo.cicd
-mv artifacts/** ../cangulo.changelog/cangulo.cicd
 
-# cangulo.changelog
-cangulo.cicd/cangulo.cicd ExecuteUnitTests  
+
 ```
