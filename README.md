@@ -36,3 +36,18 @@ https://www.continuousimprover.com/2020/03/reasons-for-adopting-nuke.html
    1. Update when hotfix
    2. Update when patch
    3. Update when major
+
+
+# How to use this locally
+
+```bash
+# cangulo.cicd
+nuke ExecuteUnitTests
+nuke Publish
+artifacts/cangulo.cicd/cangulo.cicd ExecuteUnitTests
+rm -rf ../cangulo.changelog/cangulo.cicd
+mv artifacts/** ../cangulo.changelog/cangulo.cicd
+
+# cangulo.changelog
+cangulo.cicd/cangulo.cicd ExecuteUnitTests  
+```
