@@ -26,7 +26,7 @@ jobs:
         run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles GitPush
       - name: Dotnet Publish
         run: dotnet publish ./src/cangulo.cicd/cangulo.cicd.csproj  -o ./artifacts/cangulo.cicd/ -r linux-x64 --self-contained
-      - name: Zip asset
+      - name: Zip assets
         run: |
           mkdir releaseAssets
           zip -j -r ./releaseAssets/cangulo.cicd-linux-x64.zip ./artifacts/cangulo.cicd/
