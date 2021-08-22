@@ -14,8 +14,8 @@ internal partial class Build : NukeBuild
             var path = (RootDirectory / request.Path);
             var outputFileName = RootDirectory / request.OutputFileName;
 
-            ControlFlow.Assert(outputFileName.ToString().ToLowerInvariant().Contains(".zip"),"OutputFileName should end with .zip");
-            
+            ControlFlow.Assert(outputFileName.ToString().ToLowerInvariant().Contains(".zip"), "OutputFileName should end with .zip");
+
             Logger.Info($"zipping directory: {request.Path} into file: {outputFileName}");
 
             CompressionTasks.CompressZip(path, outputFileName);
