@@ -20,7 +20,8 @@ internal partial class Build : NukeBuild
 
             // CompressionTasks.Compress(path, outputFileName);
             // zip -j -r ./releaseAssets/cangulo.cicd-linux-x64.zip ./artifacts/cangulo.cicd/
-            Zip($"-j -r {outputFileName} {path}");
+            FileSystemTasks.EnsureExistingParentDirectory(outputFileName);
+            Zip($"-j -r {outputFileName} {path}/");
         });
 
 }
