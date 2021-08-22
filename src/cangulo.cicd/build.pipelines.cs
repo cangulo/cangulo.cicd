@@ -8,12 +8,13 @@ using Nuke.Common.Execution;
 [GitHubActions(
     "PR_Execute_DOTNET_UT",
     GitHubActionsImage.UbuntuLatest,
+    AutoGenerate = false,
     OnPullRequestIncludePaths = new[] { "src/**", "test/**" },
     InvokedTargets = new[] { nameof(ExecuteUnitTests) })]
 [GitHubActions(
     "PR_MERGED_RELEASE_NEW_VERSION",
     GitHubActionsImage.UbuntuLatest,
-     AutoGenerate = false,
+    AutoGenerate = false,
     OnPushBranches = new[] { "main" },
     InvokedTargets = new[] {
         nameof(ExecuteUnitTests),
