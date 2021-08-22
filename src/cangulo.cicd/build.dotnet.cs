@@ -76,7 +76,7 @@ internal partial class Build : NukeBuild
                 if (!string.IsNullOrEmpty(inputSettings.RunTime))
                     cmdSettings = cmdSettings
                     .SetRuntime(inputSettings.RunTime)
-                    .SetSelfContained(true);
+                    .SetSelfContained(false);
 
                 DotNetPublish(cmdSettings);
             }
