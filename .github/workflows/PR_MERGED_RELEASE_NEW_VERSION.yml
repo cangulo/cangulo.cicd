@@ -20,11 +20,10 @@ jobs:
       - name: Dotnet Publish
         run: ./build.cmd Publish
       - name: Zipping assets
-        run: |
-          mkdir releaseAssets
-          zip -j -r ./releaseAssets/cangulo.cicd-linux-x64.zip ./artifacts/cangulo.cicd/
-      # - name: Dotnet Publish and Zip the output
-      #   run: ./build.cmd CompressDirectory
+        # run: |
+        #   mkdir releaseAssets
+        #   zip -j -r ./releaseAssets/cangulo.cicd-linux-x64.zip ./artifacts/cangulo.cicd/
+        run: ./build.cmd CompressDirectory
       - name: Create the New Release
         run: ./build.cmd CreateNewRelease
         env:
