@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.24 -->
+# 0.0.24
+2021-08-29
+
+patch:
+* fixed null value in release
+<!-- END-VERSION: 0.0.24 -->
 <!-- START-VERSION: 0.0.23 -->
 # 0.0.23
 2021-08-29
