@@ -40,7 +40,7 @@
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
         },
-        "nuget-api-key": {
+        "nuget_api_key": {
           "type": "string",
           "description": "nuget api key",
           "default": "Secrets must be entered via 'nuke :secret [profile]'"
@@ -71,7 +71,7 @@
               "Compile",
               "CompressDirectory",
               "CreateNewRelease",
-              "CreateNugetPackage",
+              "CreateReleaseNugetPackage",
               "ExecuteUnitTests",
               "GitPushReleaseFiles",
               "ListCommitsInThisPR",
@@ -97,7 +97,7 @@
               "Compile",
               "CompressDirectory",
               "CreateNewRelease",
-              "CreateNugetPackage",
+              "CreateReleaseNugetPackage",
               "ExecuteUnitTests",
               "GitPushReleaseFiles",
               "ListCommitsInThisPR",
