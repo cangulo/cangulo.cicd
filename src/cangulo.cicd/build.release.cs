@@ -46,15 +46,17 @@ internal partial class Build : NukeBuild
     private Target UpdateVersionInFiles => _ => _
         .DependsOn(CalculateNextReleaseNumber)
         .Before(GitPushReleaseFiles)
-        .Executes(async () =>
+        .Executes(() =>
         {
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
 
             var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
             CICDFile.Versioning.CurrentVersion = nextReleaseNumber;
 
-            using var openStreamCICD = File.OpenWrite(CICDFilePath);
-            await JsonSerializer.SerializeAsync(openStreamCICD, CICDFile, SerializerContants.SERIALIZER_OPTIONS);
+            var newCICDFileContent = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
+
+            using StreamWriter fileWriter = new(CICDFilePath, append: false);
+            fileWriter.Write(newCICDFileContent);
         });
 
     private Target UpdateChangelog => _ => _
