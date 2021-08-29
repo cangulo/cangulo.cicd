@@ -12,8 +12,13 @@ namespace cangulo.cicd
             var services = new ServiceCollection();
 
             services
-                .AddDomainServices(context)
-                .AddChangelogServices(changelogSettings);
+                .AddDomainServices(context);
+
+            if (changelogSettings is not null)
+            {
+                services
+                    .AddChangelogServices(changelogSettings);
+            }
 
             return services.BuildServiceProvider(true);
         }
