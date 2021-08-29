@@ -14,13 +14,12 @@ internal partial class Build : NukeBuild
             Git($"config --global user.name \"{request.Name}\"");
         });
 
-    private Target GitPush => _ => _
+    private Target GitPushReleaseFiles => _ => _
         .DependsOn(SetupGitInPipeline)
         .Executes(() =>
         {
-            // TODO: add all changes and push
-
             Git($"add cicd.json", logOutput: true);
+            Git($"add CHANGELOG.md", logOutput: true);
             Git($"commit -m \"[ci] new version {CICDFile.Versioning.CurrentVersion} created\"", logOutput: true);
             Git($"push", logOutput: false);
         });

@@ -67,13 +67,14 @@
               "CompressDirectory",
               "CreateNewRelease",
               "ExecuteUnitTests",
-              "GitPush",
+              "GitPushReleaseFiles",
               "ListCommitsInThisPR",
               "PrintPipelineInfo",
               "Publish",
               "Restore",
               "SetTargetSolution",
               "SetupGitInPipeline",
+              "UpdateChangelog",
               "UpdateVersionInFiles"
             ]
           }
@@ -90,13 +91,14 @@
               "CompressDirectory",
               "CreateNewRelease",
               "ExecuteUnitTests",
-              "GitPush",
+              "GitPushReleaseFiles",
               "ListCommitsInThisPR",
               "PrintPipelineInfo",
               "Publish",
               "Restore",
               "SetTargetSolution",
               "SetupGitInPipeline",
+              "UpdateChangelog",
               "UpdateVersionInFiles"
             ]
           }
