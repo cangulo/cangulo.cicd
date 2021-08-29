@@ -1,22 +1,10 @@
 {
   "$schema": "./cicd.schema.json",
   "dotnetTargets": {
-    "solutionPath": "./cangulo.cicd.sln",
-    "dotnetPublish": {
-      "projectPath": "./src/cangulo.cicd/cangulo.cicd.csproj",
-      "outputFolder": "./artifacts/cangulo.cicd",
-      "runTime": "linux-x64"
-    }
-  },
-  "compressDirectory": {
-    "path": "./artifacts/cangulo.cicd",
-    "outputFileName": "./releaseAssets/cangulo.cicd-linux-x64.zip"
+    "solutionPath": "./nuget_test/src/cangulo.changelog.sln"
   },
   "versioning": {
-    "currentVersion": "0.0.20",
-    "releaseAssets": [
-      "./releaseAssets/cangulo.cicd-linux-x64.zip"
-    ]
+    "currentVersion": "0.0.20"
   },
   "gitTargets": {
     "email": "carlos.angulo.mascarell@outlook.com",
@@ -30,6 +18,17 @@
         "minor",
         "major"
       ]
+    }
+  },
+  "nugetSettings": {
+    "packNugetSettings": {
+      "projectPath": "./nuget_test/src/cangulo.changelog/cangulo.changelog.csproj",
+      "outputDirectory": "./nugets"
+    },
+    "pushNugetsSettings": {
+      "nugetsDirectory": "./nugets",
+      "apiKeyRequired": true,
+      "source": "https://api.nuget.org/v3/index.json"
     }
   }
 }

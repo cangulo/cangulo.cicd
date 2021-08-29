@@ -26,7 +26,7 @@
       ],
       "properties": {
         "solutionPath": {
-          "$id": "#root/solutionPath",
+          "$id": "#root/dotnetTargets/solutionPath",
           "title": "Solution Path",
           "description": "path to the .sln file",
           "type": "string",
@@ -37,7 +37,7 @@
           "pattern": "^.*.sln$"
         },
         "dotnetPublish": {
-          "$id": "#root/dotnetPublish",
+          "$id": "#root/dotnetTargets/dotnetPublish",
           "title": "Dotnet Publish",
           "type": "object",
           "required": [
@@ -240,7 +240,8 @@
                   "minor",
                   "major"
                 ],
-                "pattern": "^.*$"
+                "pattern": "^.*$",
+                "minLength": 1
               }
             }
           },
@@ -248,6 +249,88 @@
         }
       },
       "additionalProperties": false
+    },
+    "nugetSettings": {
+      "$id": "#root/nugetSettings",
+      "title": "Nuget Settings",
+      "type": "object",
+      "required": [
+        "packNugetSettings",
+        "pushNugetsSettings"
+      ],
+      "properties": {
+        "packNugetSettings": {
+          "$id": "#root/nugetSettings/packNugetSettings",
+          "title": "Pack Nuget Settings",
+          "type": "object",
+          "required": [
+            "projectPath",
+            "outputDirectory"
+          ],
+          "properties": {
+            "projectPath": {
+              "$id": "#root/nugetSettings/packNugetSettings/projectPath",
+              "title": "Project Path",
+              "description": "Relative path to the .csproj file",
+              "type": "string",
+              "default": "",
+              "examples": [],
+              "pattern": "^.*.csproj$"
+            },
+            "outputDirectory": {
+              "$id": "#root/nugetSettings/packNugetSettings/outputDirectory",
+              "title": "Output Directory",
+              "description": "Relative path to the folder to store the nuget package created",
+              "type": "string",
+              "default": "",
+              "examples": [
+                "./nugets"
+              ],
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "pushNugetsSettings": {
+          "$id": "#root/nugetSettings/pushNugetsSettings",
+          "title": "Push Nugets Settings",
+          "type": "object",
+          "required": [
+            "nugetsDirectory",
+            "apiKeyRequired",
+            "source"
+          ],
+          "properties": {
+            "nugetsDirectory": {
+              "$id": "#root/nugetSettings/pushNugetsSettings/nugetsDirectory",
+              "title": "Nugets Directory",
+              "type": "string",
+              "default": "",
+              "examples": [
+                "./nugets"
+              ],
+              "minLength": 1
+            },
+            "apiKeyRequired": {
+              "$id": "#root/nugetSettings/pushNugetsSettings/apiKeyRequired",
+              "title": "Api Key Required",
+              "type": "boolean",
+              "default": true
+            },
+            "source": {
+              "$id": "#root/nugetSettings/pushNugetsSettings/source",
+              "title": "Source",
+              "type": "string",
+              "default": "https://api.nuget.org/v3/index.json",
+              "examples": [
+                "https://api.nuget.org/v3/index.json"
+              ],
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      }
     }
   },
   "additionalProperties": false

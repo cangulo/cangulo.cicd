@@ -29,6 +29,9 @@ internal partial class Build : NukeBuild
     [Parameter("GitHub auth token", Name = "github-token"), Secret]
     private readonly string GitHubToken;
 
+    [Parameter("nuget api key", Name = "nuget_api_key"), Secret]
+    private readonly string NugetApiKey;
+
     [CI] GitHubActions GitHubActions;
 
     public IDictionary<string, object> ResultBagDictionary;
