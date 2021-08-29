@@ -1,0 +1,31 @@
+﻿[
+  {
+    "scenario": "non_conventional_commits_provided",
+    "input": [
+      "change 1",
+      "change 2",
+      "change 3"
+    ],
+    "expectedOutput": [
+      "* change 1",
+      "* change 2",
+      "* change 3"
+    ]
+  },
+  {
+    "scenario": "conventional_commits_provided",
+    "input": [
+      "feat:bla bla",
+      "fix:ble ble",
+      "blu blu"
+    ],
+    "expectedOutput": [
+      "feat:",
+      "* bla bla",
+      "fix:",
+      "* ble ble",
+      "others:",
+      "* blu blu"
+    ]
+  }
+]

@@ -254,10 +254,7 @@
       "$id": "#root/nugetSettings",
       "title": "Nuget Settings",
       "type": "object",
-      "required": [
-        "packNugetSettings",
-        "pushNugetsSettings"
-      ],
+      "required": [],
       "properties": {
         "packNugetSettings": {
           "$id": "#root/nugetSettings/packNugetSettings",
