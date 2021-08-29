@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.28 -->
+# 0.0.28
+2021-08-29
+
+patch:
+* simplified
+<!-- END-VERSION: 0.0.28 -->
 <!-- START-VERSION: 0.0.27 -->
 # 0.0.27
 2021-08-29
