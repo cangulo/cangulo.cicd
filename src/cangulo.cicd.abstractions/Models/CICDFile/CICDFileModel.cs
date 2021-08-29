@@ -12,5 +12,6 @@ namespace cangulo.cicd.abstractions.Models.CICDFile
         public VersioningTargetsSettings Versioning { get; set; }
         public GitTargetsSettings GitTargets { get; set; }
         public ChangelogSettings ChangelogSettings { get; set; }
+        public NugetSettings NugetSettings { get; set; }
     }
 }

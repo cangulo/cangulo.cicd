@@ -1,0 +1,63 @@
+﻿[
+  {
+    "scenario": "first_version",
+    "input": {
+      "version": "0.0.1",
+      "newChanges": [
+        "change 1",
+        "change 2",
+        "change 3"
+      ],
+      "previousChangelogFile": []
+    },
+    "expectedOutput": [
+      "<!-- START-VERSION: 0.0.1 -->",
+      "# 0.0.1",
+      "{DATE}",
+      "",
+      "* change 1",
+      "* change 2",
+      "* change 3",
+      "<!-- END-VERSION: 0.0.1 -->"
+    ]
+  },
+  {
+    "scenario": "second_version",
+    "input": {
+      "version": "0.0.2",
+      "newChanges": [
+        "change 4",
+        "change 5",
+        "change 6"
+      ],
+      "previousChangelogFile": [
+        "<!-- START-VERSION: 0.0.1 -->",
+        "# 0.0.1",
+        "2020-08-29",
+        "",
+        "* change 1",
+        "* change 2",
+        "* change 3",
+        "<!-- END-VERSION: 0.0.1 -->"
+      ]
+    },
+    "expectedOutput": [
+      "<!-- START-VERSION: 0.0.2 -->",
+      "# 0.0.2",
+      "{DATE}",
+      "",
+      "* change 4",
+      "* change 5",
+      "* change 6",
+      "<!-- END-VERSION: 0.0.2 -->",
+      "<!-- START-VERSION: 0.0.1 -->",
+      "# 0.0.1",
+      "2020-08-29",
+      "",
+      "* change 1",
+      "* change 2",
+      "* change 3",
+      "<!-- END-VERSION: 0.0.1 -->"
+    ]
+  }
+]
