@@ -43,7 +43,7 @@ internal partial class Build : NukeBuild
             resultBagRepository.AddResult(resultKey, nextReleaseNumber.ToString());
         });
 
-    private Target UpdateVersionInFiles => _ => _
+    private Target UpdateVersionInCICDFile => _ => _
         .DependsOn(CalculateNextReleaseNumber)
         .Before(GitPushReleaseFiles)
         .Executes(() =>
@@ -76,7 +76,7 @@ internal partial class Build : NukeBuild
         });
 
     private Target CreateNewRelease => _ => _
-        .DependsOn(UpdateVersionInFiles, UpdateChangelog, GitPushReleaseFiles)
+        .DependsOn(UpdateVersionInCICDFile, UpdateChangelog, GitPushReleaseFiles)
         .Executes(async () =>
         {
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");

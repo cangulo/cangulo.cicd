@@ -16,12 +16,12 @@ jobs:
       - name: Calculate Next Release Number, Update Version In Files, Push Changes
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
-        run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInFiles UpdateChangelog GitPushReleaseFiles
+        run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInCICDFile UpdateChangelog GitPushReleaseFiles
       - name: Dotnet Publish
         run: ./build.cmd Publish
       - name: Zipping assets
         run: ./build.cmd CompressDirectory
       - name: Create the New Release
-        run: ./build.cmd CreateNewRelease --skip UpdateVersionInFiles+UpdateChangelog+GitPushReleaseFiles
+        run: ./build.cmd CreateNewRelease --skip UpdateVersionInCICDFile+UpdateChangelog+GitPushReleaseFiles
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}

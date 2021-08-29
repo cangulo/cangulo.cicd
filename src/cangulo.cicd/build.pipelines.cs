@@ -19,7 +19,7 @@ using Nuke.Common.Execution;
     InvokedTargets = new[] {
         nameof(ExecuteUnitTests),
         nameof(Publish),
-        nameof(UpdateVersionInFiles),
+        nameof(UpdateVersionInCICDFile),
         nameof(CompressDirectory),
         nameof(CreateNewRelease)
         },

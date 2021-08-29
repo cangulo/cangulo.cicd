@@ -82,7 +82,7 @@
               "SetTargetSolution",
               "SetupGitInPipeline",
               "UpdateChangelog",
-              "UpdateVersionInFiles"
+              "UpdateVersionInCICDFile"
             ]
           }
         },
@@ -108,7 +108,7 @@
               "SetTargetSolution",
               "SetupGitInPipeline",
               "UpdateChangelog",
-              "UpdateVersionInFiles"
+              "UpdateVersionInCICDFile"
             ]
           }
         },
