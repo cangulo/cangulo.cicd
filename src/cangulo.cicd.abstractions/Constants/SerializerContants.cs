@@ -9,7 +9,8 @@ namespace cangulo.cicd.abstractions.Constants
         {
             WriteIndented = true,
             Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
 
         public static JsonSerializerOptions DESERIALIZER_OPTIONS = new JsonSerializerOptions
