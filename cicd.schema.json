@@ -117,8 +117,7 @@
       "title": "Versioning Settings",
       "type": "object",
       "required": [
-        "currentVersion",
-        "releaseAssets"
+        "currentVersion"
       ],
       "properties": {
         "currentVersion": {
