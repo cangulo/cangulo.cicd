@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.25 -->
+# 0.0.25
+2021-08-29
+
+patch:
+* fix nuget
+<!-- END-VERSION: 0.0.25 -->
 <!-- START-VERSION: 0.0.24 -->
 # 0.0.24
 2021-08-29
