@@ -6,7 +6,6 @@ using System.Text.Json;
 internal partial class Build : NukeBuild
 {
     private Target PrintPipelineInfo => _ => _
-        .DependsOn(ParseCICDFile)
         .Executes(() =>
         {
             Logger.Info($"GitRepo:\n{JsonSerializer.Serialize(GitRepository, SerializerContants.SERIALIZER_OPTIONS)}");

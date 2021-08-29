@@ -21,5 +21,15 @@
   "gitTargets": {
     "email": "carlos.angulo.mascarell@outlook.com",
     "name": "cangulo.cicd"
+  },
+  "changelogSettings": {
+    "commitsMode": "conventionalCommits",
+    "conventionalCommitsSettings": {
+      "types": [
+        "patch",
+        "minor",
+        "major"
+      ]
+    }
   }
 }

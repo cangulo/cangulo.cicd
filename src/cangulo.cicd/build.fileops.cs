@@ -4,7 +4,6 @@ using Nuke.Common.IO;
 internal partial class Build : NukeBuild
 {
     private Target CompressDirectory => _ => _
-        .DependsOn(ParseCICDFile)
         .Executes(() =>
         {
             ControlFlow.NotNull(CICDFile.CompressDirectory, "CompressDirectory should be provided in the cicd.json");

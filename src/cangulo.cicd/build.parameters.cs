@@ -13,6 +13,7 @@ internal partial class Build : NukeBuild
     public CICDFileModel CICDFile;
 
     public AbsolutePath CICDFilePath = RootDirectory / "cicd.json";
+    public AbsolutePath ChangelogPath = RootDirectory / "CHANGELOG.md";
 
     public Solution TargetSolutionParsed;
 

@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="cangulo.changelog" Version="0.0.1-beta" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Nuke.Common" Version="5.1.4" />
   </ItemGroup>
@@ -21,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\Requests\" />
+    <None Remove="..\.nuke\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="..\.nuke\parameters.json" />
   </ItemGroup>
 </Project>

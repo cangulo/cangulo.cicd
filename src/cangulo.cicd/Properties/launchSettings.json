@@ -2,7 +2,8 @@
   "profiles": {
     "cangulo.cicd": {
       "commandName": "Project",
-      "commandLineArgs": "--root ..\\..\\.."
+      "commandLineArgs": "--root C:\\repos-github\\cangulo.cicd",
+      "workingDirectory": "C:\\repos-github\\cangulo.cicd"
     }
   }
 }

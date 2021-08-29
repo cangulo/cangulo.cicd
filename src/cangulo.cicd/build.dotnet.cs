@@ -11,7 +11,6 @@ using System;
 internal partial class Build : NukeBuild
 {
     private Target SetTargetSolution => _ => _
-        .DependsOn(ParseCICDFile)
         .Executes(() =>
             {
                 var solutionPath = RootDirectory / CICDFile.DotnetTargets.SolutionPath;
@@ -29,7 +28,7 @@ internal partial class Build : NukeBuild
                 RootDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
             });
     private Target Restore => _ => _
-        .DependsOn(ParseCICDFile, SetTargetSolution, CleanBuildFolders)
+        .DependsOn(SetTargetSolution, CleanBuildFolders)
         .Executes(() =>
          {
              DotNetRestore(s => s
@@ -37,7 +36,7 @@ internal partial class Build : NukeBuild
          });
 
     private Target Compile => _ => _
-        .DependsOn(ParseCICDFile, SetTargetSolution, Restore)
+        .DependsOn(SetTargetSolution, Restore)
         .Executes(() =>
         {
             DotNetBuild(s => s
@@ -46,7 +45,7 @@ internal partial class Build : NukeBuild
         });
 
     private Target ExecuteUnitTests => _ => _
-        .DependsOn(ParseCICDFile, SetTargetSolution, Compile)
+        .DependsOn(SetTargetSolution, Compile)
         .Executes(() =>
         {
             DotNetTest(s => s
@@ -56,7 +55,7 @@ internal partial class Build : NukeBuild
         });
 
     private Target Publish => _ => _
-        .DependsOn(ParseCICDFile, SetTargetSolution)
+        .DependsOn(SetTargetSolution)
         .Before(CompressDirectory)
         .Executes(() =>
         {

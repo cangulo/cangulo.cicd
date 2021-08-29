@@ -77,7 +77,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "compressDirectory": {
       "$id": "#root/compressDirectory",
@@ -108,7 +109,8 @@
           ],
           "pattern": "^.*\\.zip$"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "versioning": {
       "$id": "#root/versioning",
@@ -124,7 +126,7 @@
           "title": "Current Version",
           "description": "Current Version of the project following semantic versioning. It also allow to add prefix version as",
           "type": "string",
-          "default": "",
+          "default": "0.0.0",
           "examples": [
             "0.0.2",
             "0.0.2-beta",
@@ -148,7 +150,8 @@
             "pattern": "^.*$"
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "gitTargets": {
       "$id": "#root/gitTargets",
@@ -179,7 +182,73 @@
           ],
           "pattern": "^.*$"
         }
-      }
+      },
+      "additionalProperties": false
+    },
+    "changelogSettings": {
+      "$id": "#root/changelogSettings",
+      "title": "Changelog Settings",
+      "type": "object",
+      "default": {
+        "commitsMode": "conventionalCommits",
+        "conventionalCommitsSettings": {
+          "types": [
+            "patch",
+            "minor",
+            "major"
+          ]
+        }
+      },
+      "required": [
+        "commitsMode"
+      ],
+      "properties": {
+        "commitsMode": {
+          "$id": "#root/changelogSettings/commitsMode",
+          "title": "CommitsMode",
+          "type": "string",
+          "enum": [
+            "nonConventionalCommits",
+            "conventionalCommits"
+          ]
+        },
+        "conventionalCommitsSettings": {
+          "$id": "#root/gitTargets/conventionalCommitsSettings",
+          "title": "Conventional Commits Settings",
+          "description": "Only provide this field if you set `conventionalCommits` in the commitsMode property",
+          "type": "object",
+          "required": [
+            "types"
+          ],
+          "properties": {
+            "types": {
+              "$id": "#root/changelogSettings/conventionalCommitsSettings/types",
+              "title": "types",
+              "description": "Provide here the commit type which will be read from the commit message as: *commit-type: body*",
+              "type": "array",
+              "default": [
+                "patch",
+                "minor",
+                "major"
+              ],
+              "items": {
+                "$id": "#root/changelogSettings/conventionalCommitsSettings/types/items",
+                "title": "Items",
+                "type": "string",
+                "default": "",
+                "examples": [
+                  "patch",
+                  "minor",
+                  "major"
+                ],
+                "pattern": "^.*$"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

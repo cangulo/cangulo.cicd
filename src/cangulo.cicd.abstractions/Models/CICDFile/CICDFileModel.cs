@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using cangulo.changelog.Models;
+using System.Text.Json.Serialization;
 
 namespace cangulo.cicd.abstractions.Models.CICDFile
 {
@@ -10,5 +11,6 @@ namespace cangulo.cicd.abstractions.Models.CICDFile
         public CompressDirectoryTargetSettings CompressDirectory { get; set; }
         public VersioningTargetsSettings Versioning { get; set; }
         public GitTargetsSettings GitTargets { get; set; }
+        public ChangelogSettings ChangelogSettings { get; set; }
     }
 }

@@ -1,30 +1,28 @@
 ﻿using System.Linq;
+using cangulo.cicd.domain.Repositories;
 using cangulo.cicd.domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Nuke.Common;
-using Octokit;
 
 internal partial class Build : NukeBuild
 {
-    private Target GetCommitsInAMergedPR => _ => _
-        .Executes(async () =>
-        {
-            ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
+    private Target ListCommitsInThisPR => _ => _
+    .Executes(async () =>
+    {
+        var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
+        var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
 
-            var repoOwner = GitHubActions.GitHubRepositoryOwner;
-            var ghClient = new GitHubClient(new ProductHeaderValue($"{repoOwner}"));
-            ghClient.Credentials = new Credentials(GitHubToken);
-            var client = ghClient.Repository.PullRequest;
+        var ghClient = GetGHClient(GitHubActions);
+        var commitMsgs = await prService.GetCommitsFromLastMergedPR(ghClient, GitHubActions);
 
-            var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
+        ControlFlow.Assert(commitMsgs.Any(), "no commits founds");
 
-            var commitMsgs = await prService.GetCommitsFromLastMergedPR(ghClient, GitHubActions);
-            
-            ControlFlow.Assert(commitMsgs.Any(), "no commits founds");
-            
-            Logger.Info($"Commits Found:{commitMsgs.Count()}");
-            commitMsgs
-                .ToList()
-                .ForEach(Logger.Info);
-        });
+        Logger.Info($"Commits Found:{commitMsgs.Count()}");
+        commitMsgs
+            .ToList()
+            .ForEach(Logger.Info);
+
+        var resultKey = nameof(ListCommitsInThisPR);
+        resultBagRepository.AddResult(resultKey, commitMsgs);
+    });
 }
