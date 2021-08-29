@@ -64,7 +64,7 @@ internal partial class Build : NukeBuild
                                             .SetSource(request.Source);
 
                     if (request.ApiKeyRequired)
-                        pushSettings.SetApiKey(NugetApiKey);
+                        pushSettings = pushSettings.SetApiKey(NugetApiKey);
 
                     DotNetTasks.DotNetNuGetPush(pushSettings);
                 });
