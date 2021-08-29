@@ -22,6 +22,6 @@ jobs:
       - name: Zipping assets
         run: ./build.cmd CompressDirectory
       - name: Create the New Release
-        run: ./build.cmd CreateNewRelease --skip UpdateVersionInCICDFile+UpdateChangelog+GitPushReleaseFiles
+        run: ./build.cmd CreateNewRelease --skip ListCommitsInThisPR
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
