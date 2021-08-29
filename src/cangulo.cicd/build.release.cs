@@ -106,18 +106,21 @@ internal partial class Build : NukeBuild
             var releaseCreated = await releaseOperatorClient.Create(repoOwner, repoName, newReleaseData);
             Logger.Success($"Release {nextVersion} created!");
 
-            foreach (var releaseAsset in request.ReleaseAssets)
+            if (request.ReleaseAssets is not null && request.ReleaseAssets.Any())
             {
-                var fileName = Path.GetFileName(releaseAsset);
-
-                var assetData = new ReleaseAssetUpload
+                foreach (var releaseAsset in request.ReleaseAssets)
                 {
-                    FileName = fileName,
-                    RawData = File.OpenRead(RootDirectory / releaseAsset),
-                    ContentType = "application/zip"
-                };
-                await releaseOperatorClient.UploadAsset(releaseCreated, assetData);
-                Logger.Info($"Asset {fileName} uploaded");
+                    var fileName = Path.GetFileName(releaseAsset);
+
+                    var assetData = new ReleaseAssetUpload
+                    {
+                        FileName = fileName,
+                        RawData = File.OpenRead(RootDirectory / releaseAsset),
+                        ContentType = "application/zip"
+                    };
+                    await releaseOperatorClient.UploadAsset(releaseCreated, assetData);
+                    Logger.Info($"Asset {fileName} uploaded");
+                }
             }
         });
 }
