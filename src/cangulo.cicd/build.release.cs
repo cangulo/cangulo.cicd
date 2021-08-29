@@ -10,29 +10,25 @@ using System.Linq;
 using System.Text.Json;
 using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using cangulo.changelog.builders;
-using System;
 using cangulo.cicd.domain.Repositories;
 
 internal partial class Build : NukeBuild
 {
     private Target CalculateNextReleaseNumber => _ => _
-        .DependsOn(ParseCICDFile)
-        .Executes(async () =>
+        .DependsOn(ListCommitsInThisPR)
+        .Executes(() =>
         {
-            ValidateCICDPropertyIsProvided(CICDFile.Versioning, nameof(CICDFile.Versioning));
-            var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
-
-            var request = CICDFile.Versioning;
-
             var commitParser = _serviceProvider.GetRequiredService<ICommitParser>();
             var nextReleaseNumberHelper = _serviceProvider.GetRequiredService<INextReleaseNumberHelper>();
             var releaseNumberParser = _serviceProvider.GetRequiredService<IReleaseNumberParser>();
 
-            var commitMsgs = await GetCommitsFromLastMergedPR(prService);
+            ValidateCICDPropertyIsProvided(CICDFile.Versioning, nameof(CICDFile.Versioning));
+            var request = CICDFile.Versioning;
+
+            var commitMsgs = resultBagRepository.GetResult<string[]>(nameof(ListCommitsInThisPR));
+            ControlFlow.Assert(commitMsgs.Any(), $"no commit messages found in the resultbag. Please execute the target {nameof(ListCommitsInThisPR)} before");
 
             var commitChosen = commitMsgs.Last();
             var conventionalCommit = commitParser.ParseConventionalCommit(commitChosen);
@@ -47,25 +43,12 @@ internal partial class Build : NukeBuild
             resultBagRepository.AddResult(resultKey, nextReleaseNumber.ToString());
         });
 
-    private async Task<IEnumerable<string>> GetCommitsFromLastMergedPR(IPullRequestService prService)
-    {
-        var ghClient = GetGHClient(GitHubActions);
-        var commitMsgs = await prService.GetCommitsFromLastMergedPR(ghClient, GitHubActions);
-
-        ControlFlow.Assert(commitMsgs.Any(), "no commits founds");
-
-        Logger.Info($"Commits Found:{commitMsgs.Count()}");
-        commitMsgs
-            .ToList()
-            .ForEach(Logger.Info);
-        return commitMsgs;
-    }
-
     private Target UpdateVersionInFiles => _ => _
-        .DependsOn(ParseCICDFile, CalculateNextReleaseNumber)
+        .DependsOn(CalculateNextReleaseNumber)
         .Executes(async () =>
         {
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
+            var changelogBuilder = _serviceProvider.GetRequiredService<IChangelogBuilder>();
 
             var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
             CICDFile.Versioning.CurrentVersion = nextReleaseNumber;
@@ -73,17 +56,20 @@ internal partial class Build : NukeBuild
             using var openStreamCICD = File.OpenWrite(CICDFilePath);
             await JsonSerializer.SerializeAsync(openStreamCICD, CICDFile, SerializerContants.SERIALIZER_OPTIONS);
 
-            // TODO: Update Changelog
+            var commitMsgs = resultBagRepository.GetResult<string[]>(nameof(ListCommitsInThisPR));
+            ControlFlow.Assert(commitMsgs.Any(), $"no commit messages found in the resultbag. Please execute the target {nameof(ListCommitsInThisPR)} before");
+            changelogBuilder.Build(nextReleaseNumber, commitMsgs, ChangelogPath);
         });
 
     private Target CreateNewRelease => _ => _
-        .DependsOn(ParseCICDFile)
+        .DependsOn(ListCommitsInThisPR)
         .Executes(async () =>
         {
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
 
             var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
             var releaseBodyBuilder = _serviceProvider.GetRequiredService<IReleaseNotesBuilder>();
+            var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
 
             var repoOwner = GitHubActions.GitHubRepositoryOwner;
             var repoName = GitHubActions.GitHubRepository.Replace($"{repoOwner}/", string.Empty);
@@ -92,7 +78,8 @@ internal partial class Build : NukeBuild
 
             var request = CICDFile.Versioning;
             var nextVersion = request.CurrentVersion;
-            var commitMsgs = await GetCommitsFromLastMergedPR(prService);
+            var commitMsgs = resultBagRepository.GetResult<string[]>(nameof(ListCommitsInThisPR));
+            ControlFlow.Assert(commitMsgs.Any(), $"no commit messages found in the resultbag. Please execute the target {nameof(ListCommitsInThisPR)} before");
 
             Logger.Info($"Creating Release {nextVersion}");
 
@@ -103,7 +90,7 @@ internal partial class Build : NukeBuild
             };
 
             var releaseCreated = await releaseOperatorClient.Create(repoOwner, repoName, newReleaseData);
-            Logger.Success($"Created release {nextVersion}!");
+            Logger.Success($"Release {nextVersion} created!");
 
             foreach (var releaseAsset in request.ReleaseAssets)
             {

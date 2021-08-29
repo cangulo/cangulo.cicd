@@ -19,7 +19,6 @@ namespace cangulo.cicd.domain.Extensions
                 .AddTransient<ICommitParser, CommitParser>()
                 .AddTransient<IReleaseNumberParser, ReleaseNumberParser>()
                 .AddTransient<IPullRequestService, PullRequestService>()
-                .AddTransient<IChangeLogService, ChangeLogService>()
                 .AddTransient<IResultBagRepository, ResultBagRepository>(s => new ResultBagRepository(context.ResultBagFilePath))
                 .AddTransient<INextReleaseNumberHelper, NextReleaseNumberHelper>();
         }
