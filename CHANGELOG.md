@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.22 -->
+# 0.0.22
+2021-08-29
+
+patch:
+* fixed error when serializing
+<!-- END-VERSION: 0.0.22 -->
 <!-- START-VERSION: 0.0.21 -->
 # 0.0.21
 2021-08-29
