@@ -145,7 +145,7 @@
         },
         "updateVersionInCSProjSettings": {
           "$id": "#root/versioning/updateVersionInCSProjSettings",
-          "title": "Dotnet Publish",
+          "title": "Update Version in .csproj file",
           "type": "object",
           "required": [
             "projectPath",
@@ -163,7 +163,7 @@
             },
             "preReleaseVersionSuffix": {
               "$id": "#root/versioning/updateVersionInCSProjSettings/preReleaseVersionSuffix",
-              "title": "Output Folder",
+              "title": "version suffix to set in the .csproj",
               "type": "string",
               "examples": [
                 "alpha",
@@ -171,7 +171,8 @@
               ],
               "minLength": 1
             }
-          }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": false
