@@ -18,9 +18,12 @@
       "./releaseAssets/cangulo.cicd-linux-x64.zip"
     ]
   },
-  "gitTargets": {
+  "gitSettings": {
     "email": "carlos.angulo.mascarell@outlook.com",
-    "name": "cangulo.cicd"
+    "name": "cangulo.cicd",
+    "gitPushReleaseFilesSettings": {
+      "filesPath": []
+    }
   },
   "changelogSettings": {
     "commitsMode": "conventionalCommits",

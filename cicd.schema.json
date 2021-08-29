@@ -177,8 +177,8 @@
       },
       "additionalProperties": false
     },
-    "gitTargets": {
-      "$id": "#root/gitTargets",
+    "gitSettings": {
+      "$id": "#root/gitSettings",
       "title": "Git Pipeline Settings",
       "type": "object",
       "required": [
@@ -187,7 +187,7 @@
       ],
       "properties": {
         "email": {
-          "$id": "#root/gitTargets/email",
+          "$id": "#root/gitSettings/email",
           "title": "Email",
           "type": "string",
           "examples": [
@@ -196,13 +196,38 @@
           "pattern": "^.*$"
         },
         "name": {
-          "$id": "#root/gitTargets/name",
+          "$id": "#root/gitSettings/name",
           "title": "Name",
           "type": "string",
           "examples": [
             "cangulo.cicd"
           ],
           "pattern": "^.*$"
+        },
+        "gitPushReleaseFilesSettings": {
+          "$id": "#root/gitSettings/gitPushReleaseFilesSettings",
+          "title": "Git Push Release Files Settings",
+          "type": "object",
+          "required": [
+            "filesPath"
+          ],
+          "properties": {
+            "filesPath": {
+              "$id": "#root/gitSettings/gitPushReleaseFilesSettings/filesPath",
+              "title": "Files Path",
+              "description": "path to the path to push when creating a release",
+              "type": "array",
+              "minLength": 1,
+              "items": {
+                "$id": "#root/gitSettings/gitPushReleaseFilesSettings/filesPath/items",
+                "title": "Items",
+                "type": "string",
+                "pattern": "^.*$",
+                "minLength": 1
+              }
+            }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": false
@@ -235,7 +260,7 @@
           ]
         },
         "conventionalCommitsSettings": {
-          "$id": "#root/gitTargets/conventionalCommitsSettings",
+          "$id": "#root/gitSettings/conventionalCommitsSettings",
           "title": "Conventional Commits Settings",
           "description": "Only provide this field if you set `conventionalCommits` in the commitsMode property",
           "type": "object",
