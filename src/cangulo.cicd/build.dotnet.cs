@@ -45,7 +45,7 @@ internal partial class Build : NukeBuild
         });
 
     private Target ExecuteUnitTests => _ => _
-        .DependsOn(SetTargetSolution, Compile)
+        .DependsOn(Compile)
         .Executes(() =>
         {
             DotNetTest(s => s
@@ -56,7 +56,6 @@ internal partial class Build : NukeBuild
 
     private Target Publish => _ => _
         .DependsOn(SetTargetSolution)
-        .Before(CompressDirectory)
         .Executes(() =>
         {
             ControlFlow.NotNull(CICDFile.DotnetTargets.DotnetPublish, "DotnetPublish should be provided in the cicd.json");

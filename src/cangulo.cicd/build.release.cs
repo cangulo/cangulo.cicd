@@ -45,24 +45,36 @@ internal partial class Build : NukeBuild
 
     private Target UpdateVersionInFiles => _ => _
         .DependsOn(CalculateNextReleaseNumber)
+        .Before(GitPushReleaseFiles)
         .Executes(async () =>
         {
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
-            var changelogBuilder = _serviceProvider.GetRequiredService<IChangelogBuilder>();
 
             var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
             CICDFile.Versioning.CurrentVersion = nextReleaseNumber;
 
             using var openStreamCICD = File.OpenWrite(CICDFilePath);
             await JsonSerializer.SerializeAsync(openStreamCICD, CICDFile, SerializerContants.SERIALIZER_OPTIONS);
+        });
 
+    private Target UpdateChangelog => _ => _
+        .DependsOn(CalculateNextReleaseNumber)
+        .Before(GitPushReleaseFiles)
+        .Executes(() =>
+        {
+            var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
+            var changelogBuilder = _serviceProvider.GetRequiredService<IChangelogBuilder>();
+
+            var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
             var commitMsgs = resultBagRepository.GetResult<string[]>(nameof(ListCommitsInThisPR));
+
             ControlFlow.Assert(commitMsgs.Any(), $"no commit messages found in the resultbag. Please execute the target {nameof(ListCommitsInThisPR)} before");
+
             changelogBuilder.Build(nextReleaseNumber, commitMsgs, ChangelogPath);
         });
 
     private Target CreateNewRelease => _ => _
-        .DependsOn(ListCommitsInThisPR)
+        .DependsOn(UpdateVersionInFiles, UpdateChangelog, GitPushReleaseFiles)
         .Executes(async () =>
         {
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
