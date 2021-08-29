@@ -82,7 +82,9 @@
               "SetTargetSolution",
               "SetupGitInPipeline",
               "UpdateChangelog",
-              "UpdateVersionInFiles"
+              "UpdatePreReleaseVersionInCSProj",
+              "UpdateReleaseVersionInCSProj",
+              "UpdateVersionInCICDFile"
             ]
           }
         },
@@ -108,7 +110,9 @@
               "SetTargetSolution",
               "SetupGitInPipeline",
               "UpdateChangelog",
-              "UpdateVersionInFiles"
+              "UpdatePreReleaseVersionInCSProj",
+              "UpdateReleaseVersionInCSProj",
+              "UpdateVersionInCICDFile"
             ]
           }
         },

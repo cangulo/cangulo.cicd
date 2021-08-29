@@ -142,6 +142,36 @@
             ],
             "pattern": "^.*$"
           }
+        },
+        "updateVersionInCSProjSettings": {
+          "$id": "#root/versioning/updateVersionInCSProjSettings",
+          "title": "Dotnet Publish",
+          "type": "object",
+          "required": [
+            "projectPath",
+            "preReleaseVersionSuffix"
+          ],
+          "properties": {
+            "projectPath": {
+              "$id": "#root/versioning/updateVersionInCSProjSettings/projectPath",
+              "title": "Project Path",
+              "type": "string",
+              "examples": [
+                "./src/cangulo.cicd/cangulo.cicd.csproj"
+              ],
+              "pattern": "^.*.csproj$"
+            },
+            "preReleaseVersionSuffix": {
+              "$id": "#root/versioning/updateVersionInCSProjSettings/preReleaseVersionSuffix",
+              "title": "Output Folder",
+              "type": "string",
+              "examples": [
+                "alpha",
+                "beta"
+              ],
+              "minLength": 1
+            }
+          }
         }
       },
       "additionalProperties": false

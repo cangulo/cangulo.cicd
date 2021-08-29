@@ -4,5 +4,6 @@
     {
         public string CurrentVersion { get; set; }
         public string[] ReleaseAssets { get; set; }
+        public UpdateVersionInCSProjSettings UpdateVersionInCSProjSettings { get; set; }
     }
 }

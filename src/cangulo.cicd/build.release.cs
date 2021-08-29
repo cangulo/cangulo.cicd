@@ -12,6 +12,7 @@ using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Services;
 using cangulo.changelog.builders;
 using cangulo.cicd.domain.Repositories;
+using System.Text.RegularExpressions;
 
 internal partial class Build : NukeBuild
 {
@@ -43,7 +44,7 @@ internal partial class Build : NukeBuild
             resultBagRepository.AddResult(resultKey, nextReleaseNumber.ToString());
         });
 
-    private Target UpdateVersionInFiles => _ => _
+    private Target UpdateVersionInCICDFile => _ => _
         .DependsOn(CalculateNextReleaseNumber)
         .Before(GitPushReleaseFiles)
         .Executes(() =>
@@ -74,9 +75,61 @@ internal partial class Build : NukeBuild
 
             changelogBuilder.Build(nextReleaseNumber, commitMsgs, ChangelogPath);
         });
+    private Target UpdateReleaseVersionInCSProj => _ => _
+        .DependsOn(CalculateNextReleaseNumber)
+        .Before(GitPushReleaseFiles)
+        .Executes(() =>
+        {
+            ControlFlow.NotNull(CICDFile.Versioning.UpdateVersionInCSProjSettings, "This Target can't be executed locally");
+
+            var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
+            var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
+
+            var projectPath = CICDFile.Versioning.UpdateVersionInCSProjSettings.ProjectPath;
+
+            using var reader = new StreamReader(projectPath);
+            var csprojContent = reader.ReadToEnd();
+            reader.Close();
+
+            var pattern = @"<Version>(.*)<\/Version>";
+            var newVersionText = $"<Version>{nextReleaseNumber}</Version>";
+            var newContent = Regex.Replace(csprojContent, pattern, newVersionText);
+
+            using var writer = new StreamWriter(projectPath);
+            writer.Write(newContent);
+            writer.Close();
+        });
+
+    private Target UpdatePreReleaseVersionInCSProj => _ => _
+        .DependsOn(CalculateNextReleaseNumber)
+        .Before(GitPushReleaseFiles)
+        .Executes(() =>
+        {
+            ControlFlow.NotNull(CICDFile.Versioning.UpdateVersionInCSProjSettings, "This Target can't be executed locally");
+            ControlFlow.NotEmpty(CICDFile.Versioning.UpdateVersionInCSProjSettings.PreReleaseVersionSuffix, "Please provide a version suffix in the cicd.json file");
+
+            var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
+            var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
+
+            var request = CICDFile.Versioning.UpdateVersionInCSProjSettings;
+            var projectPath = request.ProjectPath;
+            var versionSuffix = request.PreReleaseVersionSuffix;
+
+            using var reader = new StreamReader(projectPath);
+            var csprojContent = reader.ReadToEnd();
+            reader.Close();
+
+            var pattern = @"<Version>(.*)<\/Version>";
+            var newVersionText = $"<Version>{nextReleaseNumber}-{versionSuffix}</Version>";
+            var newContent = Regex.Replace(csprojContent, pattern, newVersionText);
+
+            using var writer = new StreamWriter(projectPath);
+            writer.Write(newContent);
+            writer.Close();
+        });
 
     private Target CreateNewRelease => _ => _
-        .DependsOn(UpdateVersionInFiles, UpdateChangelog, GitPushReleaseFiles)
+        .DependsOn(ListCommitsInThisPR)
         .Executes(async () =>
         {
             ControlFlow.NotNull(GitHubActions, "This Target can't be executed locally");
