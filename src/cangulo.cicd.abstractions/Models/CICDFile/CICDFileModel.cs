@@ -10,7 +10,7 @@ namespace cangulo.cicd.abstractions.Models.CICDFile
         public DotnetTargetsSettings DotnetTargets { get; set; }
         public CompressDirectoryTargetSettings CompressDirectory { get; set; }
         public VersioningTargetsSettings Versioning { get; set; }
-        public GitTargetsSettings GitTargets { get; set; }
+        public GitSettings GitSettings { get; set; }
         public ChangelogSettings ChangelogSettings { get; set; }
         public NugetSettings NugetSettings { get; set; }
     }

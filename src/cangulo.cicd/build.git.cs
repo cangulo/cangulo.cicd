@@ -1,13 +1,14 @@
 ﻿using Nuke.Common;
+using System.Linq;
 
 internal partial class Build : NukeBuild
 {
     private Target SetupGitInPipeline => _ => _
         .Executes(() =>
         {
-            ValidateCICDPropertyIsProvided(CICDFile.GitTargets, nameof(CICDFile.GitTargets));
+            ValidateCICDPropertyIsProvided(CICDFile.GitSettings, nameof(CICDFile.GitSettings));
 
-            var request = CICDFile.GitTargets;
+            var request = CICDFile.GitSettings;
             Logger.Info("Setting email and name in git");
 
             Git($"config --global user.email \"{request.Email}\"");
@@ -19,7 +20,21 @@ internal partial class Build : NukeBuild
         .Executes(() =>
         {
             Git($"add cicd.json", logOutput: true);
-            Git($"add CHANGELOG.md", logOutput: true);
+
+            if (CICDFile.ChangelogSettings is not null)
+                Git($"add CHANGELOG.md", logOutput: true);
+
+            if (CICDFile.GitSettings.GitPushReleaseFilesSettings is not null)
+            {
+                var filesToPush = CICDFile.GitSettings.GitPushReleaseFilesSettings.FilesPath;
+
+                foreach (var file in filesToPush)
+                    Git($"add {file}", logOutput: true);
+            }
+
+            var releasefile = CICDFile.GitSettings.GitPushReleaseFilesSettings.FilesPath;
+
+
             Git($"commit -m \"[ci] new version {CICDFile.Versioning.CurrentVersion} created\"", logOutput: true);
             Git($"push", logOutput: false);
         });
