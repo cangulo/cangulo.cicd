@@ -24,17 +24,11 @@ internal partial class Build : NukeBuild
             if (CICDFile.ChangelogSettings is not null)
                 Git($"add CHANGELOG.md", logOutput: true);
 
-            if (CICDFile.GitSettings.GitPushReleaseFilesSettings is not null)
+            if (CICDFile.Versioning.UpdateVersionInCSProjSettings is not null)
             {
-                var filesToPush = CICDFile.GitSettings.GitPushReleaseFilesSettings.FilesPath;
-
-                foreach (var file in filesToPush)
-                    Git($"add {file}", logOutput: true);
+                var projectPath = CICDFile.Versioning.UpdateVersionInCSProjSettings.ProjectPath;
+                Git($"add {projectPath}", logOutput: true);
             }
-
-            var releasefile = CICDFile.GitSettings.GitPushReleaseFilesSettings.FilesPath;
-
-
             Git($"commit -m \"[ci] new version {CICDFile.Versioning.CurrentVersion} created\"", logOutput: true);
             Git($"push", logOutput: false);
         });
