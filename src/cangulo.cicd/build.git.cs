@@ -1,8 +1,10 @@
-﻿using Nuke.Common;
-using System.Linq;
+﻿using cangulo.cicd.abstractions.Constants;
+using Nuke.Common;
 
 internal partial class Build : NukeBuild
 {
+    private const string CI_COMMIT_PREFIX = CiActionsContants.CI_ACTION_COMMIT_PREFIX;
+
     private Target SetupGitInPipeline => _ => _
         .Executes(() =>
         {
@@ -29,18 +31,7 @@ internal partial class Build : NukeBuild
                 var projectPath = CICDFile.Versioning.UpdateVersionInCSProjSettings.ProjectPath;
                 Git($"add {projectPath}", logOutput: true);
             }
-            Git($"commit -m \"[ci] new version {CICDFile.Versioning.CurrentVersion} created\"", logOutput: true);
+            Git($"commit -m \"{CI_COMMIT_PREFIX} new version {CICDFile.Versioning.CurrentVersion} created\"", logOutput: true);
             Git($"push", logOutput: false);
         });
-
-    //private Target GetLastConventionalCommit => _ => _
-    //    .Executes(() =>
-    //    {
-    //        var commitParser = _serviceProvider.GetRequiredService<ICommitParser>();
-
-    //        var lastCommitMsg = Git($"log --format=%B -n 1", logOutput: true).ConcatenateOutputText();
-    //        var conventionalCommit = commitParser.ParseConventionalCommit(lastCommitMsg);
-
-    //        Logger.Info($"ConventionCommit:\n{JsonSerializer.Serialize(conventionalCommit, SerializerContants.SERIALIZER_OPTIONS)}");
-    //    });
 }
