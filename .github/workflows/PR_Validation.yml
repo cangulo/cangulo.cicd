@@ -1,0 +1,25 @@
+name: PR Validation
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'test/**'
+
+jobs:
+  execute-ut:
+    name: Execute UT
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run './build.cmd ExecuteUnitTests'
+        run: ./build.cmd ExecuteUnitTests
+  validate-conventional-commits:
+    name: Validate Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run './build.cmd VerifyAllCommitsAreConventionalInThisPR'
+        env:
+          GitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        run: ./build.cmd VerifyAllCommitsAreConventionalInThisPR

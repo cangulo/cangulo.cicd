@@ -30,7 +30,7 @@ namespace cangulo.cicd.domain.Parsers
             };
         }
 
-        private string BuildErrorMsg(string commitMsg)
+        private static string BuildErrorMsg(string commitMsg)
             => $"commit msg does not provide a valid convention commit type. Commit: {commitMsg}";
     }
 }
