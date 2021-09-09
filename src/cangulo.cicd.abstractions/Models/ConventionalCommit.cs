@@ -7,5 +7,8 @@ namespace cangulo.cicd.abstractions.Models
     {
         public CommitType CommitType { get; set; }
         public string Body { get; set; }
+
+        public override string ToString()
+            => $"{CommitType}: {Body}";
     }
 }
