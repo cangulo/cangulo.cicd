@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.32 -->
+# 0.0.32
+2021-10-05
+
+patch:
+* improved pipe logging
+<!-- END-VERSION: 0.0.32 -->
 <!-- START-VERSION: 0.0.31 -->
 # 0.0.31
 2021-10-05
