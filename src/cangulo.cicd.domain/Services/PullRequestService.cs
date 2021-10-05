@@ -58,12 +58,14 @@ namespace cangulo.cicd.domain.Services
         private static async Task<IEnumerable<string>> GetCommits(string repoOwner, string repoName, IPullRequestsClient client, PullRequestRequest query)
         {
             var apiOptions = new ApiOptions { PageCount = 1, PageSize = 1 };
-            var prsMerged = (await client.GetAllForRepository(repoOwner, repoName, query, apiOptions));
+            var prs = (await client.GetAllForRepository(repoOwner, repoName, query, apiOptions));
 
-            if (prsMerged.Count() == 0)
+            if (prs.Count() == 0)
                 throw new Exception("No PR found");
 
-            var commits = await client.Commits(repoOwner, repoName, prsMerged.Single().Number);
+            Logger.Info($"pr number: {prs.Single().Number}");
+
+            var commits = await client.Commits(repoOwner, repoName, prs.Single().Number);
             return commits.Select(x => x.Commit.Message);
         }
     }

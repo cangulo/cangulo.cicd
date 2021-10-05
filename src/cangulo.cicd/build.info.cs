@@ -8,11 +8,13 @@ internal partial class Build : NukeBuild
     private Target PrintPipelineInfo => _ => _
         .Executes(() =>
         {
-            Logger.Info($"GitRepo:\n{JsonSerializer.Serialize(GitRepository, SerializerContants.SERIALIZER_OPTIONS)}");
-            Logger.Info($"GitHubAction:\n{JsonSerializer.Serialize(GitHubActions, SerializerContants.SERIALIZER_OPTIONS)}");
+            Logger.Success($"GitRepo");
+            Logger.Info(JsonSerializer.Serialize(GitRepository, SerializerContants.SERIALIZER_OPTIONS));
 
-            Logger.Info($"Environment Variables");
+            Logger.Success($"GitHubAction");
+            Logger.Info(JsonSerializer.Serialize(GitHubActions, SerializerContants.SERIALIZER_OPTIONS));
 
+            Logger.Success($"Environment Variables:");
 
             EnvironmentInfo.Variables
                 .ToList()
