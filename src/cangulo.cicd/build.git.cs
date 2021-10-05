@@ -21,8 +21,6 @@ internal partial class Build : NukeBuild
         .DependsOn(SetupGitInPipeline)
         .Executes(() =>
         {
-            Git($"add cicd.json", logOutput: true);
-
             if (CICDFile.ChangelogSettings is not null)
                 Git($"add CHANGELOG.md", logOutput: true);
 
@@ -31,6 +29,18 @@ internal partial class Build : NukeBuild
                 var projectPath = CICDFile.Versioning.UpdateVersionInCSProjSettings.ProjectPath;
                 Git($"add {projectPath}", logOutput: true);
             }
+
+            if (CICDFile.GitSettings.GitPushReleaseFilesSettings is not null)
+            {
+                var foldersPath = CICDFile.GitSettings.GitPushReleaseFilesSettings.FoldersPath;
+                foreach (var folderPath in foldersPath)
+                    Git($"add {folderPath}/**", logOutput: true);
+
+                var filesPath = CICDFile.GitSettings.GitPushReleaseFilesSettings.FilesPath;
+                foreach (var filePath in filesPath)
+                    Git($"add {filePath}", logOutput: true);
+            }
+
             Git($"commit -m \"{CI_COMMIT_PREFIX} new version {CICDFile.Versioning.CurrentVersion} created\"", logOutput: true);
             Git($"push", logOutput: false);
         });

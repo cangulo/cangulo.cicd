@@ -50,9 +50,9 @@ This solution can be used as a GH Action. Please refer to it docs for importing:
   - [ ] Move compress directory to fileops
 - [ ] **Clean the release process** 
   - [ ] Read a release change property from the resultbag
-- [ ] **Create PR validation**
-  - [ ] UT pass
-  - [ ] Convention commit provided
+- [x] **Create PR validation**
+  - [x] UT pass
+  - [x] Convention commit provided
 - [ ] **Find a way to define all available targets in the .md file**
 
 

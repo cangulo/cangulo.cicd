@@ -9,6 +9,7 @@ namespace cangulo.cicd.abstractions.Models.CICDFile
     }
     public class GitPushFiles
     {
+        public string[] FoldersPath { get; set; }
         public string[] FilesPath { get; set; }
     }
 }
