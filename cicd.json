@@ -22,7 +22,10 @@
     "email": "carlos.angulo.mascarell@outlook.com",
     "name": "cangulo.cicd",
     "gitPushReleaseFilesSettings": {
-      "filesPath": []
+      "foldersPath": [
+        "./cicd.schemas"
+      ],
+      "filesPath": ["cicd.json"]
     }
   },
   "changelogSettings": {

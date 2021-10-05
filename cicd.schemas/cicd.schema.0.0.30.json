@@ -208,29 +208,18 @@
           "$id": "#root/gitSettings/gitPushReleaseFilesSettings",
           "title": "Git Push Release Files Settings",
           "type": "object",
+          "required": [
+            "filesPath"
+          ],
           "properties": {
             "filesPath": {
               "$id": "#root/gitSettings/gitPushReleaseFilesSettings/filesPath",
               "title": "Files Path",
-              "description": "path to the files to push when creating a release",
+              "description": "path to the path to push when creating a release",
               "type": "array",
               "minLength": 1,
               "items": {
                 "$id": "#root/gitSettings/gitPushReleaseFilesSettings/filesPath/items",
-                "title": "Items",
-                "type": "string",
-                "pattern": "^.*$",
-                "minLength": 1
-              }
-            },
-            "foldersPath": {
-              "$id": "#root/gitSettings/gitPushReleaseFilesSettings/foldersPath",
-              "title": "Folders Path",
-              "description": "folders which the files to push when creating a release",
-              "type": "array",
-              "minLength": 1,
-              "items": {
-                "$id": "#root/gitSettings/gitPushReleaseFilesSettings/foldersPath/items",
                 "title": "Items",
                 "type": "string",
                 "pattern": "^.*$",
