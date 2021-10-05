@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.30 -->
+# 0.0.30
+2021-10-05
+
+patch:
+* fix error validating conventional commit
+<!-- END-VERSION: 0.0.30 -->
 <!-- START-VERSION: 0.0.29 -->
 # 0.0.29
 2021-09-09
