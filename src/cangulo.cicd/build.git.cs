@@ -21,9 +21,6 @@ internal partial class Build : NukeBuild
         .DependsOn(SetupGitInPipeline)
         .Executes(() =>
         {
-            if (CICDFile.ChangelogSettings is not null)
-                Git($"add CHANGELOG.md", logOutput: true);
-
             if (CICDFile.Versioning.UpdateVersionInCSProjSettings is not null)
             {
                 var projectPath = CICDFile.Versioning.UpdateVersionInCSProjSettings.ProjectPath;
@@ -42,6 +39,6 @@ internal partial class Build : NukeBuild
             }
 
             Git($"commit -m \"{CI_COMMIT_PREFIX} new version {CICDFile.Versioning.CurrentVersion} created\"", logOutput: true);
-            Git($"push", logOutput: false);
+            Git($"push", logOutput: true);
         });
 }

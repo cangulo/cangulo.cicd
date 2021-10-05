@@ -42,6 +42,8 @@ internal partial class Build : NukeBuild
 
             var resultKey = nameof(CalculateNextReleaseNumber);
             resultBagRepository.AddResult(resultKey, nextReleaseNumber.ToString());
+
+            Logger.Success($"saved next release number ({nextReleaseNumber}) in {ResultBagFilePath}");
         });
 
     private Target UpdateVersionInCICDFile => _ => _
@@ -58,6 +60,8 @@ internal partial class Build : NukeBuild
 
             using StreamWriter fileWriter = new(CICDFilePath, append: false);
             fileWriter.Write(newCICDFileContent);
+
+            Logger.Success($"updated current version ({nextReleaseNumber}) in {CICDFilePath }");
         });
 
     private Target UpdateChangelog => _ => _
@@ -74,6 +78,8 @@ internal partial class Build : NukeBuild
             ControlFlow.Assert(commitMsgs.Any(), $"no commit messages found in the resultbag. Please execute the target {nameof(ListCommitsInThisPR)} before");
 
             changelogBuilder.Build(nextReleaseNumber, commitMsgs, ChangelogPath);
+
+            Logger.Success($"updated changelog file {ChangelogPath}");
         });
     private Target UpdateReleaseVersionInCSProj => _ => _
         .DependsOn(CalculateNextReleaseNumber)
@@ -98,6 +104,8 @@ internal partial class Build : NukeBuild
             using var writer = new StreamWriter(projectPath);
             writer.Write(newContent);
             writer.Close();
+
+            Logger.Success($"updated release version {nextReleaseNumber} in csproj file {projectPath}");
         });
 
     private Target UpdatePreReleaseVersionInCSProj => _ => _
@@ -126,6 +134,8 @@ internal partial class Build : NukeBuild
             using var writer = new StreamWriter(projectPath);
             writer.Write(newContent);
             writer.Close();
+
+            Logger.Success($"updated prerelease version {nextReleaseNumber}-{versionSuffix} in csproj file {projectPath}");
         });
 
     private Target CreateNewRelease => _ => _

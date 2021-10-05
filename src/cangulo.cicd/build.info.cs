@@ -15,7 +15,6 @@ internal partial class Build : NukeBuild
             Logger.Info(JsonSerializer.Serialize(GitHubActions, SerializerContants.SERIALIZER_OPTIONS));
 
             Logger.Success($"Environment Variables:");
-
             EnvironmentInfo.Variables
                 .ToList()
                 .ForEach(x => Logger.Info($"{x.Key} : {x.Value}"));

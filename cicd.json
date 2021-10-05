@@ -26,7 +26,8 @@
         "./cicd.schemas"
       ],
       "filesPath": [
-        "cicd.json"
+        "cicd.json",
+        "CHANGELOG.md"
       ]
     }
   },
