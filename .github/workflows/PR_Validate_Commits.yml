@@ -2,14 +2,16 @@ name: PR Validate Commits
 
 on:
   pull_request:
+    types: [synchronize]
+
 
 jobs:
   validate-conventional-commits:
     name: Validate Conventional Commits
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Run './build.cmd VerifyAllCommitsAreConventionalInThisPR'
+      - uses: actions/checkout@v2
+      - name: Verify all commits follow the conventions defined in cicd.json
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
         run: ./build.cmd VerifyAllCommitsAreConventionalInThisPR
