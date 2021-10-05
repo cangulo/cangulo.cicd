@@ -20,7 +20,7 @@ jobs:
       - name: Save cicd.schema.json version
         run: |
           schemaVersion=$(jq -r .CalculateNextReleaseNumber cicd.resultbag.json)
-          cp cicd.schema.json "./cicd.schemas/cicd.schema.$schemaVersion.json"
+          cp cicd.schema.json "./cicd.schemas/$schemaVersion.json"
       - name: Push Changes
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
