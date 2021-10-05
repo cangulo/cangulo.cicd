@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.31 -->
+# 0.0.31
+2021-10-05
+
+patch:
+* implemented cicd.schema versioning
+<!-- END-VERSION: 0.0.31 -->
 <!-- START-VERSION: 0.0.30 -->
 # 0.0.30
 2021-10-05

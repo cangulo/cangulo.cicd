@@ -13,7 +13,7 @@
     "outputFileName": "./releaseAssets/cangulo.cicd-linux-x64.zip"
   },
   "versioning": {
-    "currentVersion": "0.0.30",
+    "currentVersion": "0.0.31",
     "releaseAssets": [
       "./releaseAssets/cangulo.cicd-linux-x64.zip"
     ]
@@ -25,7 +25,9 @@
       "foldersPath": [
         "./cicd.schemas"
       ],
-      "filesPath": ["cicd.json"]
+      "filesPath": [
+        "cicd.json"
+      ]
     }
   },
   "changelogSettings": {

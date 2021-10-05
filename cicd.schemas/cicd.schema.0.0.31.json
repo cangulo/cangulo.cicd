@@ -1,0 +1,399 @@
+{
+  "definitions": {},
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/object1629576015.json",
+  "title": "Root",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "$schema": {
+      "$id": "#root/schema",
+      "title": "JSON Schema",
+      "description": "JSON schema from the cangulo.cicd definition",
+      "type": "string",
+      "default": "./cicd.schema.json",
+      "examples": [
+        "./cicd.schema.json"
+      ],
+      "pattern": "^.*cicd.schema.json$"
+    },
+    "dotnetTargets": {
+      "$id": "#root/dotnetTargets",
+      "title": "Dotnet Targets",
+      "type": "object",
+      "required": [
+        "solutionPath"
+      ],
+      "properties": {
+        "solutionPath": {
+          "$id": "#root/dotnetTargets/solutionPath",
+          "title": "Solution Path",
+          "description": "path to the .sln file",
+          "type": "string",
+          "examples": [
+            "./cangulo.cicd.sln"
+          ],
+          "pattern": "^.*.sln$"
+        },
+        "dotnetPublish": {
+          "$id": "#root/dotnetTargets/dotnetPublish",
+          "title": "Dotnet Publish",
+          "type": "object",
+          "required": [
+            "projectPath",
+            "outputFolder",
+            "runTime"
+          ],
+          "properties": {
+            "projectPath": {
+              "$id": "#root/dotnetPublish/projectPath",
+              "title": "Project Path",
+              "type": "string",
+              "examples": [
+                "./src/cangulo.cicd/cangulo.cicd.csproj"
+              ],
+              "pattern": "^.*.csproj$"
+            },
+            "outputFolder": {
+              "$id": "#root/dotnetPublish/outputFolder",
+              "title": "Output Folder",
+              "type": "string",
+              "examples": [
+                "./artifacts/cangulo.cicd"
+              ],
+              "pattern": "^.*$"
+            },
+            "runTime": {
+              "$id": "#root/dotnetPublish/runTime",
+              "title": "Runtime",
+              "type": "string",
+              "enum": [
+                "linux-x64"
+              ],
+              "pattern": "^.*$"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "compressDirectory": {
+      "$id": "#root/compressDirectory",
+      "title": "Compress Directory",
+      "type": "object",
+      "required": [
+        "path",
+        "outputFileName"
+      ],
+      "properties": {
+        "path": {
+          "$id": "#root/compressDirectory/path",
+          "title": "Path",
+          "type": "string",
+          "examples": [
+            "./artifacts/cangulo.cicd"
+          ],
+          "pattern": "^.*$"
+        },
+        "outputFileName": {
+          "$id": "#root/compressDirectory/outputFileName",
+          "title": "Output Filename",
+          "type": "string",
+          "examples": [
+            "./releaseAssets/cangulo.cicd-linux-x64.zip"
+          ],
+          "pattern": "^.*\\.zip$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "versioning": {
+      "$id": "#root/versioning",
+      "title": "Versioning Settings",
+      "type": "object",
+      "required": [
+        "currentVersion"
+      ],
+      "properties": {
+        "currentVersion": {
+          "$id": "#root/versioning/currentVersion",
+          "title": "Current Version",
+          "description": "Current Version of the project following semantic versioning. It also allow to add prefix version as",
+          "type": "string",
+          "default": "0.0.0",
+          "examples": [
+            "0.0.2",
+            "0.0.2-beta",
+            "0.0.2-alpha"
+          ],
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+.*$"
+        },
+        "releaseAssets": {
+          "$id": "#root/versioning/releaseAssets",
+          "title": "Release Assets",
+          "type": "array",
+          "default": [],
+          "items": {
+            "$id": "#root/versioning/releaseAssets/items",
+            "title": "Items",
+            "type": "string",
+            "examples": [
+              "./releaseAssets/cangulo.cicd-linux-x64.zip"
+            ],
+            "pattern": "^.*$"
+          }
+        },
+        "updateVersionInCSProjSettings": {
+          "$id": "#root/versioning/updateVersionInCSProjSettings",
+          "title": "Update Version in .csproj file",
+          "type": "object",
+          "required": [
+            "projectPath",
+            "preReleaseVersionSuffix"
+          ],
+          "properties": {
+            "projectPath": {
+              "$id": "#root/versioning/updateVersionInCSProjSettings/projectPath",
+              "title": "Project Path",
+              "type": "string",
+              "examples": [
+                "./src/cangulo.cicd/cangulo.cicd.csproj"
+              ],
+              "pattern": "^.*.csproj$"
+            },
+            "preReleaseVersionSuffix": {
+              "$id": "#root/versioning/updateVersionInCSProjSettings/preReleaseVersionSuffix",
+              "title": "version suffix to set in the .csproj",
+              "type": "string",
+              "examples": [
+                "alpha",
+                "beta"
+              ],
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "gitSettings": {
+      "$id": "#root/gitSettings",
+      "title": "Git Pipeline Settings",
+      "type": "object",
+      "required": [
+        "email",
+        "name"
+      ],
+      "properties": {
+        "email": {
+          "$id": "#root/gitSettings/email",
+          "title": "Email",
+          "type": "string",
+          "examples": [
+            "carlos.angulo.mascarell@outlook.com"
+          ],
+          "pattern": "^.*$"
+        },
+        "name": {
+          "$id": "#root/gitSettings/name",
+          "title": "Name",
+          "type": "string",
+          "examples": [
+            "cangulo.cicd"
+          ],
+          "pattern": "^.*$"
+        },
+        "gitPushReleaseFilesSettings": {
+          "$id": "#root/gitSettings/gitPushReleaseFilesSettings",
+          "title": "Git Push Release Files Settings",
+          "type": "object",
+          "properties": {
+            "filesPath": {
+              "$id": "#root/gitSettings/gitPushReleaseFilesSettings/filesPath",
+              "title": "Files Path",
+              "description": "path to the files to push when creating a release",
+              "type": "array",
+              "minLength": 1,
+              "items": {
+                "$id": "#root/gitSettings/gitPushReleaseFilesSettings/filesPath/items",
+                "title": "Items",
+                "type": "string",
+                "pattern": "^.*$",
+                "minLength": 1
+              }
+            },
+            "foldersPath": {
+              "$id": "#root/gitSettings/gitPushReleaseFilesSettings/foldersPath",
+              "title": "Folders Path",
+              "description": "folders which the files to push when creating a release",
+              "type": "array",
+              "minLength": 1,
+              "items": {
+                "$id": "#root/gitSettings/gitPushReleaseFilesSettings/foldersPath/items",
+                "title": "Items",
+                "type": "string",
+                "pattern": "^.*$",
+                "minLength": 1
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "changelogSettings": {
+      "$id": "#root/changelogSettings",
+      "title": "Changelog Settings",
+      "type": "object",
+      "default": {
+        "commitsMode": "conventionalCommits",
+        "conventionalCommitsSettings": {
+          "types": [
+            "patch",
+            "minor",
+            "major"
+          ]
+        }
+      },
+      "required": [
+        "commitsMode"
+      ],
+      "properties": {
+        "commitsMode": {
+          "$id": "#root/changelogSettings/commitsMode",
+          "title": "CommitsMode",
+          "type": "string",
+          "enum": [
+            "nonConventionalCommits",
+            "conventionalCommits"
+          ]
+        },
+        "conventionalCommitsSettings": {
+          "$id": "#root/gitSettings/conventionalCommitsSettings",
+          "title": "Conventional Commits Settings",
+          "description": "Only provide this field if you set `conventionalCommits` in the commitsMode property",
+          "type": "object",
+          "required": [
+            "types"
+          ],
+          "properties": {
+            "types": {
+              "$id": "#root/changelogSettings/conventionalCommitsSettings/types",
+              "title": "types",
+              "description": "Provide here the commit type which will be read from the commit message as: *commit-type: body*",
+              "type": "array",
+              "default": [
+                "patch",
+                "minor",
+                "major"
+              ],
+              "items": {
+                "$id": "#root/changelogSettings/conventionalCommitsSettings/types/items",
+                "title": "Items",
+                "type": "string",
+                "examples": [
+                  "patch",
+                  "minor",
+                  "major"
+                ],
+                "pattern": "^.*$",
+                "minLength": 1
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "nugetSettings": {
+      "$id": "#root/nugetSettings",
+      "title": "Nuget Settings",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "packNugetSettings": {
+          "$id": "#root/nugetSettings/packNugetSettings",
+          "title": "Pack Nuget Settings",
+          "type": "object",
+          "default": {
+            "projectPath": "",
+            "outputDirectory": "./nugets"
+          },
+          "required": [
+            "projectPath",
+            "outputDirectory"
+          ],
+          "properties": {
+            "projectPath": {
+              "$id": "#root/nugetSettings/packNugetSettings/projectPath",
+              "title": "Project Path",
+              "description": "Relative path to the .csproj file",
+              "type": "string",
+              "examples": [],
+              "pattern": "^.*.csproj$"
+            },
+            "outputDirectory": {
+              "$id": "#root/nugetSettings/packNugetSettings/outputDirectory",
+              "title": "Output Directory",
+              "description": "Relative path to the folder to store the nuget package created",
+              "type": "string",
+              "examples": [
+                "./nugets"
+              ],
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "pushNugetsSettings": {
+          "$id": "#root/nugetSettings/pushNugetsSettings",
+          "title": "Push Nugets Settings",
+          "type": "object",
+          "default": {
+            "nugetsDirectory": "./nugets",
+            "apiKeyRequired": true,
+            "source": "https://api.nuget.org/v3/index.json"
+          },
+          "required": [
+            "nugetsDirectory",
+            "apiKeyRequired",
+            "source"
+          ],
+          "properties": {
+            "nugetsDirectory": {
+              "$id": "#root/nugetSettings/pushNugetsSettings/nugetsDirectory",
+              "title": "Nugets Directory",
+              "type": "string",
+              "examples": [
+                "./nugets"
+              ],
+              "minLength": 1
+            },
+            "apiKeyRequired": {
+              "$id": "#root/nugetSettings/pushNugetsSettings/apiKeyRequired",
+              "title": "Api Key Required",
+              "type": "boolean",
+              "default": true
+            },
+            "source": {
+              "$id": "#root/nugetSettings/pushNugetsSettings/source",
+              "title": "Source",
+              "type": "string",
+              "default": "https://api.nuget.org/v3/index.json",
+              "examples": [
+                "https://api.nuget.org/v3/index.json"
+              ],
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
