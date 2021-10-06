@@ -6,9 +6,9 @@ internal partial class Build : NukeBuild
     private Target CompressDirectory => _ => _
         .Executes(() =>
         {
-            ControlFlow.NotNull(CICDFile.CompressDirectory, "CompressDirectory should be provided in the cicd.json");
+            ControlFlow.NotNull(CICDFile.FileOpsSettings?.CompressDirectorySettings, "CompressDirectory should be provided in the cicd.json");
 
-            var request = CICDFile.CompressDirectory;
+            var request = CICDFile.FileOpsSettings.CompressDirectorySettings;
 
             var path = (RootDirectory / request.Path);
             var outputFileName = RootDirectory / request.OutputFileName;

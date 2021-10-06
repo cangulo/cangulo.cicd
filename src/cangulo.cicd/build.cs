@@ -21,6 +21,8 @@ internal partial class Build : NukeBuild
         {
             ResultBagFilePath = ResultBagFilePath
         };
+
+        // TODO: avoid this changelog settings here
         var changelogSettings = CICDFile.ChangelogSettings;
 
         _serviceProvider = Startup.RegisterServices(domainServiceContext, changelogSettings);

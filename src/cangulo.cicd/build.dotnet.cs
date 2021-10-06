@@ -13,7 +13,7 @@ internal partial class Build : NukeBuild
     private Target SetTargetSolution => _ => _
         .Executes(() =>
             {
-                var solutionPath = RootDirectory / CICDFile.DotnetTargets.SolutionPath;
+                var solutionPath = RootDirectory / CICDFile.DotnetSettings.SolutionPath;
                 if (File.Exists(solutionPath))
                     TargetSolutionParsed = ProjectModelTasks.ParseSolution(solutionPath);
                 else
@@ -58,8 +58,8 @@ internal partial class Build : NukeBuild
         .DependsOn(SetTargetSolution)
         .Executes(() =>
         {
-            ControlFlow.NotNull(CICDFile.DotnetTargets.DotnetPublish, "DotnetPublish should be provided in the cicd.json");
-            var inputSettings = CICDFile.DotnetTargets.DotnetPublish;
+            ControlFlow.NotNull(CICDFile.DotnetSettings.DotnetPublish, "DotnetPublish should be provided in the cicd.json");
+            var inputSettings = CICDFile.DotnetSettings.DotnetPublish;
 
             var projectPath = RootDirectory / inputSettings.ProjectPath;
             if (FileExists(projectPath))

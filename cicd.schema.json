@@ -17,7 +17,7 @@
       ],
       "pattern": "^.*cicd.schema.json$"
     },
-    "dotnetTargets": {
+    "dotnetSettings": {
       "$id": "#root/dotnetTargets",
       "title": "Dotnet Targets",
       "type": "object",
@@ -77,37 +77,46 @@
       },
       "additionalProperties": false
     },
-    "compressDirectory": {
-      "$id": "#root/compressDirectory",
-      "title": "Compress Directory",
+    "fileOpsSettings": {
+      "$id": "#root/fileOpsSettings",
+      "title": "File Ops Settings",
       "type": "object",
-      "required": [
-        "path",
-        "outputFileName"
-      ],
+      "required": [],
       "properties": {
-        "path": {
-          "$id": "#root/compressDirectory/path",
-          "title": "Path",
-          "type": "string",
-          "examples": [
-            "./artifacts/cangulo.cicd"
+        "compressDirectorySettings": {
+          "$id": "#root/fileOpsSettings/compressDirectorySettings",
+          "title": "Compress Directory",
+          "type": "object",
+          "required": [
+            "path",
+            "outputFileName"
           ],
-          "pattern": "^.*$"
+          "properties": {
+            "path": {
+              "$id": "#root/fileOpsSettings/compressDirectorySettings/path",
+              "title": "Path",
+              "type": "string",
+              "examples": [
+                "./artifacts/cangulo.cicd"
+              ],
+              "pattern": "^.*$"
+            },
+            "outputFileName": {
+              "$id": "#root/fileOpsSettings/compressDirectorySettings/outputFileName",
+              "title": "Output Filename",
+              "type": "string",
+              "examples": [
+                "./releaseAssets/cangulo.cicd-linux-x64.zip"
+              ],
+              "pattern": "^.*\\.zip$"
+            }
+          },
+          "additionalProperties": false
         },
-        "outputFileName": {
-          "$id": "#root/compressDirectory/outputFileName",
-          "title": "Output Filename",
-          "type": "string",
-          "examples": [
-            "./releaseAssets/cangulo.cicd-linux-x64.zip"
-          ],
-          "pattern": "^.*\\.zip$"
-        }
-      },
-      "additionalProperties": false
+        "additionalProperties": false
+      }
     },
-    "versioning": {
+    "releaseSettings": {
       "$id": "#root/versioning",
       "title": "Versioning Settings",
       "type": "object",
@@ -173,36 +182,6 @@
             }
           },
           "additionalProperties": false
-        }
-      },
-      "additionalProperties": false
-    },
-    "gitSettings": {
-      "$id": "#root/gitSettings",
-      "title": "Git Pipeline Settings",
-      "type": "object",
-      "required": [
-        "email",
-        "name"
-      ],
-      "properties": {
-        "email": {
-          "$id": "#root/gitSettings/email",
-          "title": "Email",
-          "type": "string",
-          "examples": [
-            "carlos.angulo.mascarell@outlook.com"
-          ],
-          "pattern": "^.*$"
-        },
-        "name": {
-          "$id": "#root/gitSettings/name",
-          "title": "Name",
-          "type": "string",
-          "examples": [
-            "cangulo.cicd"
-          ],
-          "pattern": "^.*$"
         },
         "gitPushReleaseFilesSettings": {
           "$id": "#root/gitSettings/gitPushReleaseFilesSettings",
@@ -239,6 +218,36 @@
             }
           },
           "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "gitSettings": {
+      "$id": "#root/gitSettings",
+      "title": "Git Pipeline Settings",
+      "type": "object",
+      "required": [
+        "email",
+        "name"
+      ],
+      "properties": {
+        "email": {
+          "$id": "#root/gitSettings/email",
+          "title": "Email",
+          "type": "string",
+          "examples": [
+            "carlos.angulo.mascarell@outlook.com"
+          ],
+          "pattern": "^.*$"
+        },
+        "name": {
+          "$id": "#root/gitSettings/name",
+          "title": "Name",
+          "type": "string",
+          "examples": [
+            "cangulo.cicd"
+          ],
+          "pattern": "^.*$"
         }
       },
       "additionalProperties": false

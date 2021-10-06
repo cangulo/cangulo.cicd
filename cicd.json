@@ -1,6 +1,6 @@
 {
   "$schema": "./cicd.schema.json",
-  "dotnetTargets": {
+  "dotnetSettings": {
     "solutionPath": "./cangulo.cicd.sln",
     "dotnetPublish": {
       "projectPath": "./src/cangulo.cicd/cangulo.cicd.csproj",
@@ -8,19 +8,17 @@
       "runTime": "linux-x64"
     }
   },
-  "compressDirectory": {
-    "path": "./artifacts/cangulo.cicd",
-    "outputFileName": "./releaseAssets/cangulo.cicd-linux-x64.zip"
+  "fileOpsSettings": {
+    "compressDirectorySettings": {
+      "path": "./artifacts/cangulo.cicd",
+      "outputFileName": "./releaseAssets/cangulo.cicd-linux-x64.zip"
+    }
   },
-  "versioning": {
+  "releaseSettings": {
     "currentVersion": "0.0.32",
     "releaseAssets": [
       "./releaseAssets/cangulo.cicd-linux-x64.zip"
-    ]
-  },
-  "gitSettings": {
-    "email": "carlos.angulo.mascarell@outlook.com",
-    "name": "cangulo.cicd",
+    ],
     "gitPushReleaseFilesSettings": {
       "foldersPath": [
         "./cicd.schemas"
@@ -30,6 +28,10 @@
         "CHANGELOG.md"
       ]
     }
+  },
+  "gitSettings": {
+    "email": "carlos.angulo.mascarell@outlook.com",
+    "name": "cangulo.cicd"
   },
   "changelogSettings": {
     "commitsMode": "conventionalCommits",
