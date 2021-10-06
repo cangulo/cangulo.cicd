@@ -27,15 +27,15 @@ Main Goal:
 All the code behind is based on [NUKE](https://nuke.build). Following their approach, any CICD action will be defined as _Target_ in the build.cs, they are defined in a group per file:
 
 
-| Group       | File                                                      | Grouped Done |
-| ----------- | --------------------------------------------------------- | ------------ |
-| nuget       | [build.release.cs](src/cangulo.cicd/build.nuget.cs)       | [x]          |
-| dotnet      | [build.dotnet.cs](src/cangulo.cicd/build.dotnet.cs)       | [x]          |
-| release     | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]          |
-| PullRequest | [build.release.cs](src/cangulo.cicd/build.pullrequest.cs) | [x]          |
-| FileOps     | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]          |
-| Git         | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]          |
-| Changelog   | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]          |
+| Group       | File                                                      | Ready |
+| ----------- | --------------------------------------------------------- | ----- |
+| nuget       | [build.release.cs](src/cangulo.cicd/build.nuget.cs)       | [x]   |
+| dotnet      | [build.dotnet.cs](src/cangulo.cicd/build.dotnet.cs)       | [x]   |
+| release     | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]   |
+| FileOps     | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]   |
+| Git         | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]   |
+| Changelog   | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [ ]   |
+| PullRequest | [build.release.cs](src/cangulo.cicd/build.pullrequest.cs) | [ ]   |
 
 .  The execution is rule by two things:
 
@@ -48,51 +48,13 @@ Once
 
 This solution can be used as a GH Action. Please refer to it docs for importing:
 
-
-# TODO
-
-- [ ] **Group targets by groups** 
-  - [ ] Move compress directory to fileops
-- [ ] **Clean the release process** 
-  - [ ] Read a release change property from the resultbag
-- [x] **Create PR validation**
-  - [x] UT pass
-  - [x] Convention commit provided
-- [ ] **Find a way to define all available targets in the .md file**
-
-
 https://www.continuousimprover.com/2020/03/reasons-for-adopting-nuke.html
-
-1. Create Changelog
-2. Update Changelog 
-   1. Update when hotfix
-   2. Update when patch
-   3. Update when major
-
 
 # How to use this locally
 
 ```bash
-################
-# cangulo.cicd
-################
-# Publish
+# 1. Publish the dotnet project as self contained
 dotnet publish ./src/cangulo.cicd/cangulo.cicd.csproj  -o ./artifacts/cangulo.cicd/ -r linux-x64 --self-contained
-# Test
+# 2. Example executing UT
 artifacts/cangulo.cicd/cangulo.cicd ExecuteUnitTests
-
-################
-# cangulo.changelog
-################
-# Move to cangulo.changelog
-mv artifacts/** ../cangulo.changelog/cangulo.cicd
-# Test in cangulo.changelog
-cangulo.cicd/cangulo.cicd ExecuteUnitTests
-
-nuke ExecuteUnitTests
-nuke Publish
-artifacts/cangulo.cicd/cangulo.cicd ExecuteUnitTests
-rm -rf ../cangulo.changelog/cangulo.cicd
-
-
 ```
