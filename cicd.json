@@ -15,7 +15,7 @@
     }
   },
   "releaseSettings": {
-    "currentVersion": "0.0.33",
+    "currentVersion": "0.0.34",
     "releaseAssets": [
       "./releaseAssets/cangulo.cicd-linux-x64.zip"
     ],

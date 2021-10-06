@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.34 -->
+# 0.0.34
+2021-10-06
+
+patch:
+* improved pipe message
+<!-- END-VERSION: 0.0.34 -->
 <!-- START-VERSION: 0.0.33 -->
 # 0.0.33
 2021-10-06
