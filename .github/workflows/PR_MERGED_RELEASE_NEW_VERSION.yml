@@ -9,15 +9,15 @@ on:
 
 jobs:
   release-new-version:
-    name: Release new version
+    name: Releasing new version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Calculate Next Release Number, Update Version In Files, Push Changes
+      - name: Calculating next release number, updating version in cicd.json and adding changes to the changelog
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
         run: ./build.cmd CalculateNextReleaseNumber UpdateVersionInCICDFile UpdateChangelog
-      - name: Save cicd.schema.json version
+      - name: Saving cicd.schema.json version
         run: |
           schemaVersion=$(jq -r .CalculateNextReleaseNumber cicd.resultbag.json)
           cp cicd.schema.json "./cicd.schemas/$schemaVersion.json"
@@ -25,11 +25,11 @@ jobs:
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
         run: ./build.cmd GitPushReleaseFiles
-      - name: Publish dotnet project for release assets
+      - name: Publishing dotnet project for release assets
         run: ./build.cmd Publish
-      - name: Zipping assets
+      - name: Zipping release assets
         run: ./build.cmd CompressDirectory
-      - name: Create the New Release
+      - name: Creating the New Release
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
         run: ./build.cmd CreateNewRelease --skip ListCommitsInThisPR

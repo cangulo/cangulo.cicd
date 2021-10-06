@@ -4,14 +4,13 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-
 jobs:
   validate-conventional-commits:
-    name: Validate Conventional Commits
+    name: Validating Conventional Commits
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Verify all commits follow the conventions defined in cicd.json
+      - name: Verifying commits follow conventions defined in cicd.json
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
         run: ./build.cmd VerifyAllCommitsAreConventionalInThisPR
