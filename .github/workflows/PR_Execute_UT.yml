@@ -3,14 +3,14 @@ name: PR Execute UT
 on:
   pull_request:
     paths:
-      - 'src/**'
-      - 'test/**'
+      - "src/**"
+      - "test/**"
 
 jobs:
   execute-ut:
-    name: Execute UT
+    name: Executing UT
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run './build.cmd ExecuteUnitTests'
+      - name: Executing unit tests
         run: ./build.cmd ExecuteUnitTests
