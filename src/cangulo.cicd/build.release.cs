@@ -10,9 +10,9 @@ using System.Linq;
 using System.Text.Json;
 using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Services;
-using cangulo.changelog.builders;
 using cangulo.cicd.domain.Repositories;
 using System.Text.RegularExpressions;
+using cangulo.changelog.builders;
 
 internal partial class Build : NukeBuild
 {
@@ -25,8 +25,8 @@ internal partial class Build : NukeBuild
             var nextReleaseNumberHelper = _serviceProvider.GetRequiredService<INextReleaseNumberHelper>();
             var releaseNumberParser = _serviceProvider.GetRequiredService<IReleaseNumberParser>();
 
-            ValidateCICDPropertyIsProvided(CICDFile.Versioning, nameof(CICDFile.Versioning));
-            var request = CICDFile.Versioning;
+            ValidateCICDPropertyIsProvided(CICDFile.ReleaseSettings, nameof(CICDFile.ReleaseSettings));
+            var request = CICDFile.ReleaseSettings;
 
             var commitMsgs = resultBagRepository.GetResult<string[]>(nameof(ListCommitsInThisPR));
             ControlFlow.Assert(commitMsgs.Any(), $"no commit messages found in the resultbag. Please execute the target {nameof(ListCommitsInThisPR)} before");
@@ -54,7 +54,7 @@ internal partial class Build : NukeBuild
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
 
             var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
-            CICDFile.Versioning.CurrentVersion = nextReleaseNumber;
+            CICDFile.ReleaseSettings.CurrentVersion = nextReleaseNumber;
 
             var newCICDFileContent = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
 
@@ -64,34 +64,17 @@ internal partial class Build : NukeBuild
             Logger.Success($"updated current version ({nextReleaseNumber}) in {CICDFilePath }");
         });
 
-    private Target UpdateChangelog => _ => _
-        .DependsOn(CalculateNextReleaseNumber)
-        .Before(GitPushReleaseFiles)
-        .Executes(() =>
-        {
-            var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
-            var changelogBuilder = _serviceProvider.GetRequiredService<IChangelogBuilder>();
-
-            var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
-            var commitMsgs = resultBagRepository.GetResult<string[]>(nameof(ListCommitsInThisPR));
-
-            ControlFlow.Assert(commitMsgs.Any(), $"no commit messages found in the resultbag. Please execute the target {nameof(ListCommitsInThisPR)} before");
-
-            changelogBuilder.Build(nextReleaseNumber, commitMsgs, ChangelogPath);
-
-            Logger.Success($"updated changelog file {ChangelogPath}");
-        });
     private Target UpdateReleaseVersionInCSProj => _ => _
         .DependsOn(CalculateNextReleaseNumber)
         .Before(GitPushReleaseFiles)
         .Executes(() =>
         {
-            ControlFlow.NotNull(CICDFile.Versioning.UpdateVersionInCSProjSettings, "This Target can't be executed locally");
+            ControlFlow.NotNull(CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings, "This Target can't be executed locally");
 
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
             var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
 
-            var projectPath = CICDFile.Versioning.UpdateVersionInCSProjSettings.ProjectPath;
+            var projectPath = CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings.ProjectPath;
 
             using var reader = new StreamReader(projectPath);
             var csprojContent = reader.ReadToEnd();
@@ -113,13 +96,13 @@ internal partial class Build : NukeBuild
         .Before(GitPushReleaseFiles)
         .Executes(() =>
         {
-            ControlFlow.NotNull(CICDFile.Versioning.UpdateVersionInCSProjSettings, "This Target can't be executed locally");
-            ControlFlow.NotEmpty(CICDFile.Versioning.UpdateVersionInCSProjSettings.PreReleaseVersionSuffix, "Please provide a version suffix in the cicd.json file");
+            ControlFlow.NotNull(CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings, "This Target can't be executed locally");
+            ControlFlow.NotEmpty(CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings.PreReleaseVersionSuffix, "Please provide a version suffix in the cicd.json file");
 
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
             var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
 
-            var request = CICDFile.Versioning.UpdateVersionInCSProjSettings;
+            var request = CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings;
             var projectPath = request.ProjectPath;
             var versionSuffix = request.PreReleaseVersionSuffix;
 
@@ -138,6 +121,31 @@ internal partial class Build : NukeBuild
             Logger.Success($"updated prerelease version {nextReleaseNumber}-{versionSuffix} in csproj file {projectPath}");
         });
 
+    private Target GitPushReleaseFiles => _ => _
+        .DependsOn(SetupGitInPipeline)
+        .Executes(() =>
+        {
+            if (CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings is not null)
+            {
+                var projectPath = CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings.ProjectPath;
+                Git($"add {projectPath}", logOutput: true);
+            }
+
+            if (CICDFile.ReleaseSettings.GitPushReleaseFilesSettings is not null)
+            {
+                var foldersPath = CICDFile.ReleaseSettings.GitPushReleaseFilesSettings.FoldersPath;
+                foreach (var folderPath in foldersPath)
+                    Git($"add {folderPath}/**", logOutput: true);
+
+                var filesPath = CICDFile.ReleaseSettings.GitPushReleaseFilesSettings.FilesPath;
+                foreach (var filePath in filesPath)
+                    Git($"add {filePath}", logOutput: true);
+            }
+
+            Git($"commit -m \"{CI_COMMIT_PREFIX} new version {CICDFile.ReleaseSettings.CurrentVersion} created\"", logOutput: true);
+            Git($"push", logOutput: true);
+        });
+
     private Target CreateNewRelease => _ => _
         .DependsOn(ListCommitsInThisPR)
         .Executes(async () =>
@@ -153,7 +161,7 @@ internal partial class Build : NukeBuild
             var ghClient = GetGHClient(GitHubActions);
             var releaseOperatorClient = ghClient.Repository.Release;
 
-            var request = CICDFile.Versioning;
+            var request = CICDFile.ReleaseSettings;
             var nextVersion = request.CurrentVersion;
             var commitMsgs = resultBagRepository.GetResult<string[]>(nameof(ListCommitsInThisPR));
             ControlFlow.Assert(commitMsgs.Any(), $"no commit messages found in the resultbag. Please execute the target {nameof(ListCommitsInThisPR)} before");

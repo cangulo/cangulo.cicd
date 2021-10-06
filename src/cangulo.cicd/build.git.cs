@@ -16,29 +16,4 @@ internal partial class Build : NukeBuild
             Git($"config --global user.email \"{request.Email}\"");
             Git($"config --global user.name \"{request.Name}\"");
         });
-
-    private Target GitPushReleaseFiles => _ => _
-        .DependsOn(SetupGitInPipeline)
-        .Executes(() =>
-        {
-            if (CICDFile.Versioning.UpdateVersionInCSProjSettings is not null)
-            {
-                var projectPath = CICDFile.Versioning.UpdateVersionInCSProjSettings.ProjectPath;
-                Git($"add {projectPath}", logOutput: true);
-            }
-
-            if (CICDFile.GitSettings.GitPushReleaseFilesSettings is not null)
-            {
-                var foldersPath = CICDFile.GitSettings.GitPushReleaseFilesSettings.FoldersPath;
-                foreach (var folderPath in foldersPath)
-                    Git($"add {folderPath}/**", logOutput: true);
-
-                var filesPath = CICDFile.GitSettings.GitPushReleaseFilesSettings.FilesPath;
-                foreach (var filePath in filesPath)
-                    Git($"add {filePath}", logOutput: true);
-            }
-
-            Git($"commit -m \"{CI_COMMIT_PREFIX} new version {CICDFile.Versioning.CurrentVersion} created\"", logOutput: true);
-            Git($"push", logOutput: true);
-        });
 }

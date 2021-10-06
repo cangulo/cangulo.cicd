@@ -21,11 +21,11 @@ jobs:
         run: |
           schemaVersion=$(jq -r .CalculateNextReleaseNumber cicd.resultbag.json)
           cp cicd.schema.json "./cicd.schemas/$schemaVersion.json"
-      - name: Push Changes
+      - name: Pushing changes before creating the release
         env:
           GitHubToken: ${{ secrets.GITHUB_TOKEN }}
         run: ./build.cmd GitPushReleaseFiles
-      - name: Dotnet Publish
+      - name: Publish dotnet project for release assets
         run: ./build.cmd Publish
       - name: Zipping assets
         run: ./build.cmd CompressDirectory

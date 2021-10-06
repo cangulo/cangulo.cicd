@@ -27,10 +27,15 @@ Main Goal:
 All the code behind is based on [NUKE](https://nuke.build). Following their approach, any CICD action will be defined as _Target_ in the build.cs, they are defined in a group per file:
 
 
-| Group   | File                                                  |
-| ------- | ----------------------------------------------------- |
-| dotnet  | [build.dotnet.cs](src/cangulo.cicd/build.dotnet.cs)   |
-| release | [build.release.cs](src/cangulo.cicd/build.release.cs) |
+| Group       | File                                                      | Grouped Done |
+| ----------- | --------------------------------------------------------- | ------------ |
+| nuget       | [build.release.cs](src/cangulo.cicd/build.nuget.cs)       | [x]          |
+| dotnet      | [build.dotnet.cs](src/cangulo.cicd/build.dotnet.cs)       | [x]          |
+| release     | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]          |
+| PullRequest | [build.release.cs](src/cangulo.cicd/build.pullrequest.cs) | [x]          |
+| FileOps     | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]          |
+| Git         | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]          |
+| Changelog   | [build.release.cs](src/cangulo.cicd/build.release.cs)     | [x]          |
 
 .  The execution is rule by two things:
 
