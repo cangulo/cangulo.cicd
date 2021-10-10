@@ -1,6 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
-using cangulo.cicd.abstractions.Constants;
+using System.Text.RegularExpressions;
 using cangulo.cicd.domain.Parsers;
 using cangulo.cicd.domain.Repositories;
 using cangulo.cicd.domain.Services;
@@ -32,6 +33,9 @@ internal partial class Build : NukeBuild
     private Target VerifyAllCommitsAreConventionalInThisPR => _ => _
         .Executes(async () =>
         {
+            ControlFlow.NotNull(CICDFile.PullRequestSettings);
+            var request = CICDFile.PullRequestSettings;
+
             var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
             var commitParser = _serviceProvider.GetRequiredService<ICommitParser>();
 
@@ -40,20 +44,27 @@ internal partial class Build : NukeBuild
 
             ControlFlow.Assert(commitMsgs.Any(), "no commits founds");
 
-            var CI_COMMIT_PREFIX = CiActionsContants.CI_ACTION_COMMIT_PREFIX;
-
-            var commits = commitMsgs
-                                    .Where(x => !x.StartsWith(CI_COMMIT_PREFIX))
-                                    .ToList();
+            var commits = commitMsgs.ToList();
 
             Logger.Info($"{commits.Count} commits found:");
             commits
                 .ForEach(Logger.Info);
 
+            #region Validating Conventional Commits
             try
             {
+                ControlFlow.NotEmpty(
+                    request.ConventionalCommitsSettings,
+                    "Please provide the conventional commit settings");
+                var commitTypesAllowed = CICDFile
+                                           .PullRequestSettings
+                                           .ConventionalCommitsSettings
+                                           .Select(x => x.Type)
+                                           .ToArray();
+
                 var conventionalCommits = commits
-                    .Select(commitParser.ParseConventionalCommit)
+                    .Select(
+                        comMsg => commitParser.ParseConventionalCommit(comMsg, commitTypesAllowed))
                     .ToList();
 
                 Logger.Info($"{conventionalCommits.Count} conventional commits found:");
@@ -64,5 +75,27 @@ internal partial class Build : NukeBuild
             {
                 Logger.Error($"Error trying to parse commits:{ex}");
             }
+            #endregion
+
+            #region Validating Issue Numbers
+
+            if (!string.IsNullOrEmpty(request.IssueNumberRegex))
+            {
+                commits.ForEach(x =>
+                {
+
+                    var issueProvided = Regex.IsMatch(x, request.IssueNumberRegex);
+                    ControlFlow.Assert(issueProvided, $"issue number not provided for the commit {issueProvided}");
+                });
+            }
+
+            #endregion
+
+            #region Output Commit List
+
+            if (request.OutputCommits)
+                File.WriteAllLines(request.OutputFilePath, commitMsgs);
+
+            #endregion
         });
 }

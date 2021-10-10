@@ -11,19 +11,19 @@ namespace cangulo.cicd.domain.UT.Parser
     {
 
         [Theory]
-        [InlineAutoNSubstituteData("feat:bla bla", "bla bla", CommitType.Feat)]
-        [InlineAutoNSubstituteData("fix:bla bla", "bla bla", CommitType.Fix)]
-        [InlineAutoNSubstituteData("patch:bla bla", "bla bla", CommitType.Patch)]
-        [InlineAutoNSubstituteData("major:bla bla", "bla bla", CommitType.Major)]
-        public void Parse_ConventionCommit(
+        [InlineAutoNSubstituteData("feat:bla bla", "bla bla", new string[] { "feat" }, "feat")]
+        [InlineAutoNSubstituteData("feat:bla bla", "bla bla", new string[] { "Feat" }, "feat")]
+        [InlineAutoNSubstituteData("Fix:bla bla", "bla bla", new string[] { "fix" }, "fix")]
+        public void HappyPath_Parse_ConventionalCommit(
             string commitMsg,
             string expectedBody,
-            CommitType expectedCommitType,
+            string[] conventionalCommitTypes,
+            string expectedCommitType,
             CommitParser sut)
         {
             // Arrange
             // Act
-            var result = sut.ParseConventionalCommit(commitMsg);
+            var result = sut.ParseConventionalCommit(commitMsg, conventionalCommitTypes);
 
             // Assert
             result.Body.Should().Be(expectedBody);
@@ -31,18 +31,49 @@ namespace cangulo.cicd.domain.UT.Parser
         }
 
         [Theory]
-        [InlineAutoNSubstituteData("")]
-        [InlineAutoNSubstituteData("bla")]
-        [InlineAutoNSubstituteData(":")]
-        [InlineAutoNSubstituteData("bla:")]
-        [InlineAutoNSubstituteData(":bla")]
-        public void ThrowException_When_NoCommitTypeProvided(
+        [InlineAutoNSubstituteData("", new string[] { "feat" })]
+        [InlineAutoNSubstituteData("bla", new string[] { "feat" })]
+        [InlineAutoNSubstituteData(":", new string[] { "feat" })]
+        [InlineAutoNSubstituteData("bla:", new string[] { "feat" })]
+        [InlineAutoNSubstituteData(":bla", new string[] { "feat" })]
+        public void ThrowException_When_InvalidInput(
             string commitMsg,
+            string[] conventionalCommitTypes,
             CommitParser sut)
         {
             // Arrange
             // Act
-            Action action = () => sut.ParseConventionalCommit(commitMsg);
+            Action action = () => sut.ParseConventionalCommit(commitMsg, conventionalCommitTypes);
+
+            // Assert
+            action.Should().Throw<Exception>();
+        }
+
+        [Theory]
+        [InlineAutoNSubstituteData("feat:bla bla", new string[] { })]
+        public void ThrowException_When_NoCommitTypesProvided(
+            string commitMsg,
+            string[] conventionalCommitTypes,
+            CommitParser sut)
+        {
+            // Arrange
+            // Act
+            Action action = () => sut.ParseConventionalCommit(commitMsg, conventionalCommitTypes);
+
+            // Assert
+            action.Should().Throw<Exception>();
+        }
+
+        [Theory]
+        [InlineAutoNSubstituteData("feat:bla bla", new string[] { "fix" })]
+        public void ThrowException_When_NoCommitTypeMatch(
+            string commitMsg,
+            string[] conventionalCommitTypes,
+            CommitParser sut)
+        {
+            // Arrange
+            // Act
+            Action action = () => sut.ParseConventionalCommit(commitMsg, conventionalCommitTypes);
 
             // Assert
             action.Should().Throw<Exception>();

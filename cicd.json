@@ -33,6 +33,28 @@
     "email": "carlos.angulo.mascarell@outlook.com",
     "name": "cangulo.cicd"
   },
+  "pullRequestSettings": {
+    "validateConventionalCommits": false,
+    "validateIssueNumber": false,
+    "conventionalCommitsSettings": [
+      {
+        "type": "Fix",
+        "releaseType": "Patch"
+      },
+      {
+        "type": "Patch",
+        "releaseType": "Patch"
+      },
+      {
+        "type": "Feat",
+        "releaseType": "Minor"
+      },
+      {
+        "type": "Major",
+        "releaseType": "Major"
+      }
+    ]
+  },
   "changelogSettings": {
     "commitsMode": "conventionalCommits",
     "conventionalCommitsSettings": {
