@@ -1,0 +1,16 @@
+name: Calculate Next Release Number
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  validate-conventional-commits:
+    name: Calculate Next Release Number
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Calculate next release number
+        env:
+          GitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        run: ./build.cmd CalculateNextReleaseNumber
