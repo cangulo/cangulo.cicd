@@ -46,19 +46,19 @@
   "pullRequestSettings": {
     "conventionalCommitsSettings": [
       {
-        "type": "Fix",
+        "type": "fix",
         "releaseType": "patch"
       },
       {
-        "type": "Patch",
+        "type": "patch",
         "releaseType": "patch"
       },
       {
-        "type": "Feat",
+        "type": "feat",
         "releaseType": "minor"
       },
       {
-        "type": "Major",
+        "type": "major",
         "releaseType": "major"
       }
     ],
