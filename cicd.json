@@ -15,7 +15,7 @@
     }
   },
   "releaseSettings": {
-    "currentVersion": "0.0.34",
+    "currentVersion": "0.0.35",
     "releaseAssets": [
       "./releaseAssets/cangulo.cicd-linux-x64.zip"
     ],
@@ -33,28 +33,6 @@
     "email": "carlos.angulo.mascarell@outlook.com",
     "name": "cangulo.cicd"
   },
-  "pullRequestSettings": {
-    "validateConventionalCommits": false,
-    "validateIssueNumber": false,
-    "conventionalCommitsSettings": [
-      {
-        "type": "Fix",
-        "releaseType": "Patch"
-      },
-      {
-        "type": "Patch",
-        "releaseType": "Patch"
-      },
-      {
-        "type": "Feat",
-        "releaseType": "Minor"
-      },
-      {
-        "type": "Major",
-        "releaseType": "Major"
-      }
-    ]
-  },
   "changelogSettings": {
     "commitsMode": "conventionalCommits",
     "conventionalCommitsSettings": {
@@ -64,5 +42,27 @@
         "major"
       ]
     }
+  },
+  "pullRequestSettings": {
+    "conventionalCommitsSettings": [
+      {
+        "type": "Fix",
+        "releaseType": "patch"
+      },
+      {
+        "type": "Patch",
+        "releaseType": "patch"
+      },
+      {
+        "type": "Feat",
+        "releaseType": "minor"
+      },
+      {
+        "type": "Major",
+        "releaseType": "major"
+      }
+    ],
+    "outputCommits": false,
+    "outputFilePath": "commits.txt"
   }
 }

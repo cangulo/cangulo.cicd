@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.35 -->
+# 0.0.35
+2021-10-10
+
+others:
+* Improved PR commits validation
+<!-- END-VERSION: 0.0.35 -->
 <!-- START-VERSION: 0.0.34 -->
 # 0.0.34
 2021-10-06
