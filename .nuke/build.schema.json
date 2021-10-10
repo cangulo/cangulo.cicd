@@ -84,7 +84,8 @@
               "UpdateChangelog",
               "UpdatePreReleaseVersionInCSProj",
               "UpdateReleaseVersionInCSProj",
-              "UpdateVersionInCICDFile"
+              "UpdateVersionInCICDFile",
+              "VerifyAllCommitsAreConventionalInThisPR"
             ]
           }
         },
@@ -112,7 +113,8 @@
               "UpdateChangelog",
               "UpdatePreReleaseVersionInCSProj",
               "UpdateReleaseVersionInCSProj",
-              "UpdateVersionInCICDFile"
+              "UpdateVersionInCICDFile",
+              "VerifyAllCommitsAreConventionalInThisPR"
             ]
           }
         },

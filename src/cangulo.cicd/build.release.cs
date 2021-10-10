@@ -8,7 +8,6 @@ using Octokit;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using cangulo.cicd.domain.Extensions;
 using cangulo.cicd.domain.Services;
 using cangulo.cicd.domain.Repositories;
 using System.Text.RegularExpressions;
@@ -32,9 +31,22 @@ internal partial class Build : NukeBuild
             ControlFlow.Assert(commitMsgs.Any(), $"no commit messages found in the resultbag. Please execute the target {nameof(ListCommitsInThisPR)} before");
 
             var commitChosen = commitMsgs.Last();
-            var conventionalCommit = commitParser.ParseConventionalCommit(commitChosen);
+            var commitTypesAllowed = CICDFile
+                           .PullRequestSettings
+                           .ConventionalCommitsSettings
+                           .Select(x => x.Type)
+                           .ToArray();
 
-            var releaseType = conventionalCommit.CommitType.ToReleaseType();
+            var conventionalCommit = commitParser.ParseConventionalCommit(commitChosen, commitTypesAllowed);
+
+            var releaseType = CICDFile
+                                .PullRequestSettings
+                                .ConventionalCommitsSettings
+                                .Single(x =>
+                                    x.Type.Trim().ToLowerInvariant() == conventionalCommit.CommitType)
+                                .ReleaseType;
+
+
             var currentReleaseNumber = releaseNumberParser.Parse(request.CurrentVersion);
             var nextReleaseNumber = nextReleaseNumberHelper.Calculate(releaseType, currentReleaseNumber);
 

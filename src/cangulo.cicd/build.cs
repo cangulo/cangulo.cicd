@@ -9,7 +9,7 @@ using System.Text.Json;
 
 internal partial class Build : NukeBuild
 {
-    public static int Main() => Execute<Build>(x => x.UpdateVersionInCICDFile);
+    public static int Main() => Execute<Build>(x => x.VerifyAllCommitsAreConventionalInThisPR);
 
     private readonly IServiceProvider _serviceProvider;
 
