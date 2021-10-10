@@ -1,3 +1,11 @@
+<!-- START-VERSION: 0.0.36 -->
+# 0.0.36
+2021-10-10
+
+others:
+* added gh action for Calculating Next Release number when creating a PR
+* fixed gh action for Calculate Next Release Number
+<!-- END-VERSION: 0.0.36 -->
 <!-- START-VERSION: 0.0.35 -->
 # 0.0.35
 2021-10-10
