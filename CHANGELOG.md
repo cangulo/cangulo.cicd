@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.38 -->
+# 0.0.38
+2021-10-11
+
+others:
+* added currentversion to commit
+<!-- END-VERSION: 0.0.38 -->
 <!-- START-VERSION: 0.0.37 -->
 # 0.0.37
 2021-10-11
