@@ -1,3 +1,10 @@
+<!-- START-VERSION: 0.0.37 -->
+# 0.0.37
+2021-10-11
+
+others:
+* Separated current version to a separate file
+<!-- END-VERSION: 0.0.37 -->
 <!-- START-VERSION: 0.0.36 -->
 # 0.0.36
 2021-10-10
