@@ -12,6 +12,8 @@ using cangulo.cicd.domain.Services;
 using cangulo.cicd.domain.Repositories;
 using System.Text.RegularExpressions;
 using cangulo.changelog.builders;
+using cangulo.cicd.abstractions.Models.CICDFile;
+using cangulo.cicd.abstractions.Models;
 
 internal partial class Build : NukeBuild
 {
@@ -46,8 +48,7 @@ internal partial class Build : NukeBuild
                                     x.Type.Trim().ToLowerInvariant() == conventionalCommit.CommitType)
                                 .ReleaseType;
 
-
-            var currentReleaseNumber = releaseNumberParser.Parse(request.CurrentVersion);
+            var currentReleaseNumber = ReadVersionFromFile(releaseNumberParser);
             var nextReleaseNumber = nextReleaseNumberHelper.Calculate(releaseType, currentReleaseNumber);
 
             Logger.Info($"next release Number:{nextReleaseNumber} - Release Type: {releaseType}");
@@ -66,14 +67,19 @@ internal partial class Build : NukeBuild
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
 
             var nextReleaseNumber = resultBagRepository.GetResult(nameof(CalculateNextReleaseNumber));
-            CICDFile.ReleaseSettings.CurrentVersion = nextReleaseNumber;
 
-            var newCICDFileContent = JsonSerializer.Serialize(CICDFile, SerializerContants.SERIALIZER_OPTIONS);
+            var filePath = CICDFile.ReleaseSettings.CurrentVersionFilePath;
+            var fileContent = File.ReadAllText(filePath);
+            var currentVersionFileModel = JsonSerializer.Deserialize<CurrentVersionFileModel>(fileContent, SerializerContants.DESERIALIZER_OPTIONS);
 
-            using StreamWriter fileWriter = new(CICDFilePath, append: false);
-            fileWriter.Write(newCICDFileContent);
+            currentVersionFileModel.CurrentVersion = nextReleaseNumber;
 
-            Logger.Success($"updated current version ({nextReleaseNumber}) in {CICDFilePath }");
+            var newCurrentVersionJson = JsonSerializer.Serialize(currentVersionFileModel, SerializerContants.SERIALIZER_OPTIONS);
+
+            using StreamWriter fileWriter = new(filePath, append: false);
+            fileWriter.Write(newCurrentVersionJson);
+
+            Logger.Success($"updated current version ({nextReleaseNumber}) in {filePath }");
         });
 
     private Target UpdateReleaseVersionInCSProj => _ => _
@@ -137,6 +143,8 @@ internal partial class Build : NukeBuild
         .DependsOn(SetupGitInPipeline)
         .Executes(() =>
         {
+            var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
+
             if (CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings is not null)
             {
                 var projectPath = CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings.ProjectPath;
@@ -154,7 +162,7 @@ internal partial class Build : NukeBuild
                     Git($"add {filePath}", logOutput: true);
             }
 
-            Git($"commit -m \"{CI_COMMIT_PREFIX} new version {CICDFile.ReleaseSettings.CurrentVersion} created\"", logOutput: true);
+            Git($"commit -m \"{CI_COMMIT_PREFIX} pushed files for new release\"", logOutput: true);
             Git($"push", logOutput: true);
         });
 
@@ -167,17 +175,17 @@ internal partial class Build : NukeBuild
             var prService = _serviceProvider.GetRequiredService<IPullRequestService>();
             var releaseBodyBuilder = _serviceProvider.GetRequiredService<IReleaseNotesBuilder>();
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
+            var releaseNumberParser = _serviceProvider.GetRequiredService<IReleaseNumberParser>();
 
             var repoOwner = GitHubActions.GitHubRepositoryOwner;
             var repoName = GitHubActions.GitHubRepository.Replace($"{repoOwner}/", string.Empty);
             var ghClient = GetGHClient(GitHubActions);
             var releaseOperatorClient = ghClient.Repository.Release;
 
-            var request = CICDFile.ReleaseSettings;
-            var nextVersion = request.CurrentVersion;
             var commitMsgs = resultBagRepository.GetResult<string[]>(nameof(ListCommitsInThisPR));
             ControlFlow.Assert(commitMsgs.Any(), $"no commit messages found in the resultbag. Please execute the target {nameof(ListCommitsInThisPR)} before");
 
+            var nextVersion = ReadVersionFromFile(releaseNumberParser).ToString();
             Logger.Info($"Creating Release {nextVersion}");
 
             var newReleaseData = new NewRelease(nextVersion)
@@ -189,9 +197,10 @@ internal partial class Build : NukeBuild
             var releaseCreated = await releaseOperatorClient.Create(repoOwner, repoName, newReleaseData);
             Logger.Success($"Release {nextVersion} created!");
 
-            if (request.ReleaseAssets is not null && request.ReleaseAssets.Any())
+            var settings = CICDFile.ReleaseSettings;
+            if (settings.ReleaseAssets is not null && settings.ReleaseAssets.Any())
             {
-                foreach (var releaseAsset in request.ReleaseAssets)
+                foreach (var releaseAsset in settings.ReleaseAssets)
                 {
                     var fileName = Path.GetFileName(releaseAsset);
 
@@ -206,4 +215,11 @@ internal partial class Build : NukeBuild
                 }
             }
         });
+
+    private ReleaseNumber ReadVersionFromFile(IReleaseNumberParser releaseNumberParser)
+    {
+        var jsonFileContent = File.ReadAllText(CICDFile.ReleaseSettings.CurrentVersionFilePath);
+        var currentVersionFileModel = JsonSerializer.Deserialize<CurrentVersionFileModel>(jsonFileContent, SerializerContants.DESERIALIZER_OPTIONS);
+        return releaseNumberParser.Parse(currentVersionFileModel.CurrentVersion);
+    }
 }
