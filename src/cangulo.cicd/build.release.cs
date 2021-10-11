@@ -145,6 +145,8 @@ internal partial class Build : NukeBuild
         {
             var resultBagRepository = _serviceProvider.GetRequiredService<IResultBagRepository>();
 
+            Git($"add {CICDFile.ReleaseSettings.CurrentVersionFilePath}", logOutput: true);
+
             if (CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings is not null)
             {
                 var projectPath = CICDFile.ReleaseSettings.UpdateVersionInCSProjSettings.ProjectPath;
