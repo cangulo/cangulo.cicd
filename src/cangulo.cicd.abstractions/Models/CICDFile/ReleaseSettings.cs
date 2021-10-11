@@ -2,10 +2,15 @@
 {
     public class ReleaseSettings
     {
-        public string CurrentVersion { get; set; }
+        public string CurrentVersionFilePath { get; set; }
         public string[] ReleaseAssets { get; set; }
         public UpdateVersionInCSProjSettings UpdateVersionInCSProjSettings { get; set; }
         public GitPushFiles GitPushReleaseFilesSettings { get; set; }
+    }
+
+    public class CurrentVersionFileModel
+    {
+        public string CurrentVersion { get; set; }
     }
 
     public class GitPushFiles
